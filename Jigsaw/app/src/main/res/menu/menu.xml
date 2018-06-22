@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottom_navigation_workout_log"
+        android:icon="@drawable/ic_home"
+        android:title="@string/bottom_menu_home"
+        app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/bottom_navigation_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/bottom_menu_profile"
+        app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/bottom_navigation_routine"
+        android:icon="@drawable/ic_routine"
+        android:title="@string/bottom_menu_routine"
+        app:showAsAction="always|withText"/>
+
+    <item
+        android:id="@+id/bottom_navigation_progress"
+        android:icon="@drawable/ic_progress"
+        android:title="@string/bottom_menu_progress"
+        app:showAsAction="always|withText"/>
+
+</menu>
