@@ -1,14 +1,16 @@
-package com.jigsawcorp.android.jigsaw;
+package com.jigsawcorp.android.jigsaw.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.UUID;
+import com.jigsawcorp.android.jigsaw.R;
 
-public class ProfileFragment extends Fragment {
+public class ProgressFragment extends Fragment {
     @Override
     public void onCreate(Bundle savecInstanceState) {
         super.onCreate(savecInstanceState);
@@ -16,7 +18,8 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        View v = inflater.inflate(R.layout.fragment_progress, container, false);
         return v;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw;
+package com.jigsawcorp.android.jigsaw.Model;
 
 public class Routine {
     private String mTitle;

@@ -3,27 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/bottom_navigation_workout_log"
+        android:id="@+id/bottom_navigation_current_workout"
         android:icon="@drawable/ic_home"
-        android:title="@string/bottom_menu_home"
+        android:title="@string/bottom_menu_current_workout"
         app:showAsAction="ifRoom|withText"/>
 
     <item
-        android:id="@+id/bottom_navigation_profile"
+        android:id="@+id/bottom_navigation_workout_log"
         android:icon="@drawable/ic_profile"
-        android:title="@string/bottom_menu_profile"
+        android:title="@string/bottom_menu_workout_log"
         app:showAsAction="ifRoom|withText"/>
 
     <item
-        android:id="@+id/bottom_navigation_routine"
-        android:icon="@drawable/ic_routine"
+        android:id="@+id/bottom_navigation_routines"
+        android:icon="@drawable/ic_progress"
         android:title="@string/bottom_menu_routine"
         app:showAsAction="always|withText"/>
 
     <item
         android:id="@+id/bottom_navigation_progress"
-        android:icon="@drawable/ic_progress"
+        android:icon="@drawable/ic_routine"
         android:title="@string/bottom_menu_progress"
         app:showAsAction="always|withText"/>
+
+
 
 </menu>

@@ -5,10 +5,11 @@
     <string name="launcherActivity_password">Password</string>
     <string name="launcherActivity_log_in">Log In</string>
     <string name="launcherActivity_log_up">Log Up</string>
-    <string name="bottom_menu_home">Workout Log</string>
-    <string name="bottom_menu_profile">Profile</string>
+    <string name="bottom_menu_current_workout">Current Workout</string>
+    <string name="bottom_menu_workout_log">Workout Log</string>
     <string name="bottom_menu_progress">Progress</string>
     <string name="bottom_menu_routine">Routines</string>
     <string name="routines_top_message">Your Routines</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur magna tortor, semper eu feugiat eu, vehicula vitae lacus.</string>
+    <string name="fab_add_routine">Add a routine</string>
+    <string name="fab_add_exercise">Add an exercise</string>
 </resources>

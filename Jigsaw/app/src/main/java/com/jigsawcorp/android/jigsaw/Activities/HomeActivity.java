@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw;
+package com.jigsawcorp.android.jigsaw.Activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,43 +13,47 @@ import android.view.MenuItem;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
+import com.jigsawcorp.android.jigsaw.Model.User;
+import com.jigsawcorp.android.jigsaw.Fragments.WorkoutLogFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
+import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.Fragments.RoutinesFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
+    // Util Attributes
     private static final String TAG = "HomeActivity";
 
+    // Model Attributes
+    private User mUser;
+
+    // View Attributes
     private BottomNavigationView mBottomNavigationView;
     private ViewPager mViewPager;
     private int mAdapterPosition;
-    private MenuItem mPrevMenuItem;
     private static final int NUMBER_OF_MENUS = 4;
-    private FloatingActionMenu menuYellow;
-    private FloatingActionButton fab1;
-    private FloatingActionButton fab2;
-    private FloatingActionButton fab3;
+    private MenuItem mPrevMenuItem;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        menuYellow = (FloatingActionMenu) findViewById(R.id.menu_yellow);
-        fab1 = (FloatingActionButton) findViewById(R.id.fab12);
-        fab2 = (FloatingActionButton) findViewById(R.id.fab22);
-        fab3 = (FloatingActionButton) findViewById(R.id.fab32);
+        mUser = new User(getApplicationContext());
 
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.bottom_navigation_workout_log:
+                    case R.id.bottom_navigation_current_workout:
                         mViewPager.setCurrentItem(0);
                         break;
-                    case R.id.bottom_navigation_profile:
+                    case R.id.bottom_navigation_workout_log:
                         mViewPager.setCurrentItem(1);
                         break;
-                    case R.id.bottom_navigation_routine:
+                    case R.id.bottom_navigation_routines:
                         mViewPager.setCurrentItem(2);
                         break;
                     case R.id.bottom_navigation_progress:
@@ -69,6 +73,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                Log.i(TAG, "onPageSelected(" + position + ");");
                 mAdapterPosition = position;
                 if (mPrevMenuItem != null) {
                     mPrevMenuItem.setChecked(false);
@@ -78,6 +83,7 @@ public class HomeActivity extends AppCompatActivity {
                 Log.d("page", "onPageSelected: " + position);
                 mBottomNavigationView.getMenu().getItem(position).setChecked(true);
                 mPrevMenuItem = mBottomNavigationView.getMenu().getItem(position);
+                setToolbarTitle(position);
 
             }
 
@@ -95,15 +101,15 @@ public class HomeActivity extends AppCompatActivity {
                 Log.i(TAG, "getItem: ");
                 switch (position) {
                     case 0:
-                        return new HomeFragment();
+                        return new CurrentWorkoutFragment();
                     case 1:
-                        return new ProfileFragment();
+                        return new WorkoutLogFragment();
                     case 2:
                         return new RoutinesFragment();
                     case 3:
                         return new ProgressFragment();
                         default:
-                            return new HomeFragment();
+                            return new CurrentWorkoutFragment();
                 }
             }
 
@@ -113,10 +119,28 @@ public class HomeActivity extends AppCompatActivity {
             }
 
         });
-
+        setToolbarTitle(0);
         mViewPager.setCurrentItem(0);
     }
 
+
+    private void setToolbarTitle(int fragmentPos) {
+        switch (fragmentPos) {
+            case 0:
+                setTitle("Current Workout");
+                break;
+            case 1:
+                setTitle("Workout Log");
+                break;
+            case 2:
+                setTitle("Routines");
+                break;
+            case 3:
+                setTitle("Progress");
+                break;
+            default:
+        }
+    }
 
 
 
