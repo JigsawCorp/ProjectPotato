@@ -12,4 +12,10 @@
     <string name="routines_top_message">Your Routines</string>
     <string name="fab_add_routine">Add a routine</string>
     <string name="fab_add_exercise">Add an exercise</string>
+    <string name="drawer_home_title">Home</string>
+    <string name="drawer_current_workout_title">Current Workout</string>
+    <string name="drawer_routines_title">Routines</string>
+    <string name="drawer_plan_title">Plan</string>
+    <string name="drawer_progress_title">Progress</string>
+    <string name="drawer_history_title">History</string>
 </resources>

@@ -37,8 +37,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_EXERCISES);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_WORKOUTS);
-
-
     }
 
     @Override

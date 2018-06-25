@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/drawer_home_title" />
+        <item
+            android:id="@+id/nav_current_workout"
+            android:icon="@drawable/ic_current_workout"
+            android:title="@string/drawer_current_workout_title" />
+        <item
+            android:id="@+id/nav_routines"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/drawer_routines_title" />
+        <item
+            android:id="@+id/nav_plan"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="@string/drawer_plan_title" />
+        <item
+            android:id="@+id/nav_progress"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="@string/drawer_progress_title" />
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="@string/drawer_history_title" />
+    </group>
+</menu>
