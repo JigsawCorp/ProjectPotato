@@ -60,9 +60,6 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        List<Exercise> exercises = Exercise.getDefaultExercises(getApplicationContext());
-        Log.i("MainActivity", exercises.get(0).toString());
-
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {

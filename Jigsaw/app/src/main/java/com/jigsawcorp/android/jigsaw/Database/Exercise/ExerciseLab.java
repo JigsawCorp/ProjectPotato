@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
@@ -104,6 +105,10 @@ public class ExerciseLab {
     }
 
     private void addDefaultExercises() {
+        List<Exercise> defaultExercises = Exercise.getDefaultExercises(mContext);
+        for (int i = 0; i < defaultExercises.size(); ++i) {
+            addExercise(defaultExercises.get(i));
+        }
     }
 
 }
