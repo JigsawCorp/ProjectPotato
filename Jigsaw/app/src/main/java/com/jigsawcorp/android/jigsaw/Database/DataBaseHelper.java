@@ -15,7 +15,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "_id integer primary key autoincrement, " +
             ExercisesTable.Cols.UUID + ", " +
             ExercisesTable.Cols.NAME + ", " +
-            ExercisesTable.Cols.CATEGORY +
+            ExercisesTable.Cols.CATEGORY + ", " +
+            ExercisesTable.Cols.PERFORMED_EXERCISES +
             ")";
 
     private static final String SQL_CREATE_TABLE_WORKOUTS = "create table " + WorkoutsTable.NAME + "(" +

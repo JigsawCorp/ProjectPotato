@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.Fragment;
 
+import com.google.gson.Gson;
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema;
 import com.jigsawcorp.android.jigsaw.Model.Exercise;
@@ -97,7 +99,7 @@ public class ExerciseLab {
         values.put(DatabaseSchema.ExercisesTable.Cols.UUID, exercise.getId().toString());
         values.put(DatabaseSchema.ExercisesTable.Cols.NAME, exercise.getName());
         values.put(DatabaseSchema.ExercisesTable.Cols.CATEGORY, exercise.getCategory());
-
+        values.put(DatabaseSchema.ExercisesTable.Cols.PERFORMED_EXERCISES, new Gson().toJson(exercise.getPerformedExercises()));
         return values;
     }
 

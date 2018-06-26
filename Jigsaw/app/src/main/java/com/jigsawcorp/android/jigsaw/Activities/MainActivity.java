@@ -20,11 +20,15 @@ import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.HistoryFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.HomeFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.PlanFragment;
+import com.jigsawcorp.android.jigsaw.Model.Exercise;
 import com.jigsawcorp.android.jigsaw.Model.User;
 import com.jigsawcorp.android.jigsaw.Fragments.WorkoutLogFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Fragments.RoutinesFragment;
+import com.jigsawcorp.android.jigsaw.Util.SourceCodeHelp;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        List<Exercise> exercises = Exercise.getDefaultExercises(getApplicationContext());
+        Log.i("MainActivity", exercises.get(0).toString());
 
 
         navigationView.setNavigationItemSelectedListener(

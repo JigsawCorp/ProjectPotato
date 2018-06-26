@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Bench Press",
+    "category": "Chest"
+  },
+  {
+    "name": "Close Grip Bench Press",
+    "category": "Chest"
+  },
+  {
+    "name": "Tricep Pushdown",
+    "category": "Triceps"
+  },
+  {
+    "name": "Bicep Dumbell Curl",
+    "category": "Biceps"
+  },
+  {
+    "name": "Ab Crunch",
+    "id": "5d4da22f-6e72-4f1d-bcba-7a68251e6579",
+    "category": "Abs"
+  },
+  {
+    "id": "4d4da22f-6e72-4f1d-bcba-7a68251e6579",
+    "name": "Ab booba",
+    "category": "Abs"
+  }
+
+]
