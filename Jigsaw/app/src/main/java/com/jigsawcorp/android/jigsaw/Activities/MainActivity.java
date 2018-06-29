@@ -35,12 +35,13 @@ public class MainActivity extends AppCompatActivity {
     // Util Attributes
     private static final String TAG = "MainActivity";
 
+
     // Model Attributes
     private User mUser;
 
     // View Attributes
     private DrawerLayout mDrawerLayout;
-    private ViewPager mViewPager;
+   // private ViewPager mViewPager;
     private int mAdapterPosition;
     private static final int NUMBER_OF_MENUS = 6;
 
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -74,31 +76,30 @@ public class MainActivity extends AppCompatActivity {
                         // For example, swap UI fragments here
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
-                                mViewPager.setCurrentItem(0);
+                                changeFragment(new HomeFragment(), "Home");
                                 break;
                             case R.id.nav_current_workout:
-                                mViewPager.setCurrentItem(1);
+                                changeFragment(new CurrentWorkoutFragment(), "Current Workout");
                                 break;
                             case R.id.nav_routines:
-                                mViewPager.setCurrentItem(2);
+                                changeFragment(new RoutinesFragment(), "Routines");
                                 break;
                             case R.id.nav_plan:
-                                mViewPager.setCurrentItem(3);
+                                changeFragment(new PlanFragment(), "Plan");
                                 break;
                             case R.id.nav_progress:
-                                mViewPager.setCurrentItem(4);
+                                changeFragment(new ProgressFragment(), "Progress");
                                 break;
                             case R.id.nav_history:
-                                mViewPager.setCurrentItem(5);
+                                changeFragment(new HistoryFragment(), "History");
                                 break;
                         }
-
                         return true;
                     }
                 });
 
 
-        mViewPager = (ViewPager) findViewById(R.id.main_view_pager);
+       /* mViewPager = (ViewPager) findViewById(R.id.main_view_pager);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -156,9 +157,9 @@ public class MainActivity extends AppCompatActivity {
                 return NUMBER_OF_MENUS;
             }
 
-        });
-        setToolbarTitle(0);
-        mViewPager.setCurrentItem(0);
+        });*/
+        //setToolbarTitle(0);
+//        mViewPager.setCurrentItem(0);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -171,28 +172,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void setToolbarTitle(int fragmentPos) {
-        switch (fragmentPos) {
-            case 0:
-                setTitle(R.string.drawer_home_title);
-                break;
-            case 1:
-                setTitle(R.string.drawer_current_workout_title);
-                break;
-            case 2:
-                setTitle(R.string.drawer_routines_title);
-                break;
-            case 3:
-                setTitle(R.string.drawer_plan_title);
-                break;
-            case 4:
-                setTitle(R.string.drawer_progress_title);
-                break;
-            case 5:
-                setTitle(R.string.drawer_history_title);
-                break;
-            default:
-        }
+    private void changeFragment(Fragment fragment, String toolbarTitle) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_fragment_container, fragment).commit();
+        setTitle(toolbarTitle);
     }
 
 

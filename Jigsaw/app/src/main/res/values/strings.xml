@@ -18,4 +18,15 @@
     <string name="drawer_plan_title">Plan</string>
     <string name="drawer_progress_title">Progress</string>
     <string name="drawer_history_title">History</string>
+
+    <string-array name="body_parts_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class GsonUtil {
+    //Custom Deserializer in order to call right constructors for exercise
     public static class ExerciseDeserializer implements JsonDeserializer<Exercise> {
 
         @Override
