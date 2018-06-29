@@ -1,14 +1,10 @@
 package com.jigsawcorp.android.jigsaw.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.jigsawcorp.android.jigsaw.Activities.AddExerciseActivity;
+import com.jigsawcorp.android.jigsaw.Activities.ExerciseListActivity;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
 
@@ -45,7 +41,7 @@ public class CurrentWorkoutFragment extends Fragment {
         fabAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(getContext(), AddExerciseActivity.class), RequestCodes.REQUEST_CODE_ADD_EXERCISE);
+                startActivityForResult(new Intent(getContext(), ExerciseListActivity.class), RequestCodes.REQUEST_CODE_ADD_EXERCISE);
             }
         });
         fab3 = (FloatingActionButton) v.findViewById(R.id.fab12);
@@ -70,5 +66,11 @@ public class CurrentWorkoutFragment extends Fragment {
 
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Current Workout");
     }
 }

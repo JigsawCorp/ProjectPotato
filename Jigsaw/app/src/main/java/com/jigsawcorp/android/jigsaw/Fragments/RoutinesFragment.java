@@ -102,4 +102,10 @@ public class RoutinesFragment extends Fragment {
         }
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Routines");
+    }
 }

@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toolbar;
 
+import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
+import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.HistoryFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.HomeFragment;
@@ -30,7 +32,7 @@ import com.jigsawcorp.android.jigsaw.Util.SourceCodeHelp;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks {
 
     // Util Attributes
     private static final String TAG = "MainActivity";
@@ -45,18 +47,24 @@ public class MainActivity extends AppCompatActivity {
     private int mAdapterPosition;
     private static final int NUMBER_OF_MENUS = 6;
 
+    //First Run Attributes
+    private boolean mDatabaseExists = true;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mUser = new User(getApplicationContext());
+        mUser = new User(this);
+        if(!mDatabaseExists) {
+            ExerciseLab.get(this).addDefaultExercises();
+        }
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Home");
+        setTitle("Home");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -171,10 +179,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateDatabase() {
+        mDatabaseExists = false;
+    }
+
 
     private void changeFragment(Fragment fragment, String toolbarTitle) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_fragment_container, fragment).commit();
-        setTitle(toolbarTitle);
+        Log.i(TAG, "changeFragment(" + fragment + ", " + toolbarTitle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_fragment_container, fragment).addToBackStack(null).commit();
+        //setTitle(toolbarTitle);
     }
 
 

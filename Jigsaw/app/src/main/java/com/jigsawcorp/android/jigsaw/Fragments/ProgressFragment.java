@@ -22,4 +22,9 @@ public class ProgressFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Progress");
+    }
 }

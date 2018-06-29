@@ -22,10 +22,10 @@ public class ExerciseLab {
     private SQLiteDatabase mDatabase;
     private Context mContext;
 
+
     private ExerciseLab(Context context) {
         mDatabase = new DataBaseHelper(context).getWritableDatabase();
         mContext = context;
-        addDefaultExercises();
     }
 
     public static ExerciseLab get(Context context) {
@@ -104,7 +104,7 @@ public class ExerciseLab {
         return values;
     }
 
-    private void addDefaultExercises() {
+    public void addDefaultExercises() {
         List<Exercise> defaultExercises = Exercise.getDefaultExercises(mContext);
         for (int i = 0; i < defaultExercises.size(); ++i) {
             addExercise(defaultExercises.get(i));

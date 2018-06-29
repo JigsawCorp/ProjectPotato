@@ -19,4 +19,10 @@ public class PlanFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_plan, container, false);
         return v;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Plan");
+    }
 }
