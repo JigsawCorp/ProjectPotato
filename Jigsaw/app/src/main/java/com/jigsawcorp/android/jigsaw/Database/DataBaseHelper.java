@@ -33,7 +33,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             WorkoutsTable.Cols.START_DATE + ", " +
             WorkoutsTable.Cols.END_DATE + ", " +
             WorkoutsTable.Cols.PERFORMED_EXERCISES + ", " +
-            WorkoutsTable.Cols.NOTES + " " +
+            WorkoutsTable.Cols.NOTES +
+            ")";
+
+    private static final String SQL_CREATE_TABLE_CONFIGURATION = "create table if not exists " + DatabaseSchema.ConfigurationTable.NAME + "(" +
+            DatabaseSchema.ConfigurationTable.Cols.CONFIGURATION_OPTION + ", " +
+            DatabaseSchema.ConfigurationTable.Cols.VALUE +
             ")";
 
     private static final int DATABASE_VERSION = 1;
@@ -48,6 +53,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_EXERCISES);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_WORKOUTS);
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE_CONFIGURATION);
         mCallbacks.onCreateDatabase();
     }
 

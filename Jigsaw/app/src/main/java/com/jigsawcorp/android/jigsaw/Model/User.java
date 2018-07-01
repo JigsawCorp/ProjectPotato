@@ -13,10 +13,13 @@ public class User {
     private Date mDateOfBirth;
     private ExerciseLab mExerciseLab;
     private WorkoutLab mWorkoutLab;
+    private Boolean mActiveWorkout;
 
     public User(Context context) {
         mExerciseLab = ExerciseLab.get(context);
     }
+
+
 
     public List<Exercise> getExercises() {
         return mExerciseLab.getExercises();

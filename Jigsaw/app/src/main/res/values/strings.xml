@@ -20,13 +20,17 @@
     <string name="drawer_history_title">History</string>
 
     <string-array name="body_parts_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item>All Body Parts</item>
+        <item>Abs</item>
+        <item>Back</item>
+        <item>Biceps</item>
+        <item>Chest</item>
+        <item>Forearms</item>
+        <item>Glutes</item>
+        <item>Shoulders</item>
+        <item>Triceps</item>
+        <item>Quads</item>
+        <item>Hamstrings</item>
+
     </string-array>
 </resources>

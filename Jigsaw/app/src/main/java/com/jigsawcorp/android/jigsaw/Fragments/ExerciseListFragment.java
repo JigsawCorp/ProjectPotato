@@ -92,7 +92,7 @@ public class ExerciseListFragment extends Fragment {
             return mExercises.size();
         }
 
-        public void setCrimes(List<Exercise> exercises) {
+        public void setExercises(List<Exercise> exercises) {
             mExercises = exercises;
         }
 
