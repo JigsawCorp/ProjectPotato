@@ -17,8 +17,8 @@ public class User {
 
     public User(Context context) {
         mExerciseLab = ExerciseLab.get(context);
-    }
 
+    }
 
 
     public List<Exercise> getExercises() {

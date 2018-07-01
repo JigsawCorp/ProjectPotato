@@ -41,6 +41,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             DatabaseSchema.ConfigurationTable.Cols.VALUE +
             ")";
 
+    private static final String SQL_CREATE_TABLE_USER = "create table if not exists " + DatabaseSchema.UserTable.NAME + "(" +
+            DatabaseSchema.UserTable.Cols.DATE_OF_BIRTH + ", " +
+            DatabaseSchema.UserTable.Cols.ACTIVE_WORKOUT +
+            ")";
+
     private static final int DATABASE_VERSION = 1;
 
     public DataBaseHelper(Context context) {
@@ -54,6 +59,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_EXERCISES);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_WORKOUTS);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_CONFIGURATION);
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE_USER);
         mCallbacks.onCreateDatabase();
     }
 

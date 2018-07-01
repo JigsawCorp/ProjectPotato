@@ -3,6 +3,16 @@ package com.jigsawcorp.android.jigsaw.Database;
 // Schema for the Database
 public class DatabaseSchema {
 
+    // Single row Table to keep user data intact
+    public static final class UserTable {
+        public static final String NAME = "User";
+
+        public static final class Cols {
+            public static final String DATE_OF_BIRTH = "date_of_birth";
+            public static final String ACTIVE_WORKOUT = "active_workout";
+        }
+    }
+
     // Table for all the exercises the user can perform. This table holds both default and user-created exercises
     public static final class ExercisesTable {
         public static final String NAME = "Exercises";

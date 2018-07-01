@@ -47,7 +47,7 @@ public class ConfigurationLab {
             }
 
             cursor.moveToFirst();
-            return cursor.getString(cursor.getColumnIndex(DatabaseSchema.ConfigurationTable.Cols.VALUE);
+            return cursor.getString(cursor.getColumnIndex(DatabaseSchema.ConfigurationTable.Cols.VALUE));
         } finally {
             cursor.close();
         }
