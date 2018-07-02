@@ -91,13 +91,12 @@ public class WorkoutLab {
                 null,
                 null
         );
-        return new WorkoutCursorWrapper(cursor);
+        return new WorkoutCursorWrapper(cursor, mContext);
     }
     private static ContentValues getContentValues(Workout workout) {
         ContentValues values = new ContentValues();
         values.put(DatabaseSchema.WorkoutsTable.Cols.UUID, workout.getId().toString());
         values.put(DatabaseSchema.WorkoutsTable.Cols.START_DATE, workout.getStartDate().getTime());
-        values.put(DatabaseSchema.WorkoutsTable.Cols.END_DATE, workout.getEndDate().getTime());
         values.put(DatabaseSchema.WorkoutsTable.Cols.END_DATE, workout.getEndDate().getTime());
         values.put(DatabaseSchema.WorkoutsTable.Cols.PERFORMED_EXERCISES, new Gson().toJson(workout.getPerformedExercises()));
         values.put(DatabaseSchema.WorkoutsTable.Cols.NOTES, workout.getNotes());

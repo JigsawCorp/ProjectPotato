@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.jigsawcorp.android.jigsaw.Activities.ExerciseListActivity;
+import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
 
@@ -21,6 +22,8 @@ public class CurrentWorkoutFragment extends Fragment {
     private FloatingActionButton fabAddRoutine;
     private FloatingActionButton fabAddExercise;
     private FloatingActionButton fab3;
+    private Workout mWorkout;
+
 
     private BottomNavigationView mBottomNavigationView;
     private MenuItem mPrevMenuItem;
@@ -32,6 +35,7 @@ public class CurrentWorkoutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle onSavedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_current_workout, container, false);
+
 
         menuCreate = (FloatingActionMenu) v.findViewById(R.id.action_menu_current_workout_add);
 

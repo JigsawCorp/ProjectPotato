@@ -93,7 +93,7 @@ public class ExerciseLab {
                 null,
                 null
         );
-        return new ExerciseCursorWrapper(cursor);
+        return new ExerciseCursorWrapper(cursor, mContext);
     }
     private static ContentValues getContentValues(Exercise exercise) {
         ContentValues values = new ContentValues();

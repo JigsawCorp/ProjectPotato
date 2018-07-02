@@ -36,9 +36,10 @@ public class GsonUtil {
                 return new Exercise(UUID.fromString(jsonObject.get("id").getAsString()),jsonObject.get("name").getAsString(), jsonObject.get("category").getAsString());
             }
             else {
-                Log.i("Deserializer", "with id and exercises");
-                List<PerformedExercise> exercises = new Gson().fromJson(jsonObject.get("performed_exercises").getAsString(), new TypeToken<ArrayList<PerformedExercise>>(){}.getType());
-                return new Exercise(UUID.fromString(jsonObject.get("id").getAsString()),jsonObject.get("name").getAsString(), jsonObject.get("category").getAsString(), exercises);
+               // Log.i("Deserializer", "with id and exercises");
+                //List<PerformedExercise> exercises = new Gson().fromJson(jsonObject.get("performed_exercises").getAsString(), new TypeToken<ArrayList<PerformedExercise>>(){}.getType());
+                //return new Exercise(UUID.fromString(jsonObject.get("id").getAsString()),jsonObject.get("name").getAsString(), jsonObject.get("category").getAsString(), exercises);
+                return null;
             }
 
         }

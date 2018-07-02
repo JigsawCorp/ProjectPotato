@@ -18,6 +18,7 @@ import android.widget.Toolbar;
 
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
+import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
 import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.HistoryFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.HomeFragment;
@@ -30,7 +31,9 @@ import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Fragments.RoutinesFragment;
 import com.jigsawcorp.android.jigsaw.Util.SourceCodeHelp;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks {
 
@@ -55,10 +58,13 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mUser = new User(this);
+        mUser = UserLab.get(this).getUser();
         if(!mDatabaseExists) {
             ExerciseLab.get(this).addDefaultExercises();
         }
+
+        UserLab.get(this).updateExercise(new User(this, new Date(), UUID.randomUUID()));
+        mUser = UserLab.get(this).getUser();
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

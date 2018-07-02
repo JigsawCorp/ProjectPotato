@@ -1,5 +1,6 @@
 package com.jigsawcorp.android.jigsaw.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -60,11 +61,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_WORKOUTS);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_CONFIGURATION);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_USER);
+        addDefaultUser(sqLiteDatabase);
         mCallbacks.onCreateDatabase();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
+    }
+
+    private void addDefaultUser(SQLiteDatabase database) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseSchema.UserTable.Cols.DATE_OF_BIRTH, "");
+        values.put(DatabaseSchema.UserTable.Cols.ACTIVE_WORKOUT, "");
+        database.insert(DatabaseSchema.UserTable.NAME, null, values);
     }
 }

@@ -1,5 +1,6 @@
 package com.jigsawcorp.android.jigsaw.Database.Workout;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
@@ -18,15 +19,18 @@ import java.util.Map;
 import java.util.UUID;
 
 public class WorkoutCursorWrapper extends CursorWrapper {
-    public WorkoutCursorWrapper(Cursor cursor) {
+    private Context mContext;
+    public WorkoutCursorWrapper(Cursor cursor, Context context) {
             super(cursor);
+            mContext = context;
         }
         public Workout getWorkout() {
             return new Workout(
+                    mContext,
                     UUID.fromString(getString(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.UUID))),
                     new Date(getLong(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.START_DATE))),
                     new Date(getLong(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.END_DATE))),
-                    (List<PerformedExercise>) new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.PERFORMED_EXERCISES)), new TypeToken<ArrayList<PerformedExercise>>(){}.getType()),
+                    (List<UUID>) new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.PERFORMED_EXERCISES)), new TypeToken<ArrayList<UUID>>(){}.getType()),
                     getString(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.NOTES)));
         }
 

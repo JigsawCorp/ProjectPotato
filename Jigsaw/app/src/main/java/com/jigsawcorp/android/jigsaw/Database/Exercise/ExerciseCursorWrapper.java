@@ -1,5 +1,6 @@
 package com.jigsawcorp.android.jigsaw.Database.Exercise;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
@@ -14,17 +15,20 @@ import java.util.List;
 import java.util.UUID;
 
 public class ExerciseCursorWrapper extends CursorWrapper {
-    public ExerciseCursorWrapper(Cursor cursor) {
+    private Context mContext;
+    public ExerciseCursorWrapper(Cursor cursor ,Context context) {
         super(cursor);
+        mContext = context;
     }
 
     public Exercise getExercise() {
-        List<PerformedExercise> exercises = new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.PERFORMED_EXERCISES)), new TypeToken<ArrayList<PerformedExercise>>(){}.getType());
+        //List<PerformedExercise> exercises = new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.PERFORMED_EXERCISES)), new TypeToken<ArrayList<PerformedExercise>>(){}.getType());
         Exercise exercise = new Exercise(
+                mContext,
                 UUID.fromString(getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.UUID))),
                 getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.NAME)),
                 getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.CATEGORY)),
-                exercises);
+                (List<UUID>) new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.PERFORMED_EXERCISES)), new TypeToken<ArrayList<UUID>>(){}.getType()));
         return exercise;
     }
 

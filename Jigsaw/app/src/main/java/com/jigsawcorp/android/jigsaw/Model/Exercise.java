@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Util.GsonUtil;
 
 import org.json.JSONArray;
@@ -25,14 +26,19 @@ public class Exercise {
     //private String[] mMajorBodyPartsTargeted;
     //private String[] mMinorBodyPartsTargeted;
     private String mCategory;
-    private List<PerformedExercise> mPerformedExercises;
+    private List<UUID> mPerformedExercisesIds;
+    private PerformedExerciseLab mPerformedExerciseLab;
 
+    // Constructor from Json file
     public Exercise(String name, String category) {
         mName = name;
         //mMajorBodyPartsTargeted = majorBodyPartsTargeted;
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
         mCategory = category;
         mId = UUID.randomUUID();
+        mPerformedExercisesIds = new ArrayList<>();
+        mPerformedExerciseLab = null;
+       // mPerformedExerciseLab = PerformedExerciseLab.get
         Log.i("Exercise: " + name, "Small constructor");
     }
 
@@ -45,13 +51,15 @@ public class Exercise {
         Log.i("Exercise: " + name, "Big constructor");
     }
 
-    public Exercise(UUID id, String name, String category, List<PerformedExercise> performedExercises) {
+    // Constructor from the database
+    public Exercise(Context context, UUID id, String name, String category, List<UUID> performedExercises) {
         mName = name;
         //mMajorBodyPartsTargeted = majorBodyPartsTargeted;
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
         mCategory = category;
         mId = id;
-        mPerformedExercises = performedExercises;
+        mPerformedExercisesIds = performedExercises;
+        mPerformedExerciseLab = PerformedExerciseLab.get(context);
         Log.i("Exercise: " + name, "Bigger constructor");
     }
 
@@ -75,18 +83,19 @@ public class Exercise {
         mCategory = category;
     }
 
-    public List<PerformedExercise> getPerformedExercises() {
-        return mPerformedExercises;
+    public List<UUID> getPerformedExercises() {
+        return mPerformedExercisesIds;
     }
 
-    public void setPerformedExercises(List<PerformedExercise> performedExercises) {
-        mPerformedExercises = performedExercises;
+    public void setPerformedExercises(List<UUID> performedExercises) {
+        mPerformedExercisesIds = performedExercises;
     }
 
     public void setId(UUID id) {
         mId = id;
     }
 
+    // Reads from a Json file the default exercises and returns them in a list.
     public static List<Exercise> getDefaultExercises(Context context) {
         String jsonString = null;
         Gson gson = new GsonBuilder().registerTypeAdapter(Exercise.class, new GsonUtil.ExerciseDeserializer()).create();

@@ -1,41 +1,49 @@
 package com.jigsawcorp.android.jigsaw.Model;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class PerformedExercise {
+    private UUID mId;
     private Exercise mExercise;
-    private Date mDate;
+    private Workout mWorkout;
+    private Date mStartDate;
+    private Date mEndDate;
     private List<Set> mSets;
     private String mNotes;
 
-    public PerformedExercise(Exercise exercise, Date date) {
+    // Constructor when adding from a workout
+    public PerformedExercise(Exercise exercise, Workout workout, Date startDate) {
+        mId = UUID.randomUUID();
         mExercise = exercise;
-        mDate = date;
+        mWorkout = workout;
+        mStartDate = startDate;
+        mEndDate = null;
         mNotes = "";
         mSets = new ArrayList<>();
     }
 
-    public PerformedExercise(Exercise exercise, Date date, String notes) {
+    // Constructor from the database
+    public PerformedExercise(UUID id, Exercise exercise, Workout workout, Date startDate, Date endDate, List<Set> sets, String notes) {
+        mId = id;
         mExercise = exercise;
-        mDate = date;
+        mWorkout = workout;
+        mStartDate = startDate;
+        mEndDate = endDate;
+        mSets = sets;
         mNotes = notes;
-        mSets = new ArrayList<>();
     }
 
-    public PerformedExercise(Exercise exercise, Date date, List<Set> sets) {
-        mExercise = exercise;
-        mDate = date;
-        mNotes = "";
-        mSets = sets;
+    public UUID getmId() {
+        return mId;
     }
 
-    public PerformedExercise(Exercise exercise, Date date, List<Set> sets, String notes) {
-        mExercise = exercise;
-        mDate = date;
-        mNotes = notes;
-        mSets = sets;
+    public void setmId(UUID mId) {
+        this.mId = mId;
     }
 
     public Exercise getExercise() {
@@ -46,12 +54,20 @@ public class PerformedExercise {
         mExercise = exercise;
     }
 
-    public Date getDate() {
-        return mDate;
+    public Date getStartDate() {
+        return mStartDate;
     }
 
-    public void setDate(Date date) {
-        mDate = date;
+    public void setStartDate(Date date) {
+        mStartDate = date;
+    }
+
+    public Date getEndDate() {
+        return mEndDate;
+    }
+
+    public void setEndDate(Date date) {
+        mEndDate = date;
     }
 
     public List<Set> getSets() {
@@ -68,5 +84,13 @@ public class PerformedExercise {
 
     public void setNotes(String notes) {
         mNotes = notes;
+    }
+
+    public Workout getWorkout() {
+        return mWorkout;
+    }
+
+    public void setWorkout(Workout Workout) {
+        mWorkout = Workout;
     }
 }
