@@ -231,6 +231,12 @@ public class CurrentWorkoutFragment extends Fragment {
             }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
+
+        @Override
+        public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            super.clearView(recyclerView, viewHolder);
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
     }
 
     public interface ActionCompletionContract {
@@ -267,6 +273,7 @@ public class CurrentWorkoutFragment extends Fragment {
             mPerformedExercises.remove(oldPosition);
             mPerformedExercises.add(newPosition, performedExercise);
             notifyItemMoved(oldPosition, newPosition);
+            //notifyDataSetChanged();
         }
 
         public void setPerformedExercises(List<PerformedExercise> exercises) {
@@ -281,6 +288,7 @@ public class CurrentWorkoutFragment extends Fragment {
             protected PerformedExercise mPerformedExercise;
 
             protected TextView mTitleTextView;
+            protected TextView mPositionNumberingTextView;
             // protected TextView mDateTextView;
             //private ImageView mSolvedImageView;
 
@@ -290,6 +298,7 @@ public class CurrentWorkoutFragment extends Fragment {
                 itemView.setOnClickListener(this);
 
                 mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_title);
+                mPositionNumberingTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_position_indicator);
                 // mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
                 //mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
             }
@@ -298,6 +307,7 @@ public class CurrentWorkoutFragment extends Fragment {
             public void bind(PerformedExercise performedExercise){
                 mPerformedExercise = performedExercise;
                 mTitleTextView.setText(ExerciseLab.get(getContext()).getExercise(performedExercise.getExercise()).getName());
+                mPositionNumberingTextView.setText(String.valueOf(mPerformedExercises.indexOf(performedExercise) + 1));
                 //mDateTextView.setText(DateFormat.getDateInstance(DateFormat.FULL).format(mCrime.getDate()));
                 //mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.INVISIBLE);
             }
