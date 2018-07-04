@@ -18,12 +18,15 @@ import android.widget.Toolbar;
 
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
+import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
+import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
 import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.HistoryFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.HomeFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.PlanFragment;
 import com.jigsawcorp.android.jigsaw.Model.Exercise;
+import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.User;
 import com.jigsawcorp.android.jigsaw.Fragments.WorkoutLogFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
@@ -35,7 +38,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks {
+public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks, CurrentWorkoutFragment.Callbacks {
 
     // Util Attributes
     private static final String TAG = "MainActivity";
@@ -43,6 +46,11 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
 
     // Model Attributes
     private User mUser;
+
+    // Database labs
+    private WorkoutLab mWorkoutLab;
+    private PerformedExerciseLab mPerformedExerciseLab;
+    private UserLab mUserLab;
 
     // View Attributes
     private DrawerLayout mDrawerLayout;
@@ -58,7 +66,11 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mUser = UserLab.get(this).getUser();
+        mUserLab = UserLab.get(this);
+        mPerformedExerciseLab = PerformedExerciseLab.get(this);
+        mWorkoutLab = WorkoutLab.get(this);
+
+        mUser = mUserLab.getUser();
         if(!mDatabaseExists) {
             ExerciseLab.get(this).addDefaultExercises();
         }
@@ -181,6 +193,17 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Model Callbacks
+
+    @Override
+    public void onPerformedExerciseDeleted(PerformedExercise performedExercise) {
+        mPerformedExerciseLab.removePerformedExercise(performedExercise);
+        Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_container);
+        if (fragment instanceof CurrentWorkoutFragment) {
+            ((CurrentWorkoutFragment) fragment).updateUI();
+        }
     }
 
     @Override

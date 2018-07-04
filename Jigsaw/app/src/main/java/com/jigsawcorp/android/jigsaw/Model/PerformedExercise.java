@@ -46,6 +46,14 @@ public class PerformedExercise {
         return performedExercises;
     }
 
+    public static List<UUID> toUUIDs(List<PerformedExercise> exercises) {
+        List<UUID> uuids = new ArrayList<>();
+        for(PerformedExercise exercise: exercises) {
+            uuids.add(exercise.getmId());
+        }
+        return uuids;
+    }
+
     public UUID getmId() {
         return mId;
     }

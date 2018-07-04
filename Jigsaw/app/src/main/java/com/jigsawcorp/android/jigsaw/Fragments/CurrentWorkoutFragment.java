@@ -2,12 +2,14 @@ package com.jigsawcorp.android.jigsaw.Fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 
 public class CurrentWorkoutFragment extends Fragment {
+    // View
     private FloatingActionMenu menuCreate;
     private FloatingActionButton fabAddRoutine;
     private FloatingActionButton fabAddExercise;
@@ -43,6 +46,12 @@ public class CurrentWorkoutFragment extends Fragment {
 
     private BottomNavigationView mBottomNavigationView;
     private MenuItem mPrevMenuItem;
+    // Controller
+    private Callbacks mCallbacks;
+
+    public interface Callbacks {
+        public void onPerformedExerciseDeleted(PerformedExercise performedExercise);
+    }
 
     // Model
     private User mUser;
@@ -97,6 +106,7 @@ public class CurrentWorkoutFragment extends Fragment {
 
 
 
+
         return v;
     }
 
@@ -105,6 +115,12 @@ public class CurrentWorkoutFragment extends Fragment {
         super.onResume();
         getActivity().setTitle("Current Workout");
         updateUI();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveUI();
     }
 
     @Override
@@ -127,6 +143,7 @@ public class CurrentWorkoutFragment extends Fragment {
                 mWorkout.addPerformedExercises(newPerformedExercises);
 
 
+
         }
         saveUI();
         updateUI();
@@ -142,14 +159,19 @@ public class CurrentWorkoutFragment extends Fragment {
     }
 
     // Update all variables that hold model data that can be changed in other fragments/activities. Will be called at onResume()
-    private void updateUI() {
+    public void updateUI() {
         mUser = UserLab.get(getContext()).getUser();
         if (mUser.getActiveWorkout() == null) {
             mWorkout = null;
         }
         else {
             mWorkout = WorkoutLab.get(getContext()).getWorkout(mUser.getActiveWorkout());
-            mPerformedExercisesRecyclerView.setAdapter(new PerformedExerciseAdapter(PerformedExerciseLab.get(getContext()).getPerformedExercises(mWorkout.getPerformedExercises())));
+            PerformedExerciseAdapter adapter = new PerformedExerciseAdapter(PerformedExerciseLab.get(getContext()).getPerformedExercises(mWorkout.getPerformedExercises()));
+            mPerformedExercisesRecyclerView.setAdapter(adapter);
+            SwipeAndDragHelper swipeAndDragHelper = new SwipeAndDragHelper(adapter);
+            ItemTouchHelper touchHelper = new ItemTouchHelper(swipeAndDragHelper);
+            touchHelper.attachToRecyclerView(mPerformedExercisesRecyclerView);
+
 
         }
         enableNoAcriveWorkoutWarning(mWorkout == null);
@@ -160,13 +182,62 @@ public class CurrentWorkoutFragment extends Fragment {
     private void saveUI() {
         UserLab.get(getContext()).updateUser(mUser);
         if (mWorkout != null) {
+            mWorkout.setPerformedExercises(PerformedExercise.toUUIDs(((PerformedExerciseAdapter) mPerformedExercisesRecyclerView.getAdapter()).getPerformedExercises()));
             WorkoutLab.get(getContext()).updateWorkout(mWorkout);
         }
     }
 
+    public class SwipeAndDragHelper extends ItemTouchHelper.Callback {
 
+        private ActionCompletionContract contract;
 
-    private class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExerciseAdapter.PerformedExerciseHolder> {
+        public SwipeAndDragHelper(ActionCompletionContract contract) {
+            this.contract = contract;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = 0;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            contract.onViewMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return true;
+        }
+
+        @Override
+        public void onChildDraw(Canvas c,
+                                RecyclerView recyclerView,
+                                RecyclerView.ViewHolder viewHolder,
+                                float dX,
+                                float dY,
+                                int actionState,
+                                boolean isCurrentlyActive) {
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                float alpha = 1 - (Math.abs(dX) / recyclerView.getWidth());
+                viewHolder.itemView.setAlpha(alpha);
+            }
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+    }
+
+    public interface ActionCompletionContract {
+        void onViewMoved(int oldPosition, int newPosition);
+        }
+
+    private class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExerciseAdapter.PerformedExerciseHolder> implements ActionCompletionContract{
         private List<PerformedExercise> mPerformedExercises;
 
         public PerformedExerciseAdapter(List<PerformedExercise> performedExercises) {
@@ -190,8 +261,20 @@ public class CurrentWorkoutFragment extends Fragment {
             return mPerformedExercises.size();
         }
 
+        @Override
+        public void onViewMoved(int oldPosition, int newPosition) {
+            PerformedExercise performedExercise = mPerformedExercises.get(oldPosition);
+            mPerformedExercises.remove(oldPosition);
+            mPerformedExercises.add(newPosition, performedExercise);
+            notifyItemMoved(oldPosition, newPosition);
+        }
+
         public void setPerformedExercises(List<PerformedExercise> exercises) {
             mPerformedExercises = exercises;
+        }
+
+        public List<PerformedExercise> getPerformedExercises() {
+            return mPerformedExercises;
         }
 
         class PerformedExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
