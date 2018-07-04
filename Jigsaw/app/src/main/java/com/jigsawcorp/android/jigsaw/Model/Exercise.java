@@ -27,8 +27,6 @@ public class Exercise {
     //private String[] mMinorBodyPartsTargeted;
     private String mCategory;
     private List<UUID> mPerformedExercisesIds;
-    private PerformedExerciseLab mPerformedExerciseLab;
-
     // Constructor from Json file
     public Exercise(String name, String category) {
         mName = name;
@@ -37,7 +35,6 @@ public class Exercise {
         mCategory = category;
         mId = UUID.randomUUID();
         mPerformedExercisesIds = new ArrayList<>();
-        mPerformedExerciseLab = null;
        // mPerformedExerciseLab = PerformedExerciseLab.get
         Log.i("Exercise: " + name, "Small constructor");
     }
@@ -52,14 +49,13 @@ public class Exercise {
     }
 
     // Constructor from the database
-    public Exercise(Context context, UUID id, String name, String category, List<UUID> performedExercises) {
+    public Exercise(UUID id, String name, String category, List<UUID> performedExercises) {
         mName = name;
         //mMajorBodyPartsTargeted = majorBodyPartsTargeted;
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
         mCategory = category;
         mId = id;
         mPerformedExercisesIds = performedExercises;
-        mPerformedExerciseLab = PerformedExerciseLab.get(context);
         Log.i("Exercise: " + name, "Bigger constructor");
     }
 

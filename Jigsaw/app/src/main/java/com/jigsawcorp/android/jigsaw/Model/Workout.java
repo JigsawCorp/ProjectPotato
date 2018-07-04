@@ -2,6 +2,7 @@ package com.jigsawcorp.android.jigsaw.Model;
 
 import android.content.Context;
 
+import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 
 import java.util.ArrayList;
@@ -14,27 +15,26 @@ public class Workout {
     private Date mStartDate;
     private Date mEndDate;
     private List<UUID> mPerformedExercises;
-    private PerformedExerciseLab mPerformedExerciseLab;
     private String mNotes;
 
     // Constructor when user creates new workout session
-    public Workout(Date startDate) {
-        mStartDate = startDate;
-        mEndDate = null;
+    public Workout() {
+        mStartDate = new Date();
+        mEndDate = new Date();
         mId = UUID.randomUUID();
         mPerformedExercises = new ArrayList<>();
         mNotes = "";
     }
 
     // Constructor from the database
-    public Workout(Context context, UUID id, Date startDate, Date endDate, List<UUID> performedExercises, String notes) {
+    public Workout(UUID id, Date startDate, Date endDate, List<UUID> performedExercises, String notes) {
         mId = id;
         mStartDate = startDate;
         mEndDate = endDate;
         mPerformedExercises = performedExercises;
-        mPerformedExerciseLab = PerformedExerciseLab.get(context);
         mNotes = notes;
     }
+
 
     public Date getStartDate() {
         return mStartDate;
@@ -52,12 +52,30 @@ public class Workout {
         mEndDate = endDate;
     }
 
+    public List<UUID> getPerformedExercisesIds() {
+        return mPerformedExercises;
+    }
+
     public List<UUID> getPerformedExercises() {
         return mPerformedExercises;
     }
 
     public void setPerformedExercises(List<UUID> performedExercises) {
         mPerformedExercises = performedExercises;
+    }
+
+    public void addPerformedExercises(List<PerformedExercise> performedExercises) {
+        for (PerformedExercise exercise: performedExercises) {
+            mPerformedExercises.add(exercise.getmId());
+        }
+    }
+
+    public void removePerformedExercise(UUID performedExercise) {
+        mPerformedExercises.remove(performedExercise);
+    }
+
+    public void addPerformedExercise(UUID performedExercise) {
+        mPerformedExercises.add(performedExercise);
     }
 
     public String getNotes() {

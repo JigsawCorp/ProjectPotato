@@ -97,7 +97,7 @@ public class WorkoutLab {
         ContentValues values = new ContentValues();
         values.put(DatabaseSchema.WorkoutsTable.Cols.UUID, workout.getId().toString());
         values.put(DatabaseSchema.WorkoutsTable.Cols.START_DATE, workout.getStartDate().getTime());
-        values.put(DatabaseSchema.WorkoutsTable.Cols.END_DATE, workout.getEndDate().getTime());
+        values.put(DatabaseSchema.WorkoutsTable.Cols.END_DATE, workout.getEndDate() == null ? 0 : workout.getEndDate().getTime());
         values.put(DatabaseSchema.WorkoutsTable.Cols.PERFORMED_EXERCISES, new Gson().toJson(workout.getPerformedExercises()));
         values.put(DatabaseSchema.WorkoutsTable.Cols.NOTES, workout.getNotes());
         return values;

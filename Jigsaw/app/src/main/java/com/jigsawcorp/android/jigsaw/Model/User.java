@@ -11,18 +11,24 @@ import java.util.TreeSet;
 import java.util.UUID;
 
 public class User {
+
     private Date mDateOfBirth;
-    private ExerciseLab mExerciseLab;
-    private WorkoutLab mWorkoutLab;
     private UUID mActiveWorkout;
 
-    public User(Context context, Date dateOfBirth, UUID activeWorkout) {
+    public User(Date dateOfBirth, UUID activeWorkout) {
         mDateOfBirth = dateOfBirth;
-        mWorkoutLab = WorkoutLab.get(context);
-        mExerciseLab = ExerciseLab.get(context);
         mActiveWorkout = activeWorkout;
     }
 
+    public void addWorkout(Workout workout, boolean isCurrentWorkout) {
+        if (isCurrentWorkout) {
+            mActiveWorkout = workout.getId();
+        }
+    }
+
+    private void updateUser() {
+
+    }
     public Date getDateOfBirth() {
         return mDateOfBirth;
     }
@@ -30,7 +36,13 @@ public class User {
     public void setmDateOfBirth(Date mDateOfBirth) {
         this.mDateOfBirth = mDateOfBirth;
     }
-     public UUID getActiveWorkout() {
+
+
+    public UUID getActiveWorkout() {
         return mActiveWorkout;
+     }
+
+     public void setActiveWorkout(UUID workout) {
+        mActiveWorkout = workout;
      }
 }

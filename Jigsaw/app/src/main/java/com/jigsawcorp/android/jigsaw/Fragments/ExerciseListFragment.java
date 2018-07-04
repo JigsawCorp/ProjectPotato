@@ -68,7 +68,6 @@ public class ExerciseListFragment extends Fragment {
     }
 
     private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseHolder> {
-
         private List<Exercise> mExercises;
 
         public ExerciseAdapter(List<Exercise> exercises) {
@@ -83,8 +82,8 @@ public class ExerciseListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ExerciseHolder holder, int position) {
-            Exercise routine = mExercises.get(position);
-            holder.bind(routine);
+            Exercise exercise = mExercises.get(position);
+            holder.bind(exercise);
         }
 
         @Override

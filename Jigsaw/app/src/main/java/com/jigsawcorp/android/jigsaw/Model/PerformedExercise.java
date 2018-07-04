@@ -9,15 +9,15 @@ import java.util.UUID;
 
 public class PerformedExercise {
     private UUID mId;
-    private Exercise mExercise;
-    private Workout mWorkout;
+    private UUID mExercise;
+    private UUID mWorkout;
     private Date mStartDate;
     private Date mEndDate;
     private List<Set> mSets;
     private String mNotes;
 
     // Constructor when adding from a workout
-    public PerformedExercise(Exercise exercise, Workout workout, Date startDate) {
+    public PerformedExercise(UUID exercise, UUID workout, Date startDate) {
         mId = UUID.randomUUID();
         mExercise = exercise;
         mWorkout = workout;
@@ -28,7 +28,7 @@ public class PerformedExercise {
     }
 
     // Constructor from the database
-    public PerformedExercise(UUID id, Exercise exercise, Workout workout, Date startDate, Date endDate, List<Set> sets, String notes) {
+    public PerformedExercise(UUID id, UUID exercise, UUID workout, Date startDate, Date endDate, List<Set> sets, String notes) {
         mId = id;
         mExercise = exercise;
         mWorkout = workout;
@@ -36,6 +36,14 @@ public class PerformedExercise {
         mEndDate = endDate;
         mSets = sets;
         mNotes = notes;
+    }
+
+    public static List<PerformedExercise> createFromExercises(List<UUID> exercises, UUID workout, Date startDate ) {
+        List<PerformedExercise> performedExercises = new ArrayList<>();
+        for (UUID exercise: exercises) {
+            performedExercises.add(new PerformedExercise(exercise, workout, startDate));
+        }
+        return performedExercises;
     }
 
     public UUID getmId() {
@@ -46,11 +54,11 @@ public class PerformedExercise {
         this.mId = mId;
     }
 
-    public Exercise getExercise() {
+    public UUID getExercise() {
         return mExercise;
     }
 
-    public void setExercise(Exercise exercise) {
+    public void setExercise(UUID exercise) {
         mExercise = exercise;
     }
 
@@ -86,11 +94,11 @@ public class PerformedExercise {
         mNotes = notes;
     }
 
-    public Workout getWorkout() {
+    public UUID getWorkout() {
         return mWorkout;
     }
 
-    public void setWorkout(Workout Workout) {
+    public void setWorkout(UUID Workout) {
         mWorkout = Workout;
     }
 }

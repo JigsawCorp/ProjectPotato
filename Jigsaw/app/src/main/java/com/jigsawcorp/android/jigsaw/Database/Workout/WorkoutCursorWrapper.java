@@ -25,11 +25,17 @@ public class WorkoutCursorWrapper extends CursorWrapper {
             mContext = context;
         }
         public Workout getWorkout() {
+            Date endDate;
+            if (getLong(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.END_DATE)) == 0) {
+                endDate = null;
+            }
+            else {
+                endDate = new Date(getLong(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.END_DATE)));
+            }
             return new Workout(
-                    mContext,
                     UUID.fromString(getString(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.UUID))),
                     new Date(getLong(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.START_DATE))),
-                    new Date(getLong(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.END_DATE))),
+                    endDate,
                     (List<UUID>) new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.PERFORMED_EXERCISES)), new TypeToken<ArrayList<UUID>>(){}.getType()),
                     getString(getColumnIndex(DatabaseSchema.WorkoutsTable.Cols.NOTES)));
         }

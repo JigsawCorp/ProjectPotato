@@ -37,6 +37,12 @@ public class PerformedExerciseLab {
         mDatabase.insert(DatabaseSchema.PerformedExerciseTable.NAME, null, contentValues);
     }
 
+    public void addPerformedExercises(List<PerformedExercise> performedExercises) {
+        for (PerformedExercise exercise: performedExercises) {
+            addPerformedExercise(exercise);
+        }
+    }
+
     public void removePerformedExercise(PerformedExercise performedExercise) {
         mDatabase.delete(DatabaseSchema.PerformedExerciseTable.NAME, DatabaseSchema.PerformedExerciseTable.Cols.UUID + " = ?", new String[] {performedExercise.getmId().toString()});
     }
@@ -54,6 +60,14 @@ public class PerformedExerciseLab {
         } finally {
             cursor.close();
         }
+    }
+
+    public List<PerformedExercise> getPerformedExercises(List<UUID> uuids) {
+        List<PerformedExercise> performedExercises = new ArrayList<>();
+        for (UUID uuid: uuids) {
+            performedExercises.add(getPerformedExercise(uuid));
+        }
+        return performedExercises;
     }
 
     public List<PerformedExercise> getAllPerformedExercises() {
@@ -95,9 +109,9 @@ public class PerformedExerciseLab {
         ContentValues values = new ContentValues();
         values.put(DatabaseSchema.PerformedExerciseTable.Cols.UUID, performedExercise.getmId().toString());
         values.put(DatabaseSchema.PerformedExerciseTable.Cols.START_DATE, performedExercise.getStartDate().getTime());
-        values.put(DatabaseSchema.PerformedExerciseTable.Cols.END_DATE, performedExercise.getEndDate().getTime());
-        values.put(DatabaseSchema.PerformedExerciseTable.Cols.EXERCISE, performedExercise.getExercise().getId().toString());
-        values.put(DatabaseSchema.PerformedExerciseTable.Cols.WORKOUT, performedExercise.getWorkout().getId().toString());
+        values.put(DatabaseSchema.PerformedExerciseTable.Cols.END_DATE, performedExercise.getEndDate() == null ? 0 : 1);
+        values.put(DatabaseSchema.PerformedExerciseTable.Cols.EXERCISE, performedExercise.getExercise().toString());
+        values.put(DatabaseSchema.PerformedExerciseTable.Cols.WORKOUT, performedExercise.getWorkout().toString());
         values.put(DatabaseSchema.PerformedExerciseTable.Cols.SETS, new Gson().toJson(performedExercise.getSets()));
         values.put(DatabaseSchema.PerformedExerciseTable.Cols.NOTES, performedExercise.getNotes());
         return values;

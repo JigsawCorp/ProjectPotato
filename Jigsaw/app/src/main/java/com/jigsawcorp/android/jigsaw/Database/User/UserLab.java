@@ -55,7 +55,7 @@ public class UserLab {
     }
 
 
-    public void updateExercise(User user) {
+    public void updateUser(User user) {
         ContentValues values = getContentValues(user);
 
         mDatabase.update(DatabaseSchema.UserTable.NAME, values, null, null);

@@ -33,4 +33,9 @@
         <item>Hamstrings</item>
 
     </string-array>
+
+    <!--Fragments-->
+    <!--CurrentWorkoutFragment-->
+
+    <string name="current_workout_fragment_warning_text">You currently do not have an active workout. To get started, add an exercise or routine from the action button.</string>
 </resources>

@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
         if(!mDatabaseExists) {
             ExerciseLab.get(this).addDefaultExercises();
         }
-
-        UserLab.get(this).updateExercise(new User(this, new Date(), UUID.randomUUID()));
         mUser = UserLab.get(this).getUser();
 
         mDrawerLayout = findViewById(R.id.drawer_layout);

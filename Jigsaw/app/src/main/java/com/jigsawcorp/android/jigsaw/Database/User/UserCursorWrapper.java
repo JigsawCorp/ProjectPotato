@@ -28,7 +28,6 @@ public class UserCursorWrapper extends CursorWrapper {
         }
 
         User user = new User(
-                mContext,
                 new Date(getLong(getColumnIndex(DatabaseSchema.UserTable.Cols.DATE_OF_BIRTH))),
                 uuid);
         return user;

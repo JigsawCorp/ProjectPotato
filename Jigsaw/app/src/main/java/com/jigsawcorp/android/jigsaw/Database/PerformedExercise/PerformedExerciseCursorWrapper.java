@@ -26,12 +26,19 @@ public class PerformedExerciseCursorWrapper extends CursorWrapper {
     }
 
     public PerformedExercise getPerformedExercise() {
+        Date endDate;
+        if (getLong(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.END_DATE)) == 0) {
+            endDate = null;
+        }
+        else {
+            endDate = new Date(getLong(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.END_DATE)));
+        }
         PerformedExercise performedExercise = new PerformedExercise(
                 UUID.fromString(getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.UUID))),
-                ExerciseLab.get(mContext).getExercise(UUID.fromString(getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.EXERCISE)))),
-                WorkoutLab.get(mContext).getWorkout(UUID.fromString(getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.WORKOUT)))),
+                UUID.fromString(getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.EXERCISE))),
+                UUID.fromString(getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.WORKOUT))),
                 new Date(getLong(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.START_DATE))),
-                new Date(getLong(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.END_DATE))),
+                endDate,
                 (List<Set>) new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.SETS)), new TypeToken<ArrayList<Set>>(){}.getType()),
                 getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.NOTES)));
 
