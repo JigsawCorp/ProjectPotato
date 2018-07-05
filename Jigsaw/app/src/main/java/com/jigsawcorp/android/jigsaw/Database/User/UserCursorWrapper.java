@@ -23,7 +23,7 @@ public class UserCursorWrapper extends CursorWrapper {
         try {
             uuid = UUID.fromString(getString(getColumnIndex(DatabaseSchema.UserTable.Cols.ACTIVE_WORKOUT)));
 
-        }catch (IllegalArgumentException exception) {
+        }catch (IllegalArgumentException |NullPointerException exception) {
             uuid = null;
         }
 

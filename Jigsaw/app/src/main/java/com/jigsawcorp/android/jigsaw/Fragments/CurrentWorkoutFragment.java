@@ -29,6 +29,7 @@ import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class CurrentWorkoutFragment extends Fragment {
     private MenuItem mPrevMenuItem;
     // Controller
     private Callbacks mCallbacks;
+    private PerformedExerciseAdapter mAdapter;
 
     public interface Callbacks {
         public void onPerformedExerciseDeleted(PerformedExercise performedExercise);
@@ -138,15 +140,16 @@ public class CurrentWorkoutFragment extends Fragment {
             }
                 WorkoutLab.get(getContext()).addWorkout(mWorkout);
                 mUser.setActiveWorkout(mWorkout.getId());
+                UserLab.get(getContext()).updateUser(mUser);
                 List<PerformedExercise> newPerformedExercises = PerformedExercise.createFromExercises(SelectableExerciseListFragment.getSelectedExercises(data), mWorkout.getId(), new Date());
                 PerformedExerciseLab.get(getContext()).addPerformedExercises(newPerformedExercises);
                 mWorkout.addPerformedExercises(newPerformedExercises);
+                WorkoutLab.get(getContext()).updateWorkout(mWorkout);
 
 
-
+            updateUI();
         }
-        saveUI();
-        updateUI();
+
     }
 
     private void enableNoAcriveWorkoutWarning(boolean needWarning) {
@@ -161,18 +164,26 @@ public class CurrentWorkoutFragment extends Fragment {
     // Update all variables that hold model data that can be changed in other fragments/activities. Will be called at onResume()
     public void updateUI() {
         mUser = UserLab.get(getContext()).getUser();
+        List<PerformedExercise> performedExercises = new ArrayList<>();
+
         if (mUser.getActiveWorkout() == null) {
             mWorkout = null;
         }
         else {
             mWorkout = WorkoutLab.get(getContext()).getWorkout(mUser.getActiveWorkout());
-            PerformedExerciseAdapter adapter = new PerformedExerciseAdapter(PerformedExerciseLab.get(getContext()).getPerformedExercises(mWorkout.getPerformedExercises()));
-            mPerformedExercisesRecyclerView.setAdapter(adapter);
-            SwipeAndDragHelper swipeAndDragHelper = new SwipeAndDragHelper(adapter);
+            performedExercises = PerformedExerciseLab.get(getContext()).getPerformedExercises(mWorkout.getPerformedExercises());
+
+        }
+        if (mAdapter == null) {
+            mAdapter = new PerformedExerciseAdapter(performedExercises);
+            mPerformedExercisesRecyclerView.setAdapter(mAdapter);
+            SwipeAndDragHelper swipeAndDragHelper = new SwipeAndDragHelper(mAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(swipeAndDragHelper);
             touchHelper.attachToRecyclerView(mPerformedExercisesRecyclerView);
-
-
+        }
+        else {
+            mAdapter.setPerformedExercises(performedExercises);
+            mAdapter.notifyDataSetChanged();
         }
         enableNoAcriveWorkoutWarning(mWorkout == null);
 
@@ -183,6 +194,7 @@ public class CurrentWorkoutFragment extends Fragment {
         UserLab.get(getContext()).updateUser(mUser);
         if (mWorkout != null) {
             mWorkout.setPerformedExercises(PerformedExercise.toUUIDs(((PerformedExerciseAdapter) mPerformedExercisesRecyclerView.getAdapter()).getPerformedExercises()));
+
             WorkoutLab.get(getContext()).updateWorkout(mWorkout);
         }
     }
