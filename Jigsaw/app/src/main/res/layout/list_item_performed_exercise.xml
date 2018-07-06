@@ -65,9 +65,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            android:id="@+id/sets_container"
+            android:id="@+id/list_item_performed_exercise_sets_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

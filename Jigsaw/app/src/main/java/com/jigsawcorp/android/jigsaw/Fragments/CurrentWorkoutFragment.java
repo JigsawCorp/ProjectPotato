@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -29,9 +30,12 @@ import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CurrentWorkoutFragment extends Fragment {
     // View
@@ -256,10 +260,12 @@ public class CurrentWorkoutFragment extends Fragment {
         }
 
     private class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExerciseAdapter.PerformedExerciseHolder> implements ActionCompletionContract{
-        private List<PerformedExercise> mPerformedExercises;
+        private List<AbstractMap.SimpleEntry<PerformedExercise, Boolean>> mPerformedExercises = new ArrayList<>();
 
         public PerformedExerciseAdapter(List<PerformedExercise> performedExercises) {
-            mPerformedExercises = performedExercises;
+            for (PerformedExercise exercise : performedExercises) {
+                mPerformedExercises.add(new AbstractMap.SimpleEntry<PerformedExercise, Boolean>(exercise, true));
+            }
         }
 
         @Override
@@ -270,8 +276,7 @@ public class CurrentWorkoutFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(PerformedExerciseHolder holder, int position) {
-            PerformedExercise performedExercise = mPerformedExercises.get(position);
-            holder.bind(performedExercise);
+            holder.bind(mPerformedExercises.get(position));
         }
 
         @Override
@@ -281,25 +286,34 @@ public class CurrentWorkoutFragment extends Fragment {
 
         @Override
         public void onViewMoved(int oldPosition, int newPosition) {
-            PerformedExercise performedExercise = mPerformedExercises.get(oldPosition);
+            AbstractMap.SimpleEntry performedExercise = mPerformedExercises.get(oldPosition);
             mPerformedExercises.remove(oldPosition);
             mPerformedExercises.add(newPosition, performedExercise);
             notifyItemMoved(oldPosition, newPosition);
         }
 
         public void setPerformedExercises(List<PerformedExercise> exercises) {
-            mPerformedExercises = exercises;
+            mPerformedExercises.clear();
+            for (PerformedExercise exercise : exercises) {
+                mPerformedExercises.add(new AbstractMap.SimpleEntry<PerformedExercise, Boolean>(exercise, true));
+            }
         }
 
         public List<PerformedExercise> getPerformedExercises() {
-            return mPerformedExercises;
+            List<PerformedExercise> performedExercises = new ArrayList<>();
+            for (AbstractMap.SimpleEntry<PerformedExercise, Boolean> exercise : mPerformedExercises) {
+                performedExercises.add(exercise.getKey());
+            }
+            return performedExercises;
         }
 
         class PerformedExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            protected PerformedExercise mPerformedExercise;
+            protected AbstractMap.SimpleEntry<PerformedExercise, Boolean> mPerformedExercise;
 
             protected TextView mTitleTextView;
             protected TextView mPositionNumberingTextView;
+            protected Button mExpandButton;
+            protected View mSetsContainer;
             // protected TextView mDateTextView;
             //private ImageView mSolvedImageView;
 
@@ -310,15 +324,32 @@ public class CurrentWorkoutFragment extends Fragment {
 
                 mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_title);
                 mPositionNumberingTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_position_indicator);
+                mExpandButton = (Button) itemView.findViewById(R.id.list_item_performed_exercise_expand_button);
+                mSetsContainer = (View) itemView.findViewById(R.id.list_item_performed_exercise_sets_container);
                 // mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
                 //mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
             }
 
 
-            public void bind(PerformedExercise performedExercise){
+            public void bind(final AbstractMap.SimpleEntry<PerformedExercise, Boolean> performedExercise){
                 mPerformedExercise = performedExercise;
-                mTitleTextView.setText(ExerciseLab.get(getContext()).getExercise(performedExercise.getExercise()).getName());
+                mTitleTextView.setText(ExerciseLab.get(getContext()).getExercise(performedExercise.getKey().getExercise()).getName());
                 mPositionNumberingTextView.setText(String.valueOf(mPerformedExercises.indexOf(performedExercise) + 1));
+                mSetsContainer.setVisibility(performedExercise.getValue() ? View.VISIBLE : View.GONE);
+                mExpandButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (performedExercise.getValue()) {
+                            mSetsContainer.setVisibility(View.GONE);
+                            performedExercise.setValue(false);
+                        }
+                        else {
+                            mSetsContainer.setVisibility(View.VISIBLE);
+                            performedExercise.setValue(true);
+                        }
+                    }
+                });
+
                 //mDateTextView.setText(DateFormat.getDateInstance(DateFormat.FULL).format(mCrime.getDate()));
                 //mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.INVISIBLE);
             }
