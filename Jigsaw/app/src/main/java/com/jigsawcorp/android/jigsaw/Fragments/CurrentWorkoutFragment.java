@@ -285,7 +285,6 @@ public class CurrentWorkoutFragment extends Fragment {
             mPerformedExercises.remove(oldPosition);
             mPerformedExercises.add(newPosition, performedExercise);
             notifyItemMoved(oldPosition, newPosition);
-            //notifyDataSetChanged();
         }
 
         public void setPerformedExercises(List<PerformedExercise> exercises) {
