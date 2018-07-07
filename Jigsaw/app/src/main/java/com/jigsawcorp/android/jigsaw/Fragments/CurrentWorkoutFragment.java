@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -314,9 +315,6 @@ public class CurrentWorkoutFragment extends Fragment {
             protected TextView mPositionNumberingTextView;
             protected Button mExpandButton;
             protected View mSetsContainer;
-            // protected TextView mDateTextView;
-            //private ImageView mSolvedImageView;
-
 
             public PerformedExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
                 super(inflater.inflate(R.layout.list_item_performed_exercise, parent, false));
@@ -326,8 +324,6 @@ public class CurrentWorkoutFragment extends Fragment {
                 mPositionNumberingTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_position_indicator);
                 mExpandButton = (Button) itemView.findViewById(R.id.list_item_performed_exercise_expand_button);
                 mSetsContainer = (View) itemView.findViewById(R.id.list_item_performed_exercise_sets_container);
-                // mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
-                //mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
             }
 
 
@@ -350,13 +346,11 @@ public class CurrentWorkoutFragment extends Fragment {
                     }
                 });
 
-                //mDateTextView.setText(DateFormat.getDateInstance(DateFormat.FULL).format(mCrime.getDate()));
-                //mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.INVISIBLE);
             }
 
             @Override
             public void onClick(View view) {
-                //code to start a routine activity;
+                Toast.makeText(getContext(), "Hello", Toast.LENGTH_LONG).show();
             }
         }
     }
