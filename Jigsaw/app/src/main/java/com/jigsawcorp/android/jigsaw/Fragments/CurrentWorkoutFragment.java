@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.jigsawcorp.android.jigsaw.Activities.ExerciseListActivity;
+import com.jigsawcorp.android.jigsaw.Activities.PerformedExerciseEditActivity;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
@@ -127,6 +128,7 @@ public class CurrentWorkoutFragment extends Fragment {
         super.onResume();
         getActivity().setTitle("Current Workout");
         updateUI();
+        menuCreate.close(false);
     }
 
     @Override
@@ -178,6 +180,12 @@ public class CurrentWorkoutFragment extends Fragment {
 
 
             updateUI();
+        }
+        else if (requestCode == RequestCodes.REQUEST_CODE_EDIT_PERFORMED_EXERCISE) {
+            if (data == null) {
+                return;
+            }
+            if (data.getBooleanExtra())
         }
 
     }
@@ -386,6 +394,7 @@ public class CurrentWorkoutFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Hello", Toast.LENGTH_LONG).show();
+                startActivityForResult(PerformedExerciseEditActivity.newIntent(getContext(), mPerformedExercise.getKey().getmId()), RequestCodes.REQUEST_CODE_EDIT_PERFORMED_EXERCISE);
             }
         }
     }

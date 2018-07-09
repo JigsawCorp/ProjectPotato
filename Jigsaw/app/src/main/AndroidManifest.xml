@@ -21,6 +21,9 @@
             android:name=".Activities.ExerciseListActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
+        <activity
+            android:name=".Activities.PerformedExerciseEditActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>
