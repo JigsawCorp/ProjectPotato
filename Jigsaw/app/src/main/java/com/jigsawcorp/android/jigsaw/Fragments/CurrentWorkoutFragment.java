@@ -10,7 +10,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CurrentWorkoutFragment extends Fragment {
+    private String TAG = "CurrentWorkoutFragment";
     // View
     private FloatingActionMenu menuCreate;
     private FloatingActionButton fabAddRoutine;
@@ -65,6 +69,7 @@ public class CurrentWorkoutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -122,6 +127,26 @@ public class CurrentWorkoutFragment extends Fragment {
         super.onResume();
         getActivity().setTitle("Current Workout");
         updateUI();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_current_workout_fragment, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+            case R.id.menu_current_workout_fragment_finish_workout:
+                finishWorkout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -202,6 +227,16 @@ public class CurrentWorkoutFragment extends Fragment {
 
             WorkoutLab.get(getContext()).updateWorkout(mWorkout);
         }
+    }
+
+    private void finishWorkout() {
+        Log.i(TAG, "finishWorkout");
+        mWorkout.setPerformedExercises(PerformedExercise.toUUIDs(((PerformedExerciseAdapter) mPerformedExercisesRecyclerView.getAdapter()).getPerformedExercises()));
+        WorkoutLab.get(getContext()).updateWorkout(mWorkout);
+        mWorkout = null;
+        mUser.setActiveWorkout(null);
+        UserLab.get(getContext()).updateUser(mUser);
+        updateUI();
     }
 
     public class SwipeAndDragHelper extends ItemTouchHelper.Callback {

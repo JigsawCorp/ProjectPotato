@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.jigsawcorp.android.jigsaw.Activities.MainActivity;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema.ExercisesTable;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema.WorkoutsTable;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
@@ -62,7 +63,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
-        mCallbacks = (Callbacks) context;
+        // Verifies if the context implements the database callbacks
+        if (context instanceof MainActivity) {
+            mCallbacks = (Callbacks) context;
+        }
+        else {
+            mCallbacks = null;
+        }
     }
 
     @Override
