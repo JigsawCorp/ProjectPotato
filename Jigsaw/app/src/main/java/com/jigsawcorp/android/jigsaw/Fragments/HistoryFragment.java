@@ -6,8 +6,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,8 @@ import com.jigsawcorp.android.jigsaw.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment {;
+    private static final String TAG = "HistoryFragment";
     private ViewPager mViewPager;
     @Override
     public void onCreate(Bundle savecInstanceState) {
@@ -26,6 +29,7 @@ public class HistoryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
+        Log.i(TAG,"onCreateView()");
         View v = inflater.inflate(R.layout.fragment_history, container, false);
 
         // Setup view Pager
@@ -47,11 +51,12 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.i(TAG,"onResume");
         getActivity().setTitle("History");
     }
 
     // Adapter for the viewpager using FragmentPagerAdapter
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -61,6 +66,7 @@ public class HistoryFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
+            Log.i(TAG,"getItem" + mFragmentList.get(position).toString());
             return mFragmentList.get(position);
         }
 
