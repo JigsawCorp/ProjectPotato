@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/fragment_edit_set_button_remove_weight"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/ic_expand_more"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_edit_set_edit_text_weight"
+            app:layout_constraintStart_toStartOf="@+id/fragment_edit_set_edit_text_weight"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_set_edit_text_weight" />
+
+        <TextView
+            android:id="@+id/fragment_edit_set_text_view_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:text="lbs"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_edit_set_edit_text_weight"
+            app:layout_constraintStart_toEndOf="@+id/fragment_edit_set_edit_text_weight" />
+
+        <EditText
+            android:id="@+id/fragment_edit_set_edit_text_weight"
+            android:layout_width="89dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_set_button_add_weight" />
+
+        <Button
+            android:id="@+id/fragment_edit_set_button_add_weight"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/ic_expand_less"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_edit_set_edit_text_weight"
+            app:layout_constraintStart_toStartOf="@+id/fragment_edit_set_edit_text_weight"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/fragment_edit_set_button_add_reps"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/ic_expand_less"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_edit_set_edit_text_reps"
+            app:layout_constraintStart_toStartOf="@+id/fragment_edit_set_edit_text_reps"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_edit_set_text_view_reps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:text="reps"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_edit_set_edit_text_reps"
+            app:layout_constraintStart_toEndOf="@+id/fragment_edit_set_edit_text_reps" />
+
+        <EditText
+            android:id="@+id/fragment_edit_set_edit_text_reps"
+            android:layout_width="89dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_set_button_add_reps" />
+
+        <Button
+            android:id="@+id/fragment_edit_set_button_remove_reps"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/ic_expand_more"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_edit_set_edit_text_reps"
+            app:layout_constraintStart_toStartOf="@+id/fragment_edit_set_edit_text_reps"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_set_edit_text_reps" />
+    </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

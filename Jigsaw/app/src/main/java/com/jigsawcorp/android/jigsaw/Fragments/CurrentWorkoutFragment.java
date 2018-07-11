@@ -185,7 +185,6 @@ public class CurrentWorkoutFragment extends Fragment {
             if (data == null) {
                 return;
             }
-            if (data.getBooleanExtra())
         }
 
     }

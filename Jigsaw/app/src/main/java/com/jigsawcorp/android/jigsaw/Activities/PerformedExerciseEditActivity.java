@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
+import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.SelectableExerciseListFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.R;
@@ -42,6 +43,8 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.list_item_performed_exercise_position_indicator)).setVisibility(View.GONE);
         mExerciseTitle = (TextView) findViewById(R.id.list_item_performed_exercise_title);
         mExerciseTitle.setText(ExerciseLab.get(this).getExercise(mPerformedExercise.getExercise()).getName());
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_performed_exercise_edit_edit_set_container, new EditSetFragment()).commit();
+
     }
 
     @Override
@@ -59,8 +62,8 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                SelectableExerciseListFragment currentFragment = (SelectableExerciseListFragment) getSupportFragmentManager().findFragmentById(R.id.activity_exercise_list_fragment_container);
-                currentFragment.sendExercises();
+                setResult(RESULT_OK);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
