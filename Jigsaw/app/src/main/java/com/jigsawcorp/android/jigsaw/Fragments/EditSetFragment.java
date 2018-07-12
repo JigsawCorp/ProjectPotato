@@ -2,6 +2,8 @@ package com.jigsawcorp.android.jigsaw.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,21 @@ public class EditSetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle onSavedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_edit_set, container, false);
         mWeightTextView = (EditText) v.findViewById(R.id.fragment_edit_set_edit_text_weight);
+        mWeightTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         mRepsTextView = (EditText) v.findViewById(R.id.fragment_edit_set_edit_text_reps);
         return v;
     }

@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,14 +52,19 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.list_item_performed_exercise_position_indicator)).setVisibility(View.GONE);
         mExerciseTitle = (TextView) findViewById(R.id.list_item_performed_exercise_title);
         mExerciseTitle.setText(ExerciseLab.get(this).getExercise(mPerformedExercise.getExercise()).getName());
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_performed_exercise_edit_edit_set_container, new EditSetFragment()).commit();
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_performed_exercise_edit_edit_set_container, new EditSetFragment(), "EditSetFragment").commit();
         // Setup RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_performed_exercise_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SetAdapter(this, mPerformedExercise.getSets(), new SetAdapter.OnItemClickListener() {
             @Override
             public void onItemSelected(Set set) {
+                if (set == null) {
+                    hideEditSetFragment();
+                }
+                else {
+                    showEditSetFragment();
+                }
                 ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).setSet(set);
             }
         });
@@ -72,6 +78,7 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
                 ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).addNewSet(findLatestSet());
                 mPerformedExercise.addSet(newSet);
                 mAdapter.addSet(newSet);
+                showEditSetFragment();
             }
         });
     }
@@ -85,6 +92,15 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
+
+        hideEditSetFragment();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        PerformedExerciseLab.get(this).updatePerformedExercise(mPerformedExercise);
     }
 
     @Override
@@ -113,6 +129,16 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
         else {
             return mPerformedExercise.getSets().get(mPerformedExercise.getSets().size() - 1);
         }
+    }
+
+    private void hideEditSetFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        EditSetFragment frag = (EditSetFragment) getSupportFragmentManager().findFragmentByTag("EditSetFragment");
+        ft.hide(frag).commit();
+    }
+
+    private void showEditSetFragment() {
+        getSupportFragmentManager().beginTransaction().show((EditSetFragment) getSupportFragmentManager().findFragmentByTag("EditSetFragment")).commit();
     }
 
 }

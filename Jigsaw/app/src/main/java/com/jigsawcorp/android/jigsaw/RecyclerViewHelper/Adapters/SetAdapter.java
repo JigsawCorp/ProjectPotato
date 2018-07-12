@@ -3,6 +3,7 @@ package com.jigsawcorp.android.jigsaw.RecyclerViewHelper.Adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,7 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetHolder> {
     }
 
     public SetAdapter(Context context, List<Set> sets, OnItemClickListener listener) {
-        mSets = new ArrayList<>();
-        mSets.add(new Set(10,10));
-        mSets.add(new Set(15,13));
-        mSets.add(new Set(19,14));
+        mSets = sets;
         mSelectedPosition = -1;
         mListener = listener;
         mContext = context;
@@ -58,6 +56,8 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetHolder> {
     public void addSet(Set set) {
         mSets.add(set);
         notifyDataSetChanged();
+        Log.i("SetAdapter", "SetAdapter()");
+
     }
 
     public void updateSet(Set set) {
