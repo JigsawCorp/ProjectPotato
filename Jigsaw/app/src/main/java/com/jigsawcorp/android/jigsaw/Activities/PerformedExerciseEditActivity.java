@@ -49,8 +49,6 @@ public class PerformedExerciseEditActivity extends AppCompatActivity implements 
         setContentView(R.layout.activity_performed_exercise_edit);
         mPerformedExercise = PerformedExerciseLab.get(this).getPerformedExercise(UUID.fromString(getIntent().getStringExtra(EXTRA_PERFORMED_EXERCISE_UUID)));
 
-        getLayoutInflater().inflate(R.layout.list_item_performed_exercise,(ViewGroup) findViewById(R.id.activity_performed_exercise_edit_performed_exercise_container));
-        ((TextView) findViewById(R.id.list_item_performed_exercise_position_indicator)).setVisibility(View.GONE);
         mExerciseTitle = (TextView) findViewById(R.id.list_item_performed_exercise_title);
         mExerciseTitle.setText(ExerciseLab.get(this).getExercise(mPerformedExercise.getExercise()).getName());
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_performed_exercise_edit_edit_set_container, new EditSetFragment(), "EditSetFragment").commit();
@@ -130,7 +128,7 @@ public class PerformedExerciseEditActivity extends AppCompatActivity implements 
         if (mPerformedExercise.getSets() == null || mPerformedExercise.getSets().size() == 0) {
             // Check to see if any sets were performed
             // if so, return that last set
-            return null;
+            return new Set(0,0);
         }
         else {
             return mPerformedExercise.getSets().get(mPerformedExercise.getSets().size() - 1);
