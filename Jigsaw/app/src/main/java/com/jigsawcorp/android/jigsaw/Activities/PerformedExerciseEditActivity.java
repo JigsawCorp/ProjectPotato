@@ -31,7 +31,7 @@ import org.w3c.dom.Text;
 
 import java.util.UUID;
 
-public class PerformedExerciseEditActivity extends AppCompatActivity {
+public class PerformedExerciseEditActivity extends AppCompatActivity implements EditSetFragment.OnSetModifiedListener {
     private static final String EXTRA_PERFORMED_EXERCISE_UUID = "com.jigsawcorp.android.jigsaw.performed_exercise_uuid";
     private PerformedExercise mPerformedExercise;
     private TextView mExerciseTitle;
@@ -75,8 +75,9 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
         mAddSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set newSet = new Set(0,0);
-                ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).addNewSet(findLatestSet());
+                Set newSet = new Set(findLatestSet());
+                ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).addNewSet(newSet);
+                mAdapter.mSelectedPosition = mAdapter.getItemCount();
                 mAdapter.addSet(newSet);
                 showEditSetFragment();
             }
@@ -113,6 +114,11 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSetChanged(Set set) {
+        mAdapter.updateSet(set);
     }
 
     private void updateUI() {

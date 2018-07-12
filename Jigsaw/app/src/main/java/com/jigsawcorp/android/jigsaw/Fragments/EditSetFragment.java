@@ -1,5 +1,6 @@
 package com.jigsawcorp.android.jigsaw.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -18,6 +19,17 @@ public class EditSetFragment extends Fragment {
     private Set mSet;
     private EditText mWeightTextView;
     private EditText mRepsTextView;
+    private Button mAddWeightButton;
+    private Button mRemoveWeightButton;
+    private Button mAddRepsButton;
+    private Button mRemoveRepsButton;
+    private  OnSetModifiedListener mListener;
+
+
+    public interface OnSetModifiedListener {
+        void onSetChanged(Set set);
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -42,7 +54,58 @@ public class EditSetFragment extends Fragment {
             }
         });
         mRepsTextView = (EditText) v.findViewById(R.id.fragment_edit_set_edit_text_reps);
+
+        mAddWeightButton = (Button) v.findViewById(R.id.fragment_edit_set_button_add_weight);
+        mAddWeightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSet.setWeight(mSet.getWeight() + 5);
+                displaySet();
+                saveChanges();
+            }
+        });
+
+        mRemoveWeightButton = (Button) v.findViewById(R.id.fragment_edit_set_button_remove_weight);
+        mRemoveWeightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSet.setWeight(mSet.getWeight() - 5);
+                displaySet();
+                saveChanges();
+            }
+        });
+
+        mAddRepsButton = (Button) v.findViewById(R.id.fragment_edit_set_button_add_reps);
+        mAddRepsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSet.setReps(mSet.getReps() + 1);
+                displaySet();
+                saveChanges();
+            }
+        });
+
+        mRemoveRepsButton = (Button) v.findViewById(R.id.fragment_edit_set_button_remove_reps);
+        mRemoveRepsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSet.setReps(mSet.getReps() - 1);
+                displaySet();
+                saveChanges();
+            }
+        });
+
         return v;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnSetModifiedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnArticleSelectedListener");
+        }
     }
 
     public void setSet(Set set) {
@@ -64,5 +127,9 @@ public class EditSetFragment extends Fragment {
             mWeightTextView.setText(String.valueOf(mSet.getWeight()));
             mRepsTextView.setText(String.valueOf(mSet.getReps()));
         }
+    }
+
+    private void saveChanges() {
+        mListener.onSetChanged(mSet);
     }
 }

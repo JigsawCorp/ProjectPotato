@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetHolder> {
     private List<Set> mSets;
-    private int mSelectedPosition;
+    public int mSelectedPosition;
     private  OnItemClickListener mListener;
     private Context mContext;
 
@@ -51,19 +51,16 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetHolder> {
 
     public void setSets(List<Set> sets) {
         mSets = sets;
-        Log.i("SetAdapter", "setSets()");
     }
 
     public void addSet(Set set) {
         mSets.add(set);
         notifyDataSetChanged();
-        Log.i("SetAdapter", "addSet()");
-
     }
 
     public void updateSet(Set set) {
         mSets.set(mSets.indexOf(set), set);
-        Log.i("SetAdapter", "updateSet()");
+        notifyItemChanged(mSets.indexOf(set));
     }
 
     public class SetHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

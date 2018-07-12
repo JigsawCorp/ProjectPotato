@@ -9,6 +9,11 @@ public class Set {
         mReps = reps;
     }
 
+    public Set(Set set) {
+        mWeight = set.getWeight();
+        mReps = set.getReps();
+    }
+
     public int getReps() {
         return mReps;
     }
