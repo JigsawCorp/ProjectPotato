@@ -8,9 +8,12 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
@@ -18,7 +21,9 @@ import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExercis
 import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.SelectableExerciseListFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
+import com.jigsawcorp.android.jigsaw.Model.Set;
 import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.RecyclerViewHelper.Adapters.SetAdapter;
 
 import org.w3c.dom.Text;
 
@@ -28,7 +33,9 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
     private static final String EXTRA_PERFORMED_EXERCISE_UUID = "com.jigsawcorp.android.jigsaw.performed_exercise_uuid";
     private PerformedExercise mPerformedExercise;
     private TextView mExerciseTitle;
-
+    private RecyclerView mRecyclerView;
+    private SetAdapter mAdapter;
+    private Button mAddSetButton;
     public static Intent newIntent(Context packageContext, UUID uuid) {
         Intent intent = new Intent(packageContext, PerformedExerciseEditActivity.class);
         intent.putExtra(EXTRA_PERFORMED_EXERCISE_UUID, uuid.toString());
@@ -39,12 +46,34 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_performed_exercise_edit);
         mPerformedExercise = PerformedExerciseLab.get(this).getPerformedExercise(UUID.fromString(getIntent().getStringExtra(EXTRA_PERFORMED_EXERCISE_UUID)));
+
         getLayoutInflater().inflate(R.layout.list_item_performed_exercise,(ViewGroup) findViewById(R.id.activity_performed_exercise_edit_performed_exercise_container));
         ((TextView) findViewById(R.id.list_item_performed_exercise_position_indicator)).setVisibility(View.GONE);
         mExerciseTitle = (TextView) findViewById(R.id.list_item_performed_exercise_title);
         mExerciseTitle.setText(ExerciseLab.get(this).getExercise(mPerformedExercise.getExercise()).getName());
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_performed_exercise_edit_edit_set_container, new EditSetFragment()).commit();
 
+        // Setup RecyclerView
+        mRecyclerView = (RecyclerView) findViewById(R.id.activity_performed_exercise_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new SetAdapter(this, mPerformedExercise.getSets(), new SetAdapter.OnItemClickListener() {
+            @Override
+            public void onItemSelected(Set set) {
+                ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).setSet(set);
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAddSetButton = (Button) findViewById(R.id.activity_performed_exercise_button_add_set);
+        mAddSetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Set newSet = new Set(0,0);
+                ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).addNewSet(findLatestSet());
+                mPerformedExercise.addSet(newSet);
+                mAdapter.addSet(newSet);
+            }
+        });
     }
 
     @Override
@@ -67,6 +96,22 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void updateUI() {
+        mAdapter.setSets(mPerformedExercise.getSets());
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private Set findLatestSet() {
+        if (mPerformedExercise.getSets() == null || mPerformedExercise.getSets().size() == 0) {
+            // Check to see if any sets were performed
+            // if so, return that last set
+            return null;
+        }
+        else {
+            return mPerformedExercise.getSets().get(mPerformedExercise.getSets().size() - 1);
         }
     }
 

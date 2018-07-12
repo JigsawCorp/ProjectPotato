@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import com.google.gson.Gson;
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema;
+import com.jigsawcorp.android.jigsaw.Model.Exercise;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 
 import java.util.ArrayList;

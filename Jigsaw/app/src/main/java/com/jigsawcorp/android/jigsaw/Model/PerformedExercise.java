@@ -94,6 +94,14 @@ public class PerformedExercise {
         mSets = sets;
     }
 
+    public void addSet(Set set) {
+        mSets.add(set);
+    }
+
+    public void updateSet(Set set) {
+        mSets.set(mSets.indexOf(set), set);
+    }
+
     public String getNotes() {
         return mNotes;
     }
