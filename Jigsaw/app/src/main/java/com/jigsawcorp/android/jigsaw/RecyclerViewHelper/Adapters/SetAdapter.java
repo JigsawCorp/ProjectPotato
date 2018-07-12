@@ -51,17 +51,19 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetHolder> {
 
     public void setSets(List<Set> sets) {
         mSets = sets;
+        Log.i("SetAdapter", "setSets()");
     }
 
     public void addSet(Set set) {
         mSets.add(set);
         notifyDataSetChanged();
-        Log.i("SetAdapter", "SetAdapter()");
+        Log.i("SetAdapter", "addSet()");
 
     }
 
     public void updateSet(Set set) {
         mSets.set(mSets.indexOf(set), set);
+        Log.i("SetAdapter", "updateSet()");
     }
 
     public class SetHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

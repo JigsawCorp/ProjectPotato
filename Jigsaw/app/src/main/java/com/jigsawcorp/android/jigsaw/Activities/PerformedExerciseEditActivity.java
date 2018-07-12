@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,6 @@ public class PerformedExerciseEditActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Set newSet = new Set(0,0);
                 ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).addNewSet(findLatestSet());
-                mPerformedExercise.addSet(newSet);
                 mAdapter.addSet(newSet);
                 showEditSetFragment();
             }
