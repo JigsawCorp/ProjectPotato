@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +32,13 @@ import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExercis
 import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
+import com.jigsawcorp.android.jigsaw.Model.Set;
 import com.jigsawcorp.android.jigsaw.Model.User;
 import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
+import com.jigsawcorp.android.jigsaw.View.RecyclerView.PerformedExerciseAdapter;
+import com.jigsawcorp.android.jigsaw.View.SetHolder;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -116,6 +121,9 @@ public class CurrentWorkoutFragment extends Fragment {
 
         mPerformedExercisesRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_current_workout_recycler_view);
         mPerformedExercisesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment_current_workout_edit_set_container, new EditSetFragment(), "EditSetFragment").commit();
+
 
 
 
@@ -212,8 +220,14 @@ public class CurrentWorkoutFragment extends Fragment {
 
         }
         if (mAdapter == null) {
-            mAdapter = new PerformedExerciseAdapter(performedExercises);
+            mAdapter = new PerformedExerciseAdapter(performedExercises, getContext());
             mPerformedExercisesRecyclerView.setAdapter(mAdapter);
+            mAdapter.setPerformedExerciseListEventListener(new OnPerformedExerciseListEventListener() {
+                @Override
+                public void onExerciseClicked(PerformedExercise performedExercise) {
+                    startActivityForResult(PerformedExerciseEditActivity.newIntent(getContext(), performedExercise.getmId()), RequestCodes.REQUEST_CODE_EDIT_PERFORMED_EXERCISE);
+                }
+            });
             SwipeAndDragHelper swipeAndDragHelper = new SwipeAndDragHelper(mAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(swipeAndDragHelper);
             touchHelper.attachToRecyclerView(mPerformedExercisesRecyclerView);
@@ -302,99 +316,19 @@ public class CurrentWorkoutFragment extends Fragment {
         void onViewMoved(int oldPosition, int newPosition);
         }
 
-    private class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExerciseAdapter.PerformedExerciseHolder> implements ActionCompletionContract{
-        private List<AbstractMap.SimpleEntry<PerformedExercise, Boolean>> mPerformedExercises = new ArrayList<>();
-
-        public PerformedExerciseAdapter(List<PerformedExercise> performedExercises) {
-            for (PerformedExercise exercise : performedExercises) {
-                mPerformedExercises.add(new AbstractMap.SimpleEntry<PerformedExercise, Boolean>(exercise, true));
-            }
-        }
-
-        @Override
-        public PerformedExerciseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new PerformedExerciseHolder(layoutInflater, parent);
-        }
-
-        @Override
-        public void onBindViewHolder(PerformedExerciseHolder holder, int position) {
-            holder.bind(mPerformedExercises.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mPerformedExercises.size();
-        }
-
-        @Override
-        public void onViewMoved(int oldPosition, int newPosition) {
-            AbstractMap.SimpleEntry performedExercise = mPerformedExercises.get(oldPosition);
-            mPerformedExercises.remove(oldPosition);
-            mPerformedExercises.add(newPosition, performedExercise);
-            notifyItemMoved(oldPosition, newPosition);
-        }
-
-        public void setPerformedExercises(List<PerformedExercise> exercises) {
-            mPerformedExercises.clear();
-            for (PerformedExercise exercise : exercises) {
-                mPerformedExercises.add(new AbstractMap.SimpleEntry<PerformedExercise, Boolean>(exercise, true));
-            }
-        }
-
-        public List<PerformedExercise> getPerformedExercises() {
-            List<PerformedExercise> performedExercises = new ArrayList<>();
-            for (AbstractMap.SimpleEntry<PerformedExercise, Boolean> exercise : mPerformedExercises) {
-                performedExercises.add(exercise.getKey());
-            }
-            return performedExercises;
-        }
-
-        class PerformedExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            protected AbstractMap.SimpleEntry<PerformedExercise, Boolean> mPerformedExercise;
-
-            protected TextView mTitleTextView;
-            protected TextView mPositionNumberingTextView;
-            protected Button mExpandButton;
-            protected View mSetsContainer;
-
-            public PerformedExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
-                super(inflater.inflate(R.layout.list_item_performed_exercise, parent, false));
-                itemView.setOnClickListener(this);
-
-                mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_title);
-                mPositionNumberingTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_position_indicator);
-                mExpandButton = (Button) itemView.findViewById(R.id.list_item_performed_exercise_expand_button);
-                mSetsContainer = (View) itemView.findViewById(R.id.list_item_performed_exercise_sets_container);
-            }
+    public interface OnPerformedExerciseListEventListener {
+        void onExerciseClicked(PerformedExercise performedExercise);
+    }
 
 
-            public void bind(final AbstractMap.SimpleEntry<PerformedExercise, Boolean> performedExercise){
-                mPerformedExercise = performedExercise;
-                mTitleTextView.setText(ExerciseLab.get(getContext()).getExercise(performedExercise.getKey().getExercise()).getName());
-                mPositionNumberingTextView.setText(String.valueOf(mPerformedExercises.indexOf(performedExercise) + 1));
-                mSetsContainer.setVisibility(performedExercise.getValue() ? View.VISIBLE : View.GONE);
-                mExpandButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (performedExercise.getValue()) {
-                            mSetsContainer.setVisibility(View.GONE);
-                            performedExercise.setValue(false);
-                        }
-                        else {
-                            mSetsContainer.setVisibility(View.VISIBLE);
-                            performedExercise.setValue(true);
-                        }
-                    }
-                });
+    private void hideEditSetFragment() {
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        EditSetFragment frag = (EditSetFragment) getChildFragmentManager().findFragmentByTag("EditSetFragment");
+        ft.hide(frag).commit();
+    }
 
-            }
+    private void showEditSetFragment() {
+        getChildFragmentManager().beginTransaction().show((EditSetFragment) getChildFragmentManager().findFragmentByTag("EditSetFragment")).commit();
 
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Hello", Toast.LENGTH_LONG).show();
-                startActivityForResult(PerformedExerciseEditActivity.newIntent(getContext(), mPerformedExercise.getKey().getmId()), RequestCodes.REQUEST_CODE_EDIT_PERFORMED_EXERCISE);
-            }
-        }
     }
 }

@@ -130,7 +130,7 @@ public class PerformedExerciseEditActivity extends AppCompatActivity implements 
         if (mPerformedExercise.getSets() == null || mPerformedExercise.getSets().size() == 0) {
             // Check to see if any sets were performed
             // if so, return that last set
-            return null;
+            return new Set(0,0) ;
         }
         else {
             return mPerformedExercise.getSets().get(mPerformedExercise.getSets().size() - 1);

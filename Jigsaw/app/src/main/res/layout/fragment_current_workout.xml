@@ -88,5 +88,13 @@
             fab:fab_label="@string/fab_add_routine" />
     </com.github.clans.fab.FloatingActionMenu>
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_current_workout_edit_set_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 
 </android.support.constraint.ConstraintLayout>
