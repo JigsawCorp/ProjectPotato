@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,7 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CurrentWorkoutFragment extends Fragment {
+public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.OnSetModifiedListener {
     private String TAG = "CurrentWorkoutFragment";
     // View
     private FloatingActionMenu menuCreate;
@@ -56,6 +58,7 @@ public class CurrentWorkoutFragment extends Fragment {
     private FloatingActionButton fab3;
     private RecyclerView mPerformedExercisesRecyclerView;
     private Workout mWorkout;
+    private ConstraintLayout mEditSetContainer;
 
     private TextView mWarningTextView;
 
@@ -65,6 +68,7 @@ public class CurrentWorkoutFragment extends Fragment {
     // Controller
     private Callbacks mCallbacks;
     private PerformedExerciseAdapter mAdapter;
+    private EditSetFragment mEditSetFragment;
 
     public interface Callbacks {
         public void onPerformedExerciseDeleted(PerformedExercise performedExercise);
@@ -121,19 +125,17 @@ public class CurrentWorkoutFragment extends Fragment {
 
         mPerformedExercisesRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_current_workout_recycler_view);
         mPerformedExercisesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment_current_workout_edit_set_container, new EditSetFragment(), "EditSetFragment").commit();
-
-
-
-
-
+        mEditSetContainer = (ConstraintLayout) v.findViewById(R.id.fragment_current_workout_edit_set_container);
+        mEditSetFragment = new EditSetFragment();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment_current_workout_edit_set_container, mEditSetFragment, "EditSetFragment").commit();
+        mEditSetContainer.setVisibility(View.INVISIBLE);
         return v;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        hideEditSetFragment();
         getActivity().setTitle("Current Workout");
         updateUI();
         menuCreate.close(false);
@@ -197,6 +199,11 @@ public class CurrentWorkoutFragment extends Fragment {
 
     }
 
+    @Override
+    public void onSetChanged(Set set) {
+        mAdapter.updateSelectedSet(set);
+    }
+
     private void enableNoAcriveWorkoutWarning(boolean needWarning) {
         if (!needWarning) {
             mWarningTextView.setVisibility(View.GONE);
@@ -227,6 +234,19 @@ public class CurrentWorkoutFragment extends Fragment {
                 public void onExerciseClicked(PerformedExercise performedExercise) {
                     startActivityForResult(PerformedExerciseEditActivity.newIntent(getContext(), performedExercise.getmId()), RequestCodes.REQUEST_CODE_EDIT_PERFORMED_EXERCISE);
                 }
+
+                @Override
+                public void onSetClicked(Set set, Boolean sameSet) {
+                    if (sameSet) {
+                        hideEditSetFragment();
+                    }
+                    else {
+                        if (mEditSetContainer.getVisibility() == View.INVISIBLE) {
+                            showEditSetFragment();
+                        }
+                        mEditSetFragment.setSet(set);
+                    }
+                }
             });
             SwipeAndDragHelper swipeAndDragHelper = new SwipeAndDragHelper(mAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(swipeAndDragHelper);
@@ -244,6 +264,7 @@ public class CurrentWorkoutFragment extends Fragment {
     private void saveUI() {
         UserLab.get(getContext()).updateUser(mUser);
         if (mWorkout != null) {
+            PerformedExerciseLab.get(getContext()).updatePerformedExercises(mAdapter.getPerformedExercises());
             mWorkout.setPerformedExercises(PerformedExercise.toUUIDs(((PerformedExerciseAdapter) mPerformedExercisesRecyclerView.getAdapter()).getPerformedExercises()));
 
             WorkoutLab.get(getContext()).updateWorkout(mWorkout);
@@ -318,17 +339,46 @@ public class CurrentWorkoutFragment extends Fragment {
 
     public interface OnPerformedExerciseListEventListener {
         void onExerciseClicked(PerformedExercise performedExercise);
+        void onSetClicked(Set set, Boolean sameSet);
     }
 
 
     private void hideEditSetFragment() {
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        EditSetFragment frag = (EditSetFragment) getChildFragmentManager().findFragmentByTag("EditSetFragment");
-        ft.hide(frag).commit();
+       // mBottomNavigationView.setVisibility(View.VISIBLE);
+        //mEditSetContainer.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,  // fromYDelta
+                mEditSetContainer.getHeight());                // toYDelta
+        animate.setDuration(500);
+       // animate.setFillAfter(true);
+
+        TranslateAnimation animate1 = new TranslateAnimation(0,0,mBottomNavigationView.getHeight(),0);
+        animate1.setDuration(500);
+       // animate1.setFillAfter(true);
+        mBottomNavigationView.startAnimation(animate1);
+        mEditSetContainer.startAnimation(animate);
+        mBottomNavigationView.setVisibility(View.VISIBLE);
+        mEditSetContainer.setVisibility(View.INVISIBLE);
     }
 
     private void showEditSetFragment() {
-        getChildFragmentManager().beginTransaction().show((EditSetFragment) getChildFragmentManager().findFragmentByTag("EditSetFragment")).commit();
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                mEditSetContainer.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(500);
+        //animate.setFillAfter(true);
 
+        TranslateAnimation animate1 = new TranslateAnimation(0,0,0,mBottomNavigationView.getHeight());
+        animate1.setDuration(500);
+        //animate1.setFillAfter(true);
+        mBottomNavigationView.startAnimation(animate1);
+        mEditSetContainer.startAnimation(animate);
+        mBottomNavigationView.setVisibility(View.INVISIBLE);
+        mEditSetContainer.setVisibility(View.VISIBLE);
     }
+
 }

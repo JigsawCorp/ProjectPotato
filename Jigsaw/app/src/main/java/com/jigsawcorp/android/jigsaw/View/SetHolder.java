@@ -14,6 +14,7 @@ public class SetHolder {
     private TextView mWeightTextView;
     private TextView mRepsTextView;
 
+
     public static View getViewFromSet(LayoutInflater inflater, final Context context, Set set) {
         View setView = inflater.inflate(R.layout.list_item_set, null);
 
@@ -28,13 +29,12 @@ public class SetHolder {
         mWeightTextView.setText(String.valueOf(set.getWeight()));
         mRepsTextView.setText(String.valueOf(set.getReps()));
 
-        setView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.setBackgroundColor(context.getResources().getColor(R.color.caldroid_sky_blue));
-            }
-        });
-
         return setView;
     }
+
+    public static void replaceSetHolder(View v, Set set) {
+        ((TextView) v.findViewById(R.id.list_item_set_weight)).setText(String.valueOf(set.getWeight()));
+        ((TextView) v.findViewById(R.id.list_item_set_reps)).setText(String.valueOf(set.getReps()));
+    }
+
 }

@@ -94,6 +94,12 @@ public class PerformedExerciseLab {
         mDatabase.update(DatabaseSchema.PerformedExerciseTable.NAME, values, DatabaseSchema.PerformedExerciseTable.Cols.UUID + " = ?", new String[] { performedExercise.getmId().toString()});
     }
 
+    public void updatePerformedExercises(List<PerformedExercise> performedExercises) {
+        for (PerformedExercise exercise : performedExercises) {
+            updatePerformedExercise(exercise);
+        }
+    }
+
     private PerformedExerciseCursorWrapper queryPerformedExercises(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 DatabaseSchema.PerformedExerciseTable.NAME,

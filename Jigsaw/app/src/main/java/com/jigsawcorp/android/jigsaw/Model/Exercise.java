@@ -36,7 +36,6 @@ public class Exercise {
         mId = UUID.randomUUID();
         mPerformedExercisesIds = new ArrayList<>();
        // mPerformedExerciseLab = PerformedExerciseLab.get
-        Log.i("Exercise: " + name, "Small constructor");
     }
 
     public Exercise(UUID id, String name, String category) {
@@ -45,7 +44,6 @@ public class Exercise {
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
         mCategory = category;
         mId = id;
-        Log.i("Exercise: " + name, "Big constructor");
     }
 
     // Constructor from the database
@@ -56,7 +54,6 @@ public class Exercise {
         mCategory = category;
         mId = id;
         mPerformedExercisesIds = performedExercises;
-        Log.i("Exercise: " + name, "Bigger constructor");
     }
 
     public String getName() {

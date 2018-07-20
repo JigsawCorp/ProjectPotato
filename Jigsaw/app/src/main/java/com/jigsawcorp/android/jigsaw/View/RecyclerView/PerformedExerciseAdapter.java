@@ -2,6 +2,7 @@ package com.jigsawcorp.android.jigsaw.View.RecyclerView;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
     private List<AbstractMap.SimpleEntry<PerformedExercise, Boolean>> mPerformedExercises = new ArrayList<>();
     private Context mContext;
     private CurrentWorkoutFragment.OnPerformedExerciseListEventListener mListener;
+    private View mSelectedSetView;
+    private Set mSelectedSet;
 
     public PerformedExerciseAdapter(List<PerformedExercise> performedExercises, Context context) {
         for (PerformedExercise exercise : performedExercises) {
@@ -79,6 +82,13 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
         mListener = listener;
     }
 
+
+    public void updateSelectedSet(Set set) {
+        SetHolder.replaceSetHolder(mSelectedSetView, set);
+        mSelectedSet.setReps(set.getReps());
+        mSelectedSet.setWeight(set.getWeight());
+    }
+
     class PerformedExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected AbstractMap.SimpleEntry<PerformedExercise, Boolean> mPerformedExercise;
 
@@ -105,10 +115,30 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             mSetsContainer.setVisibility(performedExercise.getValue() ? View.VISIBLE : View.GONE);
             mSetsContainer.removeAllViews();
 
-            for (Set set : mPerformedExercise.getKey().getSets()) {
+            for (final Set set : mPerformedExercise.getKey().getSets()) {
                 // View set = getLayoutInflater().inflate(R.layout.list_item_set, null);
-
-                mSetsContainer.addView(SetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext,set));
+                View setHolder = SetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext,set);
+                setHolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (view == mSelectedSetView) {
+                            view.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+                            mListener.onSetClicked(set, true);
+                            mSelectedSetView = null;
+                            mSelectedSet = null;
+                        }
+                        else {
+                            if (mSelectedSetView != null) {
+                                mSelectedSetView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+                            }
+                            view.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
+                            mListener.onSetClicked(set, false);
+                            mSelectedSetView = view;
+                            mSelectedSet = set;
+                        }
+                    }
+                });
+                mSetsContainer.addView(setHolder);
 
             }
             mExpandButton.setOnClickListener(new View.OnClickListener() {

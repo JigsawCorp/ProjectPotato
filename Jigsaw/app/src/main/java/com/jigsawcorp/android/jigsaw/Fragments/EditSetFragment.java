@@ -95,17 +95,30 @@ public class EditSetFragment extends Fragment {
             }
         });
 
+        v.bringToFront();
         return v;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            mListener = (OnSetModifiedListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnArticleSelectedListener");
-        }
+            if (context instanceof OnSetModifiedListener) {
+                mListener = (OnSetModifiedListener) context;
+            }
+            else {
+                if (getParentFragment() != null && getParentFragment() instanceof OnSetModifiedListener) {
+                    mListener = (OnSetModifiedListener) getParentFragment();
+                }
+                else {
+                    throw new ClassCastException(context.toString() + " must implement OnArticleSelectedListener");
+                }
+            }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     public void setSet(Set set) {
