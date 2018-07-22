@@ -94,8 +94,7 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
     class PerformedExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected AbstractMap.SimpleEntry<PerformedExercise, Boolean> mPerformedExercise;
 
-        protected TextView mTitleTextView;
-        protected TextView mPositionNumberingTextView;
+        protected TextView mTitleTextView, mPositionNumberingTextView, mAddSetTextView;
         protected Button mExpandButton;
         protected LinearLayout mSetsContainer;
         protected Button mAddSetButton;
@@ -109,6 +108,7 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             mExpandButton = (Button) itemView.findViewById(R.id.list_item_performed_exercise_expand_button);
             mSetsContainer = (LinearLayout) itemView.findViewById(R.id.list_item_performed_exercise_sets_container);
             mAddSetButton = (Button) itemView.findViewById(R.id.list_item_performed_exercise_button_add_set);
+            mAddSetTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_text_view_add_set);
         }
 
 
@@ -127,10 +127,14 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
                 public void onClick(View view) {
                     if (performedExercise.getValue()) {
                         mSetsContainer.setVisibility(View.GONE);
+                        mAddSetButton.setVisibility(View.GONE);
+                        mAddSetTextView.setVisibility(View.GONE);
                         performedExercise.setValue(false);
                     }
                     else {
                         mSetsContainer.setVisibility(View.VISIBLE);
+                        mAddSetButton.setVisibility(View.VISIBLE);
+                        mAddSetTextView.setVisibility(View.VISIBLE);
                         performedExercise.setValue(true);
                     }
                 }
@@ -148,9 +152,8 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
                     else {
                         newSet = mPerformedExercise.getKey().getSets().get(mPerformedExercise.getKey().getSets().size() - 1);
                     }
-                    mSelectedSet = newSet;
-                    mSelectedSetView = addSet(newSet);
-                    mSelectedSetView.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
+                    mPerformedExercise.getKey().addSet(newSet);
+                    selectSetHolder(addSet(newSet), newSet);
                     mListener.onNewSetClicked(newSet);
                 }
             });
@@ -168,25 +171,29 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             setHolder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (view == mSelectedSetView) {
-                        view.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-                        mListener.onSetClicked(set, true);
-                        mSelectedSetView = null;
-                        mSelectedSet = null;
-                    }
-                    else {
-                        if (mSelectedSetView != null) {
-                            mSelectedSetView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-                        }
-                        view.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
-                        mListener.onSetClicked(set, false);
-                        mSelectedSetView = view;
-                        mSelectedSet = set;
-                    }
+                    selectSetHolder(view, set);
                 }
             });
             mSetsContainer.addView(setHolder);
             return setHolder;
+        }
+
+        private void selectSetHolder(View view, Set set) {
+            if (view == mSelectedSetView) {
+                view.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+                mListener.onSetClicked(set, true);
+                mSelectedSetView = null;
+                mSelectedSet = null;
+            }
+            else {
+                if (mSelectedSetView != null) {
+                    mSelectedSetView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+                }
+                view.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
+                mListener.onSetClicked(set, false);
+                mSelectedSetView = view;
+                mSelectedSet = set;
+            }
         }
     }
 }
