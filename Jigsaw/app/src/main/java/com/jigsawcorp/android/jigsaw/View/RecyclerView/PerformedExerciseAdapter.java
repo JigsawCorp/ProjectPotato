@@ -1,6 +1,7 @@
 package com.jigsawcorp.android.jigsaw.View.RecyclerView;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.jigsawcorp.android.jigsaw.Activities.PerformedExerciseEditActivity;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.Set;
 import com.jigsawcorp.android.jigsaw.R;
@@ -96,6 +98,7 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
         protected TextView mPositionNumberingTextView;
         protected Button mExpandButton;
         protected LinearLayout mSetsContainer;
+        protected Button mAddSetButton;
 
         public PerformedExerciseHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_performed_exercise, parent, false));
@@ -105,6 +108,7 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             mPositionNumberingTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_position_indicator);
             mExpandButton = (Button) itemView.findViewById(R.id.list_item_performed_exercise_expand_button);
             mSetsContainer = (LinearLayout) itemView.findViewById(R.id.list_item_performed_exercise_sets_container);
+            mAddSetButton = (Button) itemView.findViewById(R.id.list_item_performed_exercise_button_add_set);
         }
 
 
@@ -116,30 +120,7 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             mSetsContainer.removeAllViews();
 
             for (final Set set : mPerformedExercise.getKey().getSets()) {
-                // View set = getLayoutInflater().inflate(R.layout.list_item_set, null);
-                View setHolder = SetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext,set);
-                setHolder.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (view == mSelectedSetView) {
-                            view.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-                            mListener.onSetClicked(set, true);
-                            mSelectedSetView = null;
-                            mSelectedSet = null;
-                        }
-                        else {
-                            if (mSelectedSetView != null) {
-                                mSelectedSetView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-                            }
-                            view.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
-                            mListener.onSetClicked(set, false);
-                            mSelectedSetView = view;
-                            mSelectedSet = set;
-                        }
-                    }
-                });
-                mSetsContainer.addView(setHolder);
-
+                addSet(set);
             }
             mExpandButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -155,12 +136,57 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
                 }
             });
 
+            mAddSetButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Set newSet;
+                    if (mPerformedExercise.getKey().getSets() == null || mPerformedExercise.getKey().getSets().size() == 0) {
+                        // Check to see if any sets were performed
+                        // if so, return that last set
+                        newSet = new Set(0,0) ;
+                    }
+                    else {
+                        newSet = mPerformedExercise.getKey().getSets().get(mPerformedExercise.getKey().getSets().size() - 1);
+                    }
+                    mSelectedSet = newSet;
+                    mSelectedSetView = addSet(newSet);
+                    mSelectedSetView.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
+                    mListener.onNewSetClicked(newSet);
+                }
+            });
+
         }
 
         @Override
         public void onClick(View view) {
             Toast.makeText(mContext, "Hello", Toast.LENGTH_LONG).show();
             mListener.onExerciseClicked(mPerformedExercise.getKey());
+        }
+
+        private View addSet(final Set set) {
+            View setHolder = SetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext,set);
+            setHolder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (view == mSelectedSetView) {
+                        view.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+                        mListener.onSetClicked(set, true);
+                        mSelectedSetView = null;
+                        mSelectedSet = null;
+                    }
+                    else {
+                        if (mSelectedSetView != null) {
+                            mSelectedSetView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+                        }
+                        view.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
+                        mListener.onSetClicked(set, false);
+                        mSelectedSetView = view;
+                        mSelectedSet = set;
+                    }
+                }
+            });
+            mSetsContainer.addView(setHolder);
+            return setHolder;
         }
     }
 }
