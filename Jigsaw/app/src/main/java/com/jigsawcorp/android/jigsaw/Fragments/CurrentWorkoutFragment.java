@@ -19,6 +19,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -84,6 +87,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle onSavedInstanceState) {
+        Log.i(TAG, "onCreateView()");
         View v = inflater.inflate(R.layout.fragment_current_workout, container, false);
 
         mUser = UserLab.get(getContext()).getUser();
@@ -109,6 +113,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Log.i(TAG, "clicked");
                 switch (menuItem.getItemId()) {
                     case R.id.bottom_navigation_current_workout:
                         break;
@@ -129,13 +134,31 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         mEditSetFragment = new EditSetFragment();
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_current_workout_edit_set_container, mEditSetFragment, "EditSetFragment").commit();
         mEditSetContainer.setVisibility(View.INVISIBLE);
+        final ViewTreeObserver vto = mEditSetContainer.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mEditSetContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                mEditSetContainer.setVisibility(View.GONE);
+            }
+        });
         return v;
     }
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        hideEditSetFragment();
+
+        if (mEditSetContainer.getVisibility() == View.VISIBLE) {
+            hideEditSetFragment();
+        }
         getActivity().setTitle("Current Workout");
         updateUI();
         menuCreate.close(false);
@@ -237,11 +260,12 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
 
                 @Override
                 public void onSetClicked(Set set, Boolean sameSet) {
+                    Log.i(TAG, "onSetClicked(), the visibility is " + mEditSetContainer.getVisibility());
                     if (sameSet) {
                         hideEditSetFragment();
                     }
                     else {
-                        if (mEditSetContainer.getVisibility() == View.INVISIBLE) {
+                        if (mEditSetContainer.getVisibility() == View.GONE || mEditSetContainer.getVisibility() == View.INVISIBLE) {
                             showEditSetFragment();
                         }
                         mEditSetFragment.setSet(set);
@@ -344,8 +368,6 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
 
 
     private void hideEditSetFragment() {
-       // mBottomNavigationView.setVisibility(View.VISIBLE);
-        //mEditSetContainer.setVisibility(View.VISIBLE);
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
@@ -360,25 +382,36 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         mBottomNavigationView.startAnimation(animate1);
         mEditSetContainer.startAnimation(animate);
         mBottomNavigationView.setVisibility(View.VISIBLE);
-        mEditSetContainer.setVisibility(View.INVISIBLE);
+        mEditSetContainer.setVisibility(View.GONE);
     }
 
     private void showEditSetFragment() {
+        mEditSetContainer.setVisibility(View.INVISIBLE);
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
                 mEditSetContainer.getHeight(),  // fromYDelta
                 0);                // toYDelta
-        animate.setDuration(500);
-        //animate.setFillAfter(true);
+        animate.setDuration(1000);
+        animate.setFillAfter(true);
 
         TranslateAnimation animate1 = new TranslateAnimation(0,0,0,mBottomNavigationView.getHeight());
-        animate1.setDuration(500);
-        //animate1.setFillAfter(true);
+        animate1.setDuration(1000);
+
+        Animation anim = new ScaleAnimation(
+                1f, 1f, // Start and end values for the X axis scaling
+                1f, 0.8f, // Start and end values for the Y axis scaling
+                Animation.RELATIVE_TO_SELF, 0f, // Pivot point of X scaling
+                Animation.RELATIVE_TO_SELF, 1f); // Pivot point of Y scaling
+        anim.setFillAfter(true); // Needed to keep the result of the animation
+        anim.setDuration(1000);
+        animate1.setFillAfter(true);
+        mBottomNavigationView.setVisibility(View.GONE);
+        mEditSetContainer.setVisibility(View.VISIBLE);
         mBottomNavigationView.startAnimation(animate1);
         mEditSetContainer.startAnimation(animate);
-        mBottomNavigationView.setVisibility(View.INVISIBLE);
-        mEditSetContainer.setVisibility(View.VISIBLE);
+        mBottomNavigationView.clearAnimation();
+        //mPerformedExercisesRecyclerView.startAnimation(anim);
     }
 
 }

@@ -11,8 +11,8 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="48dp"
         android:background="@color/colorPrimary"
+        android:maxHeight="48dp"
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
@@ -29,10 +29,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:gravity="center"
-        android:text="@string/current_workout_fragment_warning_text"
         android:background="@color/white"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/current_workout_fragment_warning_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintBottom_toTopOf="@id/fragment_current_workout_barrier_recycler_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.clans.fab.FloatingActionMenu
@@ -52,7 +52,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_current_workout_barrier_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         fab:menu_animationDelayPerItem="0"
         fab:menu_colorNormal="#FFB805"
@@ -95,5 +95,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.Barrier
+        android:id="@+id/fragment_current_workout_barrier_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="bottom_navigation,fragment_current_workout_edit_set_container"/>
 
 </android.support.constraint.ConstraintLayout>

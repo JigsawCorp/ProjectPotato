@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class EditSetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle onSavedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_edit_set, container, false);
+        Log.i("EditSetFragment", "onCreateView");
         mWeightTextView = (EditText) v.findViewById(R.id.fragment_edit_set_edit_text_weight);
         mWeightTextView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -59,6 +61,7 @@ public class EditSetFragment extends Fragment {
         mAddWeightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("EditSetFragment", "addWeight");
                 mSet.setWeight(mSet.getWeight() + 5);
                 displaySet();
                 saveChanges();
@@ -69,6 +72,7 @@ public class EditSetFragment extends Fragment {
         mRemoveWeightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("EditSetFragment", "removeWeight");
                 mSet.setWeight(mSet.getWeight() - 5);
                 displaySet();
                 saveChanges();
@@ -95,7 +99,6 @@ public class EditSetFragment extends Fragment {
             }
         });
 
-        v.bringToFront();
         return v;
     }
 
