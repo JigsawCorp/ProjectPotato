@@ -4,17 +4,22 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema;
+import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseCursorWrapper;
 import com.jigsawcorp.android.jigsaw.Model.Workout;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
+
+import hirondelle.date4j.DateTime;
 
 public class WorkoutLab {
     private static WorkoutLab sWorkoutLab;
@@ -55,6 +60,30 @@ public class WorkoutLab {
         } finally {
             cursor.close();
         }
+    }
+
+    public List<Workout> getWorkout(DateTime date) {
+        //Log.i("Blyat", "Start day: " + date.getStartOfDay().getMilliseconds(TimeZone.getDefault()) + ", end day: " + date.getEndOfDay().getMilliseconds(TimeZone.getDefault()));
+        List<Workout> workouts = new ArrayList<>();
+        Cursor cursor = mDatabase.rawQuery(
+                "SELECT * FROM " + DatabaseSchema.WorkoutsTable.NAME+ " WHERE " + DatabaseSchema.WorkoutsTable.Cols.START_DATE + " > " + date.getStartOfDay().getMilliseconds(TimeZone.getDefault())
+                        + " AND " + DatabaseSchema.WorkoutsTable.Cols.START_DATE + " < " + date.getEndOfDay().getMilliseconds(TimeZone.getDefault()), null);
+        WorkoutCursorWrapper cursorWrapper = new WorkoutCursorWrapper(cursor, mContext);
+
+        try {
+            if (cursorWrapper.getCount() == 0) {
+                return workouts;
+            }
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()) {
+                workouts.add(cursorWrapper.getWorkout());
+                Log.i("Blyat", "Found " + cursorWrapper.getWorkout().getId());
+                cursorWrapper.moveToNext();
+            }
+        } finally {
+            cursorWrapper.close();
+        }
+        return workouts;
     }
 
     public List<Workout> getWorkouts() {

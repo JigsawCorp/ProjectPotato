@@ -10,10 +10,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
+import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
+import java.util.List;
 import java.util.Map;
 
 import hirondelle.date4j.DateTime;
@@ -114,8 +117,14 @@ public class CaldroidCustomAdapter extends CaldroidGridAdapter {
         // Set custom color if required
         setCustomResources(dateTime, cellView, dateTextView);
 
+        List<Workout> workouts = getWorkoutFromDate(dateTime);
+        if (workouts.size() > 0) {
+            Log.i("Suka", "Size is : " + workouts.size());
+        }
         return cellView;
     }
 
-    
+    private List<Workout> getWorkoutFromDate(DateTime date) {
+         return WorkoutLab.get(context).getWorkout(date);
+    }
 }
