@@ -15,7 +15,7 @@ public class SetHolder {
     private TextView mRepsTextView;
 
 
-    public static View getViewFromSet(LayoutInflater inflater, final Context context, Set set) {
+    public static View getViewFromSet(LayoutInflater inflater, final Context context, Set set, int index) {
         View setView = inflater.inflate(R.layout.list_item_set, null);
 
         TextView mPositionTextView;
@@ -28,6 +28,7 @@ public class SetHolder {
 
         mWeightTextView.setText(String.valueOf(set.getWeight()));
         mRepsTextView.setText(String.valueOf(set.getReps()));
+        mPositionTextView.setText(String.valueOf(index + 1));
 
         return setView;
     }

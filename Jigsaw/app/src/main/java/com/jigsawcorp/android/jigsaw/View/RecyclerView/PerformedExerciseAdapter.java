@@ -119,8 +119,8 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             mSetsContainer.setVisibility(performedExercise.getValue() ? View.VISIBLE : View.GONE);
             mSetsContainer.removeAllViews();
 
-            for (final Set set : mPerformedExercise.getKey().getSets()) {
-                addSet(set);
+            for (int i = 0; i < mPerformedExercise.getKey().getSets().size(); ++i) {
+                addSet(mPerformedExercise.getKey().getSets().get(i), i);
             }
             mExpandButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -148,7 +148,7 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
                         newSet = mPerformedExercise.getKey().getSets().get(mPerformedExercise.getKey().getSets().size() - 1);
                     }
                     mPerformedExercise.getKey().addSet(newSet);
-                    selectSetHolder(addSet(newSet), newSet);
+                    selectSetHolder(addSet(newSet, (mPerformedExercise.getKey().getSets().size() - 1)), newSet);
                    // mListener.onNewSetClicked(newSet);
                 }
             });
@@ -161,8 +161,8 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             mListener.onExerciseClicked(mPerformedExercise.getKey());
         }
 
-        private View addSet(final Set set) {
-            View setHolder = SetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext,set);
+        private View addSet(final Set set, int index) {
+            View setHolder = SetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext,set, index);
             setHolder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
