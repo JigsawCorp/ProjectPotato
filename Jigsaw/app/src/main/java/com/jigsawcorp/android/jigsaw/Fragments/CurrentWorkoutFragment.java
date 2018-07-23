@@ -303,6 +303,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         mUser.setActiveWorkout(null);
         UserLab.get(getContext()).updateUser(mUser);
         updateUI();
+        hideEditSetFragment();
     }
 
     public class SwipeAndDragHelper extends ItemTouchHelper.Callback {

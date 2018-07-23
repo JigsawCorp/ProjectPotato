@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw.Fragments;
+package com.jigsawcorp.android.jigsaw.Fragments.tab_history;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,7 +24,7 @@ public class HistoryCalendarTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
         Log.i(TAG,"onCreateView");
         View v = inflater.inflate(R.layout.fragment_history_calendar_tab, container, false);
-        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        CaldroidFragment caldroidFragment = new CaldroidCustomFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);

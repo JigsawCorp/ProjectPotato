@@ -1,20 +1,14 @@
 package com.jigsawcorp.android.jigsaw.Activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toolbar;
 
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
@@ -22,21 +16,14 @@ import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExercis
 import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
 import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.HistoryFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_history.HistoryFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.HomeFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.PlanFragment;
-import com.jigsawcorp.android.jigsaw.Model.Exercise;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.User;
-import com.jigsawcorp.android.jigsaw.Fragments.WorkoutLogFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Fragments.RoutinesFragment;
-import com.jigsawcorp.android.jigsaw.Util.SourceCodeHelp;
-
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks, CurrentWorkoutFragment.Callbacks {
 
