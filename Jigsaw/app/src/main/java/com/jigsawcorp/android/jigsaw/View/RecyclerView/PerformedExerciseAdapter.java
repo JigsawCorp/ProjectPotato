@@ -126,15 +126,10 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
                 @Override
                 public void onClick(View view) {
                     if (performedExercise.getValue()) {
-                        mSetsContainer.setVisibility(View.GONE);
-                        mAddSetButton.setVisibility(View.GONE);
-                        mAddSetTextView.setVisibility(View.GONE);
+                        toggleExpandSetContainer(false);
                         performedExercise.setValue(false);
                     }
-                    else {
-                        mSetsContainer.setVisibility(View.VISIBLE);
-                        mAddSetButton.setVisibility(View.VISIBLE);
-                        mAddSetTextView.setVisibility(View.VISIBLE);
+                    else {toggleExpandSetContainer(true);
                         performedExercise.setValue(true);
                     }
                 }
@@ -154,7 +149,7 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
                     }
                     mPerformedExercise.getKey().addSet(newSet);
                     selectSetHolder(addSet(newSet), newSet);
-                    mListener.onNewSetClicked(newSet);
+                   // mListener.onNewSetClicked(newSet);
                 }
             });
 
@@ -193,6 +188,19 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
                 mListener.onSetClicked(set, false);
                 mSelectedSetView = view;
                 mSelectedSet = set;
+            }
+        }
+
+        private void toggleExpandSetContainer(boolean toExpand) {
+            if (toExpand) {
+                mSetsContainer.setVisibility(View.VISIBLE);
+                mAddSetButton.setVisibility(View.VISIBLE);
+                mAddSetTextView.setVisibility(View.VISIBLE);
+            }
+            else {
+                mSetsContainer.setVisibility(View.GONE);
+                mAddSetButton.setVisibility(View.GONE);
+                mAddSetTextView.setVisibility(View.GONE);
             }
         }
     }

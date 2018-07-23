@@ -271,12 +271,6 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
                         mEditSetFragment.setSet(set);
                     }
                 }
-
-                @Override
-                public void onNewSetClicked(Set set) {
-                    showEditSetFragment();
-                    mEditSetFragment.setSet(set);
-                }
             });
             SwipeAndDragHelper swipeAndDragHelper = new SwipeAndDragHelper(mAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(swipeAndDragHelper);
@@ -370,7 +364,6 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
     public interface OnPerformedExerciseListEventListener {
         void onExerciseClicked(PerformedExercise performedExercise);
         void onSetClicked(Set set, Boolean sameSet);
-        void onNewSetClicked(Set set);
     }
 
 
