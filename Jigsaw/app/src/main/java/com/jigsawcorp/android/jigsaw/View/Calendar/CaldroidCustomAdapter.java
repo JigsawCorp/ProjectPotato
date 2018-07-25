@@ -15,6 +15,7 @@ import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
+import com.roomorama.caldroid.CalendarHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -22,11 +23,11 @@ import java.util.Map;
 import hirondelle.date4j.DateTime;
 
 public class CaldroidCustomAdapter extends CaldroidGridAdapter {
-
     public CaldroidCustomAdapter(Context context, int month, int year,
                                  Map<String, Object> caldroidData,
                                  Map<String, Object> extraData) {
         super(context, month, year, caldroidData, extraData);
+        Log.i("CaldroidAdapter", "CaldroidCustomAdapter");
     }
 
     @Override
@@ -127,4 +128,11 @@ public class CaldroidCustomAdapter extends CaldroidGridAdapter {
     private List<Workout> getWorkoutFromDate(DateTime date) {
          return WorkoutLab.get(context).getWorkout(date);
     }
+
+    @Override
+    public void setAdapterDateTime(DateTime dateTime) {
+        super.setAdapterDateTime(dateTime);
+        Log.i("CaldroidAdapter", "setAdapterDateTime()");
+    }
+
 }
