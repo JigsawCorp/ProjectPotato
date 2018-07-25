@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
 import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
@@ -17,17 +20,24 @@ import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.roomorama.caldroid.CalendarHelper;
 
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
 public class CaldroidCustomAdapter extends CaldroidGridAdapter {
+    private Multimap<Long, Workout> mWorkoutsMap = ArrayListMultimap.create();
+
     public CaldroidCustomAdapter(Context context, int month, int year,
                                  Map<String, Object> caldroidData,
                                  Map<String, Object> extraData) {
         super(context, month, year, caldroidData, extraData);
         Log.i("CaldroidAdapter", "CaldroidCustomAdapter");
+        populateWorkoutList();
     }
 
     @Override
@@ -105,10 +115,14 @@ public class CaldroidCustomAdapter extends CaldroidGridAdapter {
         }
 
         dateTextView.setText("" + dateTime.getDay());
-        View view = new CategoryIndicatorCircle(context);
-        view.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
         catogryLayout.removeAllViews();
-        catogryLayout.addView(view);
+
+        if(mWorkoutsMap.containsKey(datetimeList.get(position).getStartOfDay().getMilliseconds(TimeZone.getDefault()) / 1000)) {
+            Collection<Workout> workouts = mWorkoutsMap.get(datetimeList.get(position).getStartOfDay().getMilliseconds(TimeZone.getDefault()) / 1000);
+            View view = new CategoryIndicatorCircle(context);
+            view.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
+            catogryLayout.addView(view);
+        }
 
         // Somehow after setBackgroundResource, the padding collapse.
         // This is to recover the padding
@@ -119,9 +133,6 @@ public class CaldroidCustomAdapter extends CaldroidGridAdapter {
         setCustomResources(dateTime, cellView, dateTextView);
 
         List<Workout> workouts = getWorkoutFromDate(dateTime);
-        if (workouts.size() > 0) {
-            Log.i("Suka", "Size is : " + workouts.size());
-        }
         return cellView;
     }
 
@@ -132,7 +143,23 @@ public class CaldroidCustomAdapter extends CaldroidGridAdapter {
     @Override
     public void setAdapterDateTime(DateTime dateTime) {
         super.setAdapterDateTime(dateTime);
-        Log.i("CaldroidAdapter", "setAdapterDateTime()");
+        populateWorkoutList();
     }
+
+    private void populateWorkoutList() {
+        List<Workout> workouts = WorkoutLab.get(context).getWorkouts(datetimeList.get(0), datetimeList.get(datetimeList.size() - 1));
+        for (int i = 0; i < workouts.size(); ++i) {
+            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+            calendar.setTime(workouts.get(i).getStartDate());
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DATE);
+            calendar.set(year, month, day, 0, 0, 0);
+            mWorkoutsMap.put(calendar.getTimeInMillis() / 1000, workouts.get(i));
+        }
+
+
+    }
+
 
 }

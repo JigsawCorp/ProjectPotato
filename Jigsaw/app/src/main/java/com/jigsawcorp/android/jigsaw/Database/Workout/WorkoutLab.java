@@ -119,6 +119,29 @@ public class WorkoutLab {
         return workouts;
     }
 
+    public List<Workout> getWorkouts(DateTime startDay, DateTime endDay) {
+        List<Workout> workouts = new ArrayList<>();
+        Cursor cursor = mDatabase.rawQuery(
+                "SELECT * FROM " + DatabaseSchema.WorkoutsTable.NAME+ " WHERE " + DatabaseSchema.WorkoutsTable.Cols.START_DATE + " > " + startDay.getStartOfDay().getMilliseconds(TimeZone.getDefault())
+                        + " AND " + DatabaseSchema.WorkoutsTable.Cols.START_DATE + " < " + endDay.getEndOfDay().getMilliseconds(TimeZone.getDefault()), null);
+        WorkoutCursorWrapper cursorWrapper = new WorkoutCursorWrapper(cursor, mContext);
+
+        try {
+            if (cursorWrapper.getCount() == 0) {
+                return workouts;
+            }
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()) {
+                workouts.add(cursorWrapper.getWorkout());
+                Log.i("Blyat", "Found " + cursorWrapper.getWorkout().getId());
+                cursorWrapper.moveToNext();
+            }
+        } finally {
+            cursorWrapper.close();
+        }
+        return workouts;
+    }
+
     public List<Workout> getWorkouts() {
         List<Workout> workouts = new ArrayList<>();
 
