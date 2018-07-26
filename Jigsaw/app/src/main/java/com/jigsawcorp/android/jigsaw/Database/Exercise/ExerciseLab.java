@@ -99,7 +99,7 @@ public class ExerciseLab {
         ContentValues values = new ContentValues();
         values.put(DatabaseSchema.ExercisesTable.Cols.UUID, exercise.getId().toString());
         values.put(DatabaseSchema.ExercisesTable.Cols.NAME, exercise.getName());
-        values.put(DatabaseSchema.ExercisesTable.Cols.CATEGORY, exercise.getCategory());
+        values.put(DatabaseSchema.ExercisesTable.Cols.CATEGORY, exercise.getCategory().name());
         values.put(DatabaseSchema.ExercisesTable.Cols.PERFORMED_EXERCISES, new Gson().toJson(exercise.getPerformedExercises()));
         return values;
     }

@@ -18,6 +18,7 @@ public class SourceCodeHelp {
         defaultExercises.add(new Exercise("Tricep Pushdown", "Triceps" ));
         defaultExercises.add(new Exercise("Bicep Dumbell curl", "Biceps"));
         defaultExercises.add(new Exercise("Ab Crunch", "Abs" ));
+        defaultExercises.add(new Exercise("allah", "chest"));
         String mJsonResponse = new Gson().toJson(defaultExercises);
         try {
             FileWriter file = new FileWriter("defaultExercises.json");

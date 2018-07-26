@@ -24,6 +24,7 @@ import com.jigsawcorp.android.jigsaw.Model.User;
 import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Fragments.RoutinesFragment;
+import com.jigsawcorp.android.jigsaw.Util.SourceCodeHelp;
 
 public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks, CurrentWorkoutFragment.Callbacks {
 

@@ -25,20 +25,21 @@ public class Exercise {
     private String mName;
     //private String[] mMajorBodyPartsTargeted;
     //private String[] mMinorBodyPartsTargeted;
-    private String mCategory;
+    private BodyPart mCategory;
     private List<UUID> mPerformedExercisesIds;
+
     // Constructor from Json file
     public Exercise(String name, String category) {
         mName = name;
         //mMajorBodyPartsTargeted = majorBodyPartsTargeted;
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
-        mCategory = category;
+        mCategory = BodyPart.valueOf(category.toUpperCase());
         mId = UUID.randomUUID();
         mPerformedExercisesIds = new ArrayList<>();
        // mPerformedExerciseLab = PerformedExerciseLab.get
     }
 
-    public Exercise(UUID id, String name, String category) {
+    public Exercise(UUID id, String name, BodyPart category) {
         mName = name;
         //mMajorBodyPartsTargeted = majorBodyPartsTargeted;
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
@@ -47,7 +48,7 @@ public class Exercise {
     }
 
     // Constructor from the database
-    public Exercise(UUID id, String name, String category, List<UUID> performedExercises) {
+    public Exercise(UUID id, String name, BodyPart category, List<UUID> performedExercises) {
         mName = name;
         //mMajorBodyPartsTargeted = majorBodyPartsTargeted;
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
@@ -68,11 +69,11 @@ public class Exercise {
         mName = name;
     }
 
-    public String getCategory() {
+    public BodyPart getCategory() {
         return mCategory;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(BodyPart category) {
         mCategory = category;
     }
 
@@ -110,5 +111,36 @@ public class Exercise {
         return  (List<Exercise>) gson.fromJson(jsonString, new TypeToken<ArrayList<Exercise>>(){}.getType());
     }
 
-
+    public static BodyPart getBodyPartFromString(String string) {
+        string = string.toLowerCase();
+        try {
+            switch (string) {
+                case "abs":
+                    return BodyPart.ABS;
+                case "back":
+                    return BodyPart.BACK;
+                case "biceps":
+                    return BodyPart.BICEPS;
+                case "calves":
+                    return BodyPart.CALVES;
+                case "cardio":
+                    return BodyPart.CARDIO;
+                case "chest":
+                    return BodyPart.CHEST;
+                case "forearms":
+                    return BodyPart.FOREARMS;
+                case "legs":
+                    return BodyPart.LEGS;
+                case "shoulders":
+                    return BodyPart.SHOULDERS;
+                case "triceps":
+                    return BodyPart.TRICEPS;
+                default:
+                    throw new IOException(string + " is not a valid bodypart category");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

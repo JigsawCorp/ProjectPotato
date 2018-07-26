@@ -26,7 +26,7 @@ public class ExerciseCursorWrapper extends CursorWrapper {
         Exercise exercise = new Exercise(
                 UUID.fromString(getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.UUID))),
                 getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.NAME)),
-                getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.CATEGORY)),
+                Exercise.BodyPart.valueOf(getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.CATEGORY))),
                 (List<UUID>) new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.PERFORMED_EXERCISES)), new TypeToken<ArrayList<UUID>>(){}.getType()));
         return exercise;
     }

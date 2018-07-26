@@ -64,6 +64,5 @@ public class HistoryCalendarTab extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG,"onResume");
     }
 }
