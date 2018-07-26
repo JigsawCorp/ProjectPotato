@@ -76,6 +76,28 @@ public class ExerciseLab {
         return exercises;
     }
 
+    public List<Exercise> getExercises(String bodyPart) {
+        List<Exercise> exercises = new ArrayList<>();
+
+        ExerciseCursorWrapper cursor = queryCrimes(DatabaseSchema.ExercisesTable.Cols.CATEGORY + " = ?", new String[] {bodyPart});
+
+        try {
+            if (cursor.getCount() == 0) {
+                return  exercises;
+            }
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                exercises.add(cursor.getExercise());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+        return exercises;
+
+    }
+
     public void updateExercise(Exercise exercise) {
         String uuidString = exercise.getId().toString();
         ContentValues values = getContentValues(exercise);

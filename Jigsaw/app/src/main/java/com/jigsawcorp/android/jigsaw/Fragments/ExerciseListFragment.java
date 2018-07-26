@@ -36,6 +36,10 @@ public class ExerciseListFragment extends Fragment {
         return v;
     }
 
+    public void updateAdapterExercises(List<Exercise> exercises) {
+        ((ExerciseAdapter) mExerciseRecyclerView.getAdapter()).setExercises(exercises);
+    }
+
     private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected Exercise mExercise;
 
@@ -93,6 +97,7 @@ public class ExerciseListFragment extends Fragment {
 
         public void setExercises(List<Exercise> exercises) {
             mExercises = exercises;
+            notifyDataSetChanged();
         }
 
     }

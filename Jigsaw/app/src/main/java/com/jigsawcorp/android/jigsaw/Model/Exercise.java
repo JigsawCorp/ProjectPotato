@@ -45,6 +45,7 @@ public class Exercise {
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
         mCategory = category;
         mId = id;
+        mPerformedExercisesIds = new ArrayList<>();
     }
 
     // Constructor from the database

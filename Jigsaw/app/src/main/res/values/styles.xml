@@ -43,4 +43,13 @@
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
 
+    <style name="ActionBarSkyBlue" parent="@style/Theme.AppCompat.Light">
+        <item name="android:background">@color/skyblue5</item>
+        <item name="android:color">@color/skyblue5</item>
+    </style>
+
+    <style name="ThemeNoActionBarSkyBlue" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/skyblue5</item>
+        <item name="android:color">@color/skyblue5</item>
+    </style>
 </resources>

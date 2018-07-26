@@ -45,6 +45,10 @@ public class SelectableExerciseListFragment extends Fragment {
         return v;
     }
 
+    public void updateAdapterExercises(List<Exercise> exercises) {
+        ((ExerciseAdapter) mExerciseRecyclerView.getAdapter()).setExercises(exercises);
+    }
+
 
     private class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseHolder> {
         public Set<UUID> mSelectedExercises = new HashSet<>();
@@ -72,6 +76,7 @@ public class SelectableExerciseListFragment extends Fragment {
 
         public void setExercises(List<Exercise> exercises) {
             mExercises = exercises;
+            notifyDataSetChanged();
         }
 
 
