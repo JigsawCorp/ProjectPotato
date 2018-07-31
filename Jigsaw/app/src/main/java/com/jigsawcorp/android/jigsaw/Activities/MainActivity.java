@@ -23,8 +23,7 @@ import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.User;
 import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
 import com.jigsawcorp.android.jigsaw.R;
-import com.jigsawcorp.android.jigsaw.Fragments.RoutinesFragment;
-import com.jigsawcorp.android.jigsaw.Util.SourceCodeHelp;
+import com.jigsawcorp.android.jigsaw.Fragments.ProgramsFragment;
 
 public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks, CurrentWorkoutFragment.Callbacks {
 
@@ -93,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
                             case R.id.nav_current_workout:
                                 changeFragment(new CurrentWorkoutFragment(), "Current Workout");
                                 break;
-                            case R.id.nav_routines:
-                                changeFragment(new RoutinesFragment(), "Routines");
+                            case R.id.nav_programs:
+                                changeFragment(new ProgramsFragment(), "Programs");
                                 break;
                             case R.id.nav_plan:
                                 changeFragment(new PlanFragment(), "Plan");
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
                     case 1:
                         return new CurrentWorkoutFragment();
                     case 2:
-                        return new RoutinesFragment();
+                        return new ProgramsFragment();
                     case 3:
                         return new PlanFragment();
                     case 4:
@@ -172,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
         });*/
         //setToolbarTitle(0);
 //        mViewPager.setCurrentItem(0);
+        changeFragment(new HomeFragment(), "Home");
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

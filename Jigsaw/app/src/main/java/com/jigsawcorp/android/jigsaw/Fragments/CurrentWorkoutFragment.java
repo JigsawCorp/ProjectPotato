@@ -62,6 +62,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
     private RecyclerView mPerformedExercisesRecyclerView;
     private Workout mWorkout;
     private ConstraintLayout mEditSetContainer;
+    private MenuItem mFinishWorkoutButton;
 
     private TextView mWarningTextView;
 
@@ -91,6 +92,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         View v = inflater.inflate(R.layout.fragment_current_workout, container, false);
 
         mUser = UserLab.get(getContext()).getUser();
+
 
         mWarningTextView = v.findViewById(R.id.fragment_current_workout_warning_text_view);
         enableNoAcriveWorkoutWarning(true);
@@ -142,6 +144,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
                 mEditSetContainer.setVisibility(View.GONE);
             }
         });
+
         return v;
     }
 
@@ -168,6 +171,10 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_current_workout_fragment, menu);
+        mFinishWorkoutButton = (MenuItem) menu.findItem(R.id.menu_current_workout_fragment_finish_workout);
+        if (mWorkout == null) {
+            mFinishWorkoutButton.setVisible(false);
+        }
 
     }
 
@@ -177,7 +184,11 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
 
         switch (item.getItemId()) {
             case R.id.menu_current_workout_fragment_finish_workout:
-                finishWorkout();
+                if (mWorkout == null) {
+                }
+                else {
+                    finishWorkout();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -243,11 +254,16 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
 
         if (mUser.getActiveWorkout() == null) {
             mWorkout = null;
+            if (mFinishWorkoutButton != null) {
+                mFinishWorkoutButton.setVisible(false);
+            }
         }
         else {
             mWorkout = WorkoutLab.get(getContext()).getWorkout(mUser.getActiveWorkout());
             performedExercises = PerformedExerciseLab.get(getContext()).getPerformedExercises(mWorkout.getPerformedExercises());
-
+            if (mFinishWorkoutButton != null) {
+                mFinishWorkoutButton.setVisible(true);
+            }
         }
         if (mAdapter == null) {
             mAdapter = new PerformedExerciseAdapter(performedExercises, getContext());
@@ -303,7 +319,9 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         mUser.setActiveWorkout(null);
         UserLab.get(getContext()).updateUser(mUser);
         updateUI();
-        hideEditSetFragment();
+        if (mEditSetContainer.getVisibility() == View.VISIBLE) {
+            hideEditSetFragment();
+        }
     }
 
     public class SwipeAndDragHelper extends ItemTouchHelper.Callback {

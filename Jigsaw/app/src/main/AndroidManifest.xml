@@ -24,6 +24,9 @@
         <activity
             android:name=".Activities.PerformedExerciseEditActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".Activities.CreateProgramActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

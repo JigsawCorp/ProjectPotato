@@ -10,9 +10,9 @@
             android:icon="@drawable/ic_current_workout"
             android:title="@string/drawer_current_workout_title" />
         <item
-            android:id="@+id/nav_routines"
+            android:id="@+id/nav_programs"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="@string/drawer_routines_title" />
+            android:title="@string/drawer_programs_title" />
         <item
             android:id="@+id/nav_plan"
             android:icon="@android:drawable/ic_menu_manage"

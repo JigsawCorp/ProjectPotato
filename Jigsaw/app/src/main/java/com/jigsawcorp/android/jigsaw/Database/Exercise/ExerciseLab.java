@@ -113,7 +113,7 @@ public class ExerciseLab {
                 whereArgs,
                 null,
                 null,
-                null
+                DatabaseSchema.ExercisesTable.Cols.NAME + " ASC"
         );
         return new ExerciseCursorWrapper(cursor, mContext);
     }

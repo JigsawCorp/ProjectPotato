@@ -14,7 +14,7 @@
     <string name="fab_add_exercise">Add an exercise</string>
     <string name="drawer_home_title">Home</string>
     <string name="drawer_current_workout_title">Current Workout</string>
-    <string name="drawer_routines_title">Routines</string>
+    <string name="drawer_programs_title">Programs</string>
     <string name="drawer_plan_title">Plan</string>
     <string name="drawer_progress_title">Progress</string>
     <string name="drawer_history_title">History</string>
@@ -31,9 +31,21 @@
         <item>Legs</item>
         <item>Shoulders</item>
         <item>Triceps</item>
-
     </string-array>
 
+    <string-array name="array_training_types">
+        <item>@string/array_training_types_resistance_training</item>
+        <item>@string/array_training_types_cardio</item>
+        <item>@string/array_training_types_flexibility</item>
+        <item>@string/array_training_types_other</item>
+    </string-array>
+
+    <string name="array_training_types_resistance_training">Resistance Training</string>
+    <string name="array_training_types_cardio">Cardio And Conditioning</string>
+    <string name="array_training_types_flexibility">Flexibility And Mobility</string>
+    <string name="array_training_types_other">Other</string>
+
+    <string name="variable">Variable</string>
     <!--Fragments-->
     <!--CurrentWorkoutFragment-->
 
