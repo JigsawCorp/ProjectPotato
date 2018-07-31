@@ -14,45 +14,24 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.jigsawcorp.android.jigsaw.Fragments.EditProgramFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
 
 public class CreateProgramActivity extends AppCompatActivity {
-    private Spinner mTrainingTypesSpinner, mDaysPerWeekSpinner;
-    private Program mProgram;
+
 
     private MenuItem mCreateProgramButton;
+    private EditProgramFragment mEditProgramFragment;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_program);
-        mTrainingTypesSpinner = (Spinner) findViewById(R.id.activity_create_program_spinner_training_types);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.array_training_types, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mTrainingTypesSpinner.setAdapter(adapter);
-        mTrainingTypesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                switch (parent.getId()) {
-                    case R.id.activity_create_program_spinner_training_types:
-                        mProgram.setTrainingType(Program.TrainingTypes.values()[position]);
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        mDaysPerWeekSpinner = (Spinner) findViewById(R.id.activity_create_program_spinner_days_per_week);
-        String[] daysPerWeekStringArray = new String[]{"1", "2", "3", "4", "5", "6", "7", getResources().getString(R.string.variable)};
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, daysPerWeekStringArray);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mDaysPerWeekSpinner.setAdapter(adapter2);
-        mProgram = new Program();
+        mEditProgramFragment = new EditProgramFragment();
+        mEditProgramFragment.setProgram(new Program());
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_create_program_edit_program_container, mEditProgramFragment, "EditProgramFragment").commit();
 
     }
 

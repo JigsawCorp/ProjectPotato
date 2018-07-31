@@ -12,7 +12,7 @@ public class Program {
     public enum DifficultyLevels {BEGINNER, INTERMEDIATE, ADVANCED, EXPERT, UNSPECIFIED}
     private String mName, mDescription;
     private boolean isWeekly, isDayBased;
-    private int mDuration;
+    private int mDuration, mDaysPerWeek;
     private TrainingTypes mTrainingType;
     private DifficultyLevels mDifficultyLevel;
     private List<UUID> mWorkouts;
@@ -30,6 +30,10 @@ public class Program {
 
     public void setTrainingType(TrainingTypes type) {
         mTrainingType = type;
+    }
+
+    public void setDaysPerWeek(int daysPerWeek) {
+        mDaysPerWeek = daysPerWeek;
     }
 
     public String getName() {
