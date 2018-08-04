@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Weekly Program"
+        android:text="Program Length"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
@@ -114,6 +114,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
+        android:background="@drawable/border_settings"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -127,6 +128,7 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Days Per Week"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -136,8 +138,11 @@
             android:id="@+id/fragment_edit_program_textView_days_per_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
+            android:textColor="@color/settingsLightBlue"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
     </android.support.constraint.ConstraintLayout>
