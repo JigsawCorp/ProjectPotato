@@ -58,6 +58,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             DatabaseSchema.PerformedExerciseTable.Cols.NOTES +
             ")";
 
+    private static final String SQL_CREATE_TABLE_PROGRAMS = "create table if not exists " + DatabaseSchema.ProgramTable.NAME + "(" +
+            DatabaseSchema.ProgramTable.Cols.UUID + ", " +
+            DatabaseSchema.ProgramTable.Cols.NAME + ", " +
+            DatabaseSchema.ProgramTable.Cols.PROGRAM_WORKOUTS + ", " +
+            DatabaseSchema.ProgramTable.Cols.TRAINING_TYPE + ", " +
+            DatabaseSchema.ProgramTable.Cols.DIFFICULTY_LEVEL + ", " +
+            DatabaseSchema.ProgramTable.Cols.SPLIT_TYPE + ", " +
+            DatabaseSchema.ProgramTable.Cols.IS_DAY_BASED + ", " +
+            DatabaseSchema.ProgramTable.Cols.DURATION + ", " +
+            DatabaseSchema.ProgramTable.Cols.DAYS_PER_WEEK + ", " +
+            DatabaseSchema.ProgramTable.Cols.DESCRIPTION  +
+            ")";
+
     private static final int DATABASE_VERSION = 1;
 
     public DataBaseHelper(Context context) {
@@ -79,6 +92,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_CONFIGURATION);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_USER);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_PERFORMED_EXERCISES);
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE_PROGRAMS);
         addDefaultUser(sqLiteDatabase);
         mCallbacks.onCreateDatabase();
     }
