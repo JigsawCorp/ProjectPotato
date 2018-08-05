@@ -10,15 +10,32 @@ import java.util.UUID;
 public class Program {
     public enum TrainingTypes {CARDIO, RESISTANCE, FLEXIBILITY, OTHER}
     public enum DifficultyLevels {BEGINNER, INTERMEDIATE, ADVANCED, EXPERT, UNSPECIFIED}
+    public enum SplitTypes {FULL_BODY, UPPER_LOWER, PPL, BRO, OTHER}
+    private UUID mId;
     private String mName, mDescription;
-    private boolean isWeekly, isDayBased;
+    private boolean mIsDayBased;
     private int mDuration, mDaysPerWeek;
     private TrainingTypes mTrainingType;
     private DifficultyLevels mDifficultyLevel;
-    private List<UUID> mWorkouts;
+    private SplitTypes mSpliType;
+    private List<UUID> mProgramWorkouts;
 
     public Program() {
     }
+
+    // Constructor from Database
+     public Program(UUID id, String name, List<UUID> programWorkouts, TrainingTypes trainingType, DifficultyLevels difficultyLevel, SplitTypes splitType, boolean isDayBased, int duration, int daysPerWeek, String description) {
+        mId = id;
+        mName = name;
+        mProgramWorkouts = programWorkouts;
+        mTrainingType = trainingType;
+        mDifficultyLevel = difficultyLevel;
+        mSpliType = splitType;
+        mIsDayBased = isDayBased;
+        mDuration = duration;
+        mDaysPerWeek = daysPerWeek;
+        mDescription = description;
+     }
 
     public void setName(String name) {
         mName = name;
@@ -48,8 +65,55 @@ public class Program {
         return mTrainingType;
     }
 
-    public List<UUID> getWorkouts() {
-        return mWorkouts;
+    public UUID getId() {
+        return mId;
     }
 
+    public void setId(UUID id) {
+        mId = id;
+    }
+
+    public boolean isDayBased() {
+        return mIsDayBased;
+    }
+
+    public void setDayBased(boolean dayBased) {
+        mIsDayBased = dayBased;
+    }
+
+    public int getDuration() {
+        return mDuration;
+    }
+
+    public void setDuration(int duration) {
+        mDuration = duration;
+    }
+
+    public int getDaysPerWeek() {
+        return mDaysPerWeek;
+    }
+
+    public DifficultyLevels getDifficultyLevel() {
+        return mDifficultyLevel;
+    }
+
+    public void setDifficultyLevel(DifficultyLevels difficultyLevel) {
+        mDifficultyLevel = difficultyLevel;
+    }
+
+    public SplitTypes getSpliType() {
+        return mSpliType;
+    }
+
+    public void setSpliType(SplitTypes spliType) {
+        mSpliType = spliType;
+    }
+
+    public List<UUID> getProgramWorkouts() {
+        return mProgramWorkouts;
+    }
+
+    public void setProgramWorkouts(List<UUID> programWorkouts) {
+        mProgramWorkouts = programWorkouts;
+    }
 }

@@ -3,24 +3,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/compound_settings_radio_button_list_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Days Per Week"
+            android:text="Title"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/fragment_edit_program_textView_days_per_week"
+            android:id="@+id/compound_settings_radio_button_list_choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:text="Choice"
             android:textColor="@color/settingsLightBlue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/compound_settings_radio_button_list_title" />
 </merge>

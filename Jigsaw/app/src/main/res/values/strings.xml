@@ -46,6 +46,18 @@
     <string name="array_training_types_other">Other</string>
 
     <string name="variable">Variable</string>
+
+    <string-array name="array_program_length">
+        <item>@string/array_program_length_weekly</item>
+        <item>@string/array_program_length_monthly</item>
+        <item>@string/array_program_length_custom</item>
+
+    </string-array>
+
+    <string name="array_program_length_weekly">Weekly</string>
+    <string name="array_program_length_monthly">Monthly</string>
+    <string name="array_program_length_custom">Custom</string>
+
     <!--Fragments-->
     <!--CurrentWorkoutFragment-->
 

@@ -5,23 +5,27 @@ public class Set {
     private int mReps;
     private double mWeight;
     private SetCategory mCategory;
+    private boolean mIsPerformed;
 
     public Set(double weight, int reps) {
         mWeight = weight;
         mReps = reps;
         mCategory = SetCategory.NORMAL;
+        mIsPerformed = false;
     }
 
     public Set(double weight, int reps, SetCategory category) {
         mWeight = weight;
         mReps = reps;
         mCategory = category;
+        mIsPerformed = false;
     }
 
     public Set(Set set) {
         mWeight = set.getWeight();
         mReps = set.getReps();
         mCategory = set.getCategory();
+        mIsPerformed = set.isPerformed();
     }
 
     public int getReps() {
@@ -46,5 +50,13 @@ public class Set {
 
     public SetCategory getCategory() {
         return mCategory;
+    }
+
+    public boolean isPerformed() {
+        return mIsPerformed;
+    }
+
+    public void setIsPerformed(boolean isPerformed) {
+        mIsPerformed = isPerformed;
     }
 }

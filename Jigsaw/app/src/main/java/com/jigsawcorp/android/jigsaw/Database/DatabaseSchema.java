@@ -61,4 +61,21 @@ public class DatabaseSchema {
             public static final String NOTES = "notes";
         }
     }
+
+    public static final class ProgramTable {
+        public static final String NAME = "programs";
+
+        public static final class Cols {
+            public static final String UUID = "uuid";
+            public static final String NAME = "name";
+            public static final String PROGRAM_WORKOUTS = "program_workouts";
+            public static final String TRAINING_TYPE = "training_type";
+            public static final String DIFFICULTY_LEVEL = "difficulty_level";
+            public static final String SPLIT_TYPE = "split_type";
+            public static final String IS_DAY_BASED = "is_day_based";
+            public static final String DURATION = "duration";
+            public static final String DAYS_PER_WEEK = "days_per_week";
+            public static final String DESCRIPTION = "description";
+        }
+    }
 }

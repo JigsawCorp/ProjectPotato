@@ -15,14 +15,15 @@ import android.widget.TextView;
 import com.jigsawcorp.android.jigsaw.Fragments.Dialogs.RadioButtonListDialogFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsRadioButtonList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class EditProgramFragment extends Fragment {
 
-    private Spinner mTrainingTypesSpinner, mDaysPerWeekSpinner;
     private Program mProgram;
+    private SettingsRadioButtonList mDaysPerWeekRadioButtonList, mTrainingTypeRadioButtonList, mProgramLengthRadioButtonList;
 
     @Override
     public void onCreate(Bundle savecInstanceState) {
@@ -33,30 +34,29 @@ public class EditProgramFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_edit_program, container, false);
 
-        mTrainingTypesSpinner = (Spinner) v.findViewById(R.id.activity_create_program_spinner_training_types);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.array_training_types, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mTrainingTypesSpinner.setAdapter(adapter);
-        mTrainingTypesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                switch (parent.getId()) {
-                    case R.id.activity_create_program_spinner_training_types:
-                        mProgram.setTrainingType(Program.TrainingTypes.values()[position]);
-                        break;
-                }
-            }
+        mTrainingTypeRadioButtonList = (SettingsRadioButtonList) v.findViewById(R.id.fragment_edit_program_RadioButtonList_training_type);
+        mDaysPerWeekRadioButtonList = (SettingsRadioButtonList) v.findViewById(R.id.fragment_edit_program_RadioButtonList_DaysPerWeek);
+        mProgramLengthRadioButtonList = (SettingsRadioButtonList) v.findViewById(R.id.fragment_edit_program_RadioButtonList_program_length);
 
+        final ArrayList<String> trainingTypeStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.array_training_types)));
+        mTrainingTypeRadioButtonList.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onClick(View view) {
+                FragmentManager manager = getFragmentManager();
+                RadioButtonListDialogFragment fragment = RadioButtonListDialogFragment.newInstance("Training Type", trainingTypeStringArray, 0);
+                fragment.setConfirmedChoiceListener(new RadioButtonListDialogFragment.RadioButtonListDialogFragmentListener() {
+                    @Override
+                    public void onChoiceConfirmed(int position) {
+                       mTrainingTypeRadioButtonList.setChoice(trainingTypeStringArray.get(position));
+                    }
+                });
+                fragment.show(manager, "TrainingTypesDialog");
             }
         });
 
         //mDaysPerWeekSpinner = (Spinner) v.findViewById(R.id.activity_create_program_spinner_days_per_week);
         final ArrayList<String> daysPerWeekStringArray = new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", getResources().getString(R.string.variable)));
-        final TextView mDaysPerWeekTextView = (TextView) v.findViewById(R.id.fragment_edit_program_textView_days_per_week);
-        mDaysPerWeekTextView.setOnClickListener(new View.OnClickListener() {
+        mDaysPerWeekRadioButtonList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager manager = getFragmentManager();
@@ -64,33 +64,31 @@ public class EditProgramFragment extends Fragment {
                 fragment.setConfirmedChoiceListener(new RadioButtonListDialogFragment.RadioButtonListDialogFragmentListener() {
                     @Override
                     public void onChoiceConfirmed(int position) {
-                        mDaysPerWeekTextView.setText(daysPerWeekStringArray.get(position));
+                        mDaysPerWeekRadioButtonList.setChoice(daysPerWeekStringArray.get(position));
                     }
                 });
                 fragment.show(manager, "DaysPerWeekDialog");
             }
         });
-        /*
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, daysPerWeekStringArray);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mDaysPerWeekSpinner.setAdapter(adapter2);
-        mDaysPerWeekSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                if (position > 6) {
-                    mProgram.setDaysPerWeek(-1);
-                }
-                else {
-                    mProgram.setDaysPerWeek(Integer.parseInt(daysPerWeekStringArray[position]));
-                }
-            }
 
+        final ArrayList<String> programLengthStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.array_program_length)));
+        mProgramLengthRadioButtonList.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onClick(View view) {
+                FragmentManager manager = getFragmentManager();
+                RadioButtonListDialogFragment fragment = RadioButtonListDialogFragment.newInstance("Program Length", programLengthStringArray, 0);
+                fragment.setConfirmedChoiceListener(new RadioButtonListDialogFragment.RadioButtonListDialogFragmentListener() {
+                    @Override
+                    public void onChoiceConfirmed(int position) {
+                        mProgramLengthRadioButtonList.setChoice(programLengthStringArray.get(position));
+                    }
+                });
+                fragment.show(manager, "ProgramLengthDialog");
             }
         });
-        */
+
+
+
 
         mProgram = new Program();
         return v;
@@ -104,4 +102,7 @@ public class EditProgramFragment extends Fragment {
     public Program getProgram() {
         return mProgram;
     }
-}
+
+    private void setRadioButtonListsValues() {
+    }
+ }
