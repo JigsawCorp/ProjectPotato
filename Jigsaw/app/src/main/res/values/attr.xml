@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="title" format="string"/>
+    <attr name="description" format="string"/>
+
     <declare-styleable name="compound_settings_radio_button_list">
         <attr name="title"/>
     </declare-styleable>
 
     <declare-styleable name="compound_settings_switch">
         <attr name="title"/>
-        <attr name="description" format="string" />
+        <attr name="description" />
+    </declare-styleable>
+
+    <declare-styleable name="compound_settings_edit_text">
+        <attr name="title"/>
+        <attr name="description"/>
     </declare-styleable>
 </resources>

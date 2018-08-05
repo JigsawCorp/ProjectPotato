@@ -38,7 +38,6 @@ public class SettingsSwitch extends ConstraintLayout {
         mTitleTextView = (TextView) findViewById(R.id.compound_settings_switch_title);
         mDescriptionTextView = (TextView) findViewById(R.id.compound_settings_switch_description);
         mSwitch = (Switch) findViewById(R.id.compound_settings_switch_switch);
-        setBackgroundResource(R.drawable.border_settings);
     }
 
     public void setTitle(String title) {

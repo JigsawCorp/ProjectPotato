@@ -12,9 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.jigsawcorp.android.jigsaw.Fragments.Dialogs.EditTextDialog;
 import com.jigsawcorp.android.jigsaw.Fragments.Dialogs.RadioButtonListDialogFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsEditText;
 import com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsRadioButtonList;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class EditProgramFragment extends Fragment {
 
     private Program mProgram;
     private SettingsRadioButtonList mDaysPerWeekRadioButtonList, mTrainingTypeRadioButtonList, mProgramLengthRadioButtonList;
+    private SettingsEditText mTitleEditText, mDescriptionEditText;
 
     @Override
     public void onCreate(Bundle savecInstanceState) {
@@ -37,6 +40,7 @@ public class EditProgramFragment extends Fragment {
         mTrainingTypeRadioButtonList = (SettingsRadioButtonList) v.findViewById(R.id.fragment_edit_program_RadioButtonList_training_type);
         mDaysPerWeekRadioButtonList = (SettingsRadioButtonList) v.findViewById(R.id.fragment_edit_program_RadioButtonList_DaysPerWeek);
         mProgramLengthRadioButtonList = (SettingsRadioButtonList) v.findViewById(R.id.fragment_edit_program_RadioButtonList_program_length);
+        mDescriptionEditText = (SettingsEditText) v.findViewById(R.id.fragment_edit_program_edit_text_description);
 
         final ArrayList<String> trainingTypeStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.array_training_types)));
         mTrainingTypeRadioButtonList.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +88,21 @@ public class EditProgramFragment extends Fragment {
                     }
                 });
                 fragment.show(manager, "ProgramLengthDialog");
+            }
+        });
+
+        mDescriptionEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager manager = getFragmentManager();
+                EditTextDialog fragment = EditTextDialog.newInstance("Program Description", "");
+                fragment.setConfirmedTextListener(new EditTextDialog.EditTextDialogListener() {
+                    @Override
+                    public void onTextConfirmed(String text) {
+                        mDescriptionEditText.setDescription(text);
+                    }
+                });
+                fragment.show(manager, "ProgramDescriptionDialog");
             }
         });
 

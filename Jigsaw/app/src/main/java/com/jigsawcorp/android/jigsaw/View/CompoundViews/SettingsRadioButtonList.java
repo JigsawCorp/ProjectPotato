@@ -33,7 +33,6 @@ public class SettingsRadioButtonList extends ConstraintLayout {
 
         mTitleTextView = (TextView) findViewById(R.id.compound_settings_radio_button_list_title);
         mChoiceTextView = (TextView) findViewById(R.id.compound_settings_radio_button_list_choice);
-        setBackgroundResource(R.drawable.border_settings);
     }
 
     public void setTitle(String title) {
