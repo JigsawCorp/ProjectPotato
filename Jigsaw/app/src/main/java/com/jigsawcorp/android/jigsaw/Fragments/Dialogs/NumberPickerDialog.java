@@ -5,22 +5,22 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.widget.EditText;
+import android.widget.NumberPicker;
 
-public class EditTextDialog extends DialogFragment {
+public class NumberPickerDialog extends DialogFragment {
     private static final String ARGUMENT_TITLE = "title";
-    private static final String ARGUMENT_TEXT = "text";
-    private EditTextDialogListener mListener;
+    private static final String ARGUMENT_NUMBER = "number";
+    private NumberPickerDialogListener mListener;
 
-    public interface EditTextDialogListener {
-        public void onTextConfirmed(String text);
+    public interface NumberPickerDialogListener {
+        public void onNumberConfirmed(int number);
     }
 
-    public static EditTextDialog newInstance(String dialogTitle, String text) {
+    public static NumberPickerDialog newInstance(String dialogTitle, int number) {
         Bundle bundle = new Bundle();
         bundle.putString(ARGUMENT_TITLE, dialogTitle);
-        bundle.putString(ARGUMENT_TEXT, text);
-        EditTextDialog dialog = new EditTextDialog();
+        bundle.putInt(ARGUMENT_NUMBER, number);
+        NumberPickerDialog dialog = new NumberPickerDialog();
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -28,16 +28,18 @@ public class EditTextDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        final EditText editText = new EditText(getContext());
+        final NumberPicker numberPicker = new NumberPicker(getContext());
         final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle(bundle.getString(ARGUMENT_TITLE));
-        editText.setText(bundle.getString(ARGUMENT_TEXT));
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(100);
+        numberPicker.setValue(bundle.getInt(ARGUMENT_NUMBER));
 
-        dialog.setView(editText);
+        dialog.setView(numberPicker);
         dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                mListener.onTextConfirmed(editText.getText().toString());
+                mListener.onNumberConfirmed(numberPicker.getValue());
             }
         });
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -49,7 +51,7 @@ public class EditTextDialog extends DialogFragment {
         return dialog.create();
     }
 
-    public void setConfirmedTextListener(EditTextDialogListener listener) {
+    public void setConfirmedNumberListener(NumberPickerDialogListener listener) {
         mListener = listener;
     }
 }

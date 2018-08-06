@@ -1,23 +1,21 @@
 package com.jigsawcorp.android.jigsaw.Fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.jigsawcorp.android.jigsaw.Fragments.Dialogs.EditTextDialog;
+import com.jigsawcorp.android.jigsaw.Fragments.Dialogs.NumberPickerDialog;
 import com.jigsawcorp.android.jigsaw.Fragments.Dialogs.RadioButtonListDialogFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsChoicePicker;
 import com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsEditText;
-import com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsRadioButtonList;
+import com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsSwitch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,8 +23,9 @@ import java.util.Arrays;
 public class EditProgramFragment extends Fragment {
 
     private Program mProgram;
-    private SettingsRadioButtonList mDaysPerWeekRadioButtonList, mTrainingTypeRadioButtonList, mProgramLengthRadioButtonList;
-    private SettingsEditText mTitleEditText, mDescriptionEditText;
+    private SettingsChoicePicker mDaysPerWeekChoicePicker, mTrainingTypeChoicePicker, mProgramLengthChoicePicker;
+    private SettingsEditText mNameEditText, mDescriptionEditText;
+    private SettingsSwitch mIsDayBasedSwitch, mIsWeeklySwitch;
 
     @Override
     public void onCreate(Bundle savecInstanceState) {
@@ -37,13 +36,36 @@ public class EditProgramFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_edit_program, container, false);
 
-        mTrainingTypeRadioButtonList = (SettingsRadioButtonList) v.findViewById(R.id.fragment_edit_program_RadioButtonList_training_type);
-        mDaysPerWeekRadioButtonList = (SettingsRadioButtonList) v.findViewById(R.id.fragment_edit_program_RadioButtonList_DaysPerWeek);
-        mProgramLengthRadioButtonList = (SettingsRadioButtonList) v.findViewById(R.id.fragment_edit_program_RadioButtonList_program_length);
+        mNameEditText = (SettingsEditText) v.findViewById(R.id.fragment_edit_program_edit_text_name);
+        mTrainingTypeChoicePicker = (SettingsChoicePicker) v.findViewById(R.id.fragment_edit_program_choice_picker_training_type);
+        mDaysPerWeekChoicePicker = (SettingsChoicePicker) v.findViewById(R.id.fragment_edit_program_choice_picker_DaysPerWeek);
+        mIsWeeklySwitch = (SettingsSwitch) v.findViewById(R.id.fragment_edit_program_switch_is_weekly);
+        mProgramLengthChoicePicker = (SettingsChoicePicker) v.findViewById(R.id.fragment_edit_program_choice_picker_program_length);
+        mIsDayBasedSwitch = (SettingsSwitch) v.findViewById(R.id.fragment_edit_program_is_day_based_switch);
         mDescriptionEditText = (SettingsEditText) v.findViewById(R.id.fragment_edit_program_edit_text_description);
 
+        mNameEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("EditProgramFragment", "mNameEditText.onClick(), mProgram.getName() = " + mProgram.getName());
+                FragmentManager manager = getFragmentManager();
+                EditTextDialog fragment = EditTextDialog.newInstance("Program Name", mProgram.getName());
+                fragment.setConfirmedTextListener(new EditTextDialog.EditTextDialogListener() {
+                    @Override
+                    public void onTextConfirmed(String text) {
+                        mNameEditText.setDescription(text);
+                        mProgram.setName(text);
+                        Log.i("EditProgramFragment", "onConfirmedTextListener, mProgram.getName() = " + mProgram.getName());
+
+                    }
+                });
+                fragment.show(manager, "ProgramNameDialog");
+            }
+        });
+
         final ArrayList<String> trainingTypeStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.array_training_types)));
-        mTrainingTypeRadioButtonList.setOnClickListener(new View.OnClickListener() {
+        mTrainingTypeChoicePicker.setChoice(trainingTypeStringArray.get(mProgram.getTrainingType().ordinal()));
+        mTrainingTypeChoicePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager manager = getFragmentManager();
@@ -51,7 +73,7 @@ public class EditProgramFragment extends Fragment {
                 fragment.setConfirmedChoiceListener(new RadioButtonListDialogFragment.RadioButtonListDialogFragmentListener() {
                     @Override
                     public void onChoiceConfirmed(int position) {
-                       mTrainingTypeRadioButtonList.setChoice(trainingTypeStringArray.get(position));
+                       mTrainingTypeChoicePicker.setChoice(trainingTypeStringArray.get(position));
                     }
                 });
                 fragment.show(manager, "TrainingTypesDialog");
@@ -60,7 +82,13 @@ public class EditProgramFragment extends Fragment {
 
         //mDaysPerWeekSpinner = (Spinner) v.findViewById(R.id.activity_create_program_spinner_days_per_week);
         final ArrayList<String> daysPerWeekStringArray = new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", getResources().getString(R.string.variable)));
-        mDaysPerWeekRadioButtonList.setOnClickListener(new View.OnClickListener() {
+        if (mProgram.getDaysPerWeek() != -1) {
+            mDaysPerWeekChoicePicker.setChoice(daysPerWeekStringArray.get(mProgram.getDaysPerWeek() - 1));
+        }
+        else {
+            mDaysPerWeekChoicePicker.setChoice(daysPerWeekStringArray.get(daysPerWeekStringArray.size() - 1));
+        }
+        mDaysPerWeekChoicePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager manager = getFragmentManager();
@@ -68,14 +96,50 @@ public class EditProgramFragment extends Fragment {
                 fragment.setConfirmedChoiceListener(new RadioButtonListDialogFragment.RadioButtonListDialogFragmentListener() {
                     @Override
                     public void onChoiceConfirmed(int position) {
-                        mDaysPerWeekRadioButtonList.setChoice(daysPerWeekStringArray.get(position));
+                        mDaysPerWeekChoicePicker.setChoice(daysPerWeekStringArray.get(position));
                     }
                 });
                 fragment.show(manager, "DaysPerWeekDialog");
             }
         });
 
+
+        mIsWeeklySwitch.setSettingsSwitchListener(new SettingsSwitch.SettingsSwitchListener() {
+            @Override
+            public void onSwitchChanged(boolean value) {
+                if (value) {
+                    mProgram.setDuration(7);
+                    mProgramLengthChoicePicker.setVisibility(View.GONE);
+                }
+                else {
+                    mProgram.setDuration(Integer.valueOf(mProgramLengthChoicePicker.getChoice()));
+                    mProgramLengthChoicePicker.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        mIsWeeklySwitch.setSwitch(mProgram.getDuration() == 7);
+
+        mProgramLengthChoicePicker.setChoice(String.valueOf(mProgram.getDuration()));
+        mProgramLengthChoicePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager manager = getFragmentManager();
+                NumberPickerDialog fragment = NumberPickerDialog.newInstance("Program Length", mProgram.getDuration());
+                fragment.setConfirmedNumberListener(new NumberPickerDialog.NumberPickerDialogListener() {
+                    @Override
+                    public void onNumberConfirmed(int number) {
+                        mProgramLengthChoicePicker.setChoice(String.valueOf(number) + " days");
+                        mProgram.setDuration(number);
+                    }
+                });
+                fragment.show(manager, "TrainingTypesDialog");
+            }
+        });
+
+        /*
         final ArrayList<String> programLengthStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.array_program_length)));
+        if (mProgram.getDuration() == )
+        mProgramLengthRadioButtonList.setChoice(mProgram.getDuration());
         mProgramLengthRadioButtonList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,16 +154,25 @@ public class EditProgramFragment extends Fragment {
                 fragment.show(manager, "ProgramLengthDialog");
             }
         });
+*/
+        mIsDayBasedSwitch.setSwitch(!mProgram.isDayBased());
+        mIsDayBasedSwitch.setSettingsSwitchListener(new SettingsSwitch.SettingsSwitchListener() {
+            @Override
+            public void onSwitchChanged(boolean value) {
+                mProgram.setDayBased(value);
+            }
+        });
 
         mDescriptionEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager manager = getFragmentManager();
-                EditTextDialog fragment = EditTextDialog.newInstance("Program Description", "");
+                EditTextDialog fragment = EditTextDialog.newInstance("Program Description", mProgram.getDescription());
                 fragment.setConfirmedTextListener(new EditTextDialog.EditTextDialogListener() {
                     @Override
                     public void onTextConfirmed(String text) {
                         mDescriptionEditText.setDescription(text);
+                        mProgram.setDescription(text);
                     }
                 });
                 fragment.show(manager, "ProgramDescriptionDialog");

@@ -4,6 +4,7 @@ import android.content.res.Resources;
 
 import com.jigsawcorp.android.jigsaw.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,10 +18,21 @@ public class Program {
     private int mDuration, mDaysPerWeek;
     private TrainingTypes mTrainingType;
     private DifficultyLevels mDifficultyLevel;
-    private SplitTypes mSpliType;
+    private SplitTypes mSplitType;
     private List<UUID> mProgramWorkouts;
 
+    // Default Constructor
     public Program() {
+        mId = UUID.randomUUID();
+        mName = "";
+        mProgramWorkouts = new ArrayList<>();
+        mTrainingType = TrainingTypes.RESISTANCE;
+        mDifficultyLevel = DifficultyLevels.UNSPECIFIED;
+        mSplitType = SplitTypes.FULL_BODY;
+        mIsDayBased = true;
+        mDuration = 7;
+        mDaysPerWeek = 3;
+        mDescription = "";
     }
 
     // Constructor from Database
@@ -30,7 +42,7 @@ public class Program {
         mProgramWorkouts = programWorkouts;
         mTrainingType = trainingType;
         mDifficultyLevel = difficultyLevel;
-        mSpliType = splitType;
+        mSplitType = splitType;
         mIsDayBased = isDayBased;
         mDuration = duration;
         mDaysPerWeek = daysPerWeek;
@@ -102,11 +114,11 @@ public class Program {
     }
 
     public SplitTypes getSpliType() {
-        return mSpliType;
+        return mSplitType;
     }
 
     public void setSpliType(SplitTypes spliType) {
-        mSpliType = spliType;
+        mSplitType = spliType;
     }
 
     public List<UUID> getProgramWorkouts() {
