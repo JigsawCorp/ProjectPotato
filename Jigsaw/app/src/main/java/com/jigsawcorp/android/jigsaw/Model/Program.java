@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Program {
-    public enum TrainingTypes {CARDIO, RESISTANCE, FLEXIBILITY, OTHER}
+    public enum TrainingTypes {RESISTANCE, CARDIO, FLEXIBILITY, OTHER}
     public enum DifficultyLevels {BEGINNER, INTERMEDIATE, ADVANCED, EXPERT, UNSPECIFIED}
     public enum SplitTypes {FULL_BODY, UPPER_LOWER, PPL, BRO, OTHER}
     private UUID mId;

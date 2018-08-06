@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jigsawcorp.android.jigsaw.Activities.CreateProgramActivity;
+import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.Model.Routine;
 import com.jigsawcorp.android.jigsaw.R;
@@ -36,15 +37,10 @@ public class ProgramsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_programs, container, false);
         List<Program> someRoutines = new ArrayList<>();
-        Program newProgram = new Program();
-        newProgram.setName("Starting Strength");
-        newProgram.setDescription("A greate program based on creating strength");
-        newProgram.setTrainingType(Program.TrainingTypes.RESISTANCE);
-        someRoutines.add(newProgram);
 
         mProgramsRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_programs_recycler_view);
         mProgramsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mProgramsRecyclerView.setAdapter(new ProgramsAdapter(someRoutines, getContext()));
+        mProgramsRecyclerView.setAdapter(new ProgramsAdapter(ProgramLab.get(getContext()).getPrograms(), getContext()));
 
 
         return view;

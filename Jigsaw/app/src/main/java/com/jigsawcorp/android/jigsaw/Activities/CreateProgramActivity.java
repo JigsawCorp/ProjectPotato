@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
 import com.jigsawcorp.android.jigsaw.Fragments.EditProgramFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
@@ -62,7 +63,7 @@ public class CreateProgramActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_create_workout_save_program:
                 if (verifyAllFields()) {
-                    // save workout
+                    ProgramLab.get(this).addProgram(mEditProgramFragment.getProgram());
                 }
                 else {
                     Toast.makeText(getParent(),"Please enter all fields", Toast.LENGTH_LONG).show();

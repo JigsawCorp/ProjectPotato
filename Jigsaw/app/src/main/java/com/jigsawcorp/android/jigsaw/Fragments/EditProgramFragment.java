@@ -69,11 +69,12 @@ public class EditProgramFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentManager manager = getFragmentManager();
-                RadioButtonListDialogFragment fragment = RadioButtonListDialogFragment.newInstance("Training Type", trainingTypeStringArray, 0);
+                RadioButtonListDialogFragment fragment = RadioButtonListDialogFragment.newInstance("Training Type", trainingTypeStringArray, mProgram.getTrainingType().ordinal());
                 fragment.setConfirmedChoiceListener(new RadioButtonListDialogFragment.RadioButtonListDialogFragmentListener() {
                     @Override
                     public void onChoiceConfirmed(int position) {
                        mTrainingTypeChoicePicker.setChoice(trainingTypeStringArray.get(position));
+                       mProgram.setTrainingType(Program.TrainingTypes.values()[position]);
                     }
                 });
                 fragment.show(manager, "TrainingTypesDialog");
@@ -92,11 +93,24 @@ public class EditProgramFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentManager manager = getFragmentManager();
-                RadioButtonListDialogFragment fragment = RadioButtonListDialogFragment.newInstance("Days Per Week", daysPerWeekStringArray, 0);
+                RadioButtonListDialogFragment fragment;
+                if (mProgram.getDaysPerWeek() == -1) {
+                    fragment = RadioButtonListDialogFragment.newInstance("Days Per Week", daysPerWeekStringArray, daysPerWeekStringArray.size() - 1);
+
+                }
+                else {
+                    fragment = RadioButtonListDialogFragment.newInstance("Days Per Week", daysPerWeekStringArray, mProgram.getDaysPerWeek() - 1);
+                }
                 fragment.setConfirmedChoiceListener(new RadioButtonListDialogFragment.RadioButtonListDialogFragmentListener() {
                     @Override
                     public void onChoiceConfirmed(int position) {
                         mDaysPerWeekChoicePicker.setChoice(daysPerWeekStringArray.get(position));
+                        if (position == daysPerWeekStringArray.size() - 1) {
+                            mProgram.setDaysPerWeek(-1);
+                        }
+                        else {
+                            mProgram.setDaysPerWeek(Integer.valueOf(daysPerWeekStringArray.get(position)));
+                        }
                     }
                 });
                 fragment.show(manager, "DaysPerWeekDialog");
