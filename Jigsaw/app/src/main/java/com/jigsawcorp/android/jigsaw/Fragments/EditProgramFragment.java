@@ -1,6 +1,7 @@
 package com.jigsawcorp.android.jigsaw.Fragments;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class EditProgramFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_edit_program, container, false);
+
 
         mNameEditText = (SettingsEditText) v.findViewById(R.id.fragment_edit_program_edit_text_name);
         mTrainingTypeChoicePicker = (SettingsChoicePicker) v.findViewById(R.id.fragment_edit_program_choice_picker_training_type);

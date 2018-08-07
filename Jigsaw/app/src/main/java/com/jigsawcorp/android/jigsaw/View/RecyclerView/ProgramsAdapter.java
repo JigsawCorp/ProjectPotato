@@ -11,6 +11,7 @@ import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.ProgramHolder> {
@@ -59,17 +60,17 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
             mProgramNameTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_program_name);
             mProgramDescriptionTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_description);
             mProgramTrainingTypeTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_training_type);
-            mProgramLengthTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_is_weekly);
+            mProgramLengthTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_days_per_week);
             mProgramSplitTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_split);
         }
 
 
         public void bind(Program program){
+            final ArrayList<String> trainingTypeStringArray = new ArrayList<>(Arrays.asList(mContext.getResources().getStringArray(R.array.array_training_types)));
             mProgram = program;
             mProgramNameTextView.setText(mProgram.getName());
             mProgramDescriptionTextView.setText(mProgram.getDescription());
-            //mProgramTrainingTypeTextView.setText(mProgram.getTrainingType().name());
-            mProgramTrainingTypeTextView.setText("HAHAHAHAHAHAHAHAHAHHA");
+            mProgramTrainingTypeTextView.setText(trainingTypeStringArray.get(mProgram.getTrainingType().ordinal()));
         }
 
     }

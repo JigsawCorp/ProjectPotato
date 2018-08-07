@@ -59,7 +59,7 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/list_item_program_textView_is_weekly"
+            android:id="@+id/list_item_program_textView_days_per_week"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

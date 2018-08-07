@@ -1,10 +1,15 @@
 package com.jigsawcorp.android.jigsaw.Fragments.Dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 public class EditTextDialog extends DialogFragment {
@@ -29,24 +34,30 @@ public class EditTextDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         final EditText editText = new EditText(getContext());
-        final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setTitle(bundle.getString(ARGUMENT_TITLE));
         editText.setText(bundle.getString(ARGUMENT_TEXT));
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle(bundle.getString(ARGUMENT_TITLE))
+                .setView(editText)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mListener.onTextConfirmed(editText.getText().toString());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create();
+        Window window = dialog.getWindow();
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        dialog.setView(editText);
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mListener.onTextConfirmed(editText.getText().toString());
-            }
-        });
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        return dialog.create();
+        //final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+
+
+
+        return dialog;
     }
 
     public void setConfirmedTextListener(EditTextDialogListener listener) {
