@@ -76,4 +76,8 @@
     <!--CurrentWorkoutFragment-->
 
     <string name="current_workout_fragment_warning_text">You currently do not have an active workout. To get started, add an exercise or routine from the action button.</string>
+
+    <string name="empty_program_name_filler">Enter a program name</string>
+    <string name="empty_program_description_filler">Enter a description</string>
+
 </resources>

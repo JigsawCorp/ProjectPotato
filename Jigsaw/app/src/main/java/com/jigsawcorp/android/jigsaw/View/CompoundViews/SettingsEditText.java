@@ -44,4 +44,8 @@ public class SettingsEditText extends ConstraintLayout{
         mDescriptionTextView.setText(description);
     }
 
+    public String getDescription() {
+        return mDescriptionTextView.getText().toString();
+    }
+
 }

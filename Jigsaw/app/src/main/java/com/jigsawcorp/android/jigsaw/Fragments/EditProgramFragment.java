@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jigsawcorp.android.jigsaw.Fragments.Dialogs.EditTextDialog;
 import com.jigsawcorp.android.jigsaw.Fragments.Dialogs.NumberPickerDialog;
@@ -237,5 +238,13 @@ public class EditProgramFragment extends Fragment {
     }
 
     private void setRadioButtonListsValues() {
+    }
+
+    public boolean verifyFields() {
+        if (mNameEditText.getDescription().equals(getResources().getString(R.string.empty_program_name_filler)) || mNameEditText.getDescription().isEmpty()) {
+            Toast.makeText(getContext(), "Your program must have a name!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
  }

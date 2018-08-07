@@ -65,22 +65,17 @@ public class CreateProgramActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.menu_create_workout_save_program:
-                if (verifyAllFields()) {
+                if (mEditProgramFragment.verifyFields()) {
                     ProgramLab.get(this).addProgram(mEditProgramFragment.getProgram());
                     setProgramCreatedResult(true);
                     finish();
                 }
-                else {
-                    Toast.makeText(getParent(),"Please enter all fields", Toast.LENGTH_LONG).show();
-                }
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private boolean verifyAllFields() {
-        return true;
-    }
 
     private void setProgramCreatedResult(boolean isCreated) {
         Intent data = new Intent();
