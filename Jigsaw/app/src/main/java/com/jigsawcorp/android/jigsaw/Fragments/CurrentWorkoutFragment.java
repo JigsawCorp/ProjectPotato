@@ -93,10 +93,8 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
 
         mUser = UserLab.get(getContext()).getUser();
 
-
         mWarningTextView = v.findViewById(R.id.fragment_current_workout_warning_text_view);
         enableNoAcriveWorkoutWarning(true);
-
 
         menuCreate = (FloatingActionMenu) v.findViewById(R.id.action_menu_current_workout_add);
 

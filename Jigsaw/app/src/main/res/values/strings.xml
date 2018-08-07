@@ -45,6 +45,20 @@
     <string name="array_training_types_flexibility">Flexibility And Mobility</string>
     <string name="array_training_types_other">Other</string>
 
+    <string-array name="array_split_types">
+        <item>@string/array_split_types_full_body</item>
+        <item>@string/array_split_types_upper_lower</item>
+        <item>@string/array_split_types_ppl</item>
+        <item>@string/array_split_types_bro</item>
+        <item>@string/array_split_types_other</item>
+    </string-array>
+
+    <string name="array_split_types_full_body">Full Body</string>
+    <string name="array_split_types_upper_lower">Upper-Lower</string>
+    <string name="array_split_types_ppl">Push Pull Legs (PPL)</string>
+    <string name="array_split_types_bro">Bro Split</string>
+    <string name="array_split_types_other">Other</string>
+
     <string name="variable">Variable</string>
 
     <string-array name="array_program_length">

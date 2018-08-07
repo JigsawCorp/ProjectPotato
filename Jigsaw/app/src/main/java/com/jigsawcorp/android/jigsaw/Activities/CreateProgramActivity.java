@@ -1,5 +1,6 @@
 package com.jigsawcorp.android.jigsaw.Activities;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -21,6 +22,7 @@ import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
 
 public class CreateProgramActivity extends AppCompatActivity {
+    private static final String EXTRA_PROGRAM_CREATED = "program_created";
 
 
     private MenuItem mCreateProgramButton;
@@ -59,11 +61,14 @@ public class CreateProgramActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setProgramCreatedResult(false);
                 finish();
                 return true;
             case R.id.menu_create_workout_save_program:
                 if (verifyAllFields()) {
                     ProgramLab.get(this).addProgram(mEditProgramFragment.getProgram());
+                    setProgramCreatedResult(true);
+                    finish();
                 }
                 else {
                     Toast.makeText(getParent(),"Please enter all fields", Toast.LENGTH_LONG).show();
@@ -75,5 +80,15 @@ public class CreateProgramActivity extends AppCompatActivity {
 
     private boolean verifyAllFields() {
         return true;
+    }
+
+    private void setProgramCreatedResult(boolean isCreated) {
+        Intent data = new Intent();
+        data.putExtra(EXTRA_PROGRAM_CREATED, isCreated);
+        setResult(RESULT_OK, data);
+    }
+
+    public static boolean wasProgramCreated(Intent result) {
+        return result.getBooleanExtra(EXTRA_PROGRAM_CREATED, false);
     }
 }

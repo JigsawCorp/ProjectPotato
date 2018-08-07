@@ -41,7 +41,8 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
 
 
     public void setPrograms(List<Program> programs) {
-
+        mPrograms = programs;
+        notifyDataSetChanged();
     }
 
     public List<Program> getPrograms() {

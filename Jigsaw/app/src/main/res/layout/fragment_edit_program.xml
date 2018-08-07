@@ -1,93 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:RadioButtonList="http://schemas.android.com/apk/res-auto"
-    xmlns:Switch="http://schemas.android.com/apk/res-auto"
+<ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsEditText
-        android:id="@+id/fragment_edit_program_edit_text_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        app:description="Enter a program name ..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Program Name" />
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:RadioButtonList="http://schemas.android.com/apk/res-auto"
+        xmlns:Switch="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsChoicePicker
-        android:id="@+id/fragment_edit_program_choice_picker_training_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        RadioButtonList:title="Training Type"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_edit_program_edit_text_name" />
+        <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsEditText
+            android:id="@+id/fragment_edit_program_edit_text_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:description="Enter a program name ..."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="Program Name" />
 
-    <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsChoicePicker
-        android:id="@+id/fragment_edit_program_choice_picker_DaysPerWeek"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_edit_program_choice_picker_training_type"
-        RadioButtonList:title="Days Per Week"
-        />
+        <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsChoicePicker
+            android:id="@+id/fragment_edit_program_choice_picker_training_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            RadioButtonList:title="Training Type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_program_edit_text_name" />
 
-    <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsSwitch
-        android:id="@+id/fragment_edit_program_switch_is_weekly"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_edit_program_choice_picker_DaysPerWeek"
-        app:title="Weekly Program"
-        app:description="Weekly programs are repeated workout every week. Non-weekly programs have specific workout for multiple weeks."/>
+        <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsChoicePicker
+            android:id="@+id/fragment_edit_program_choice_picker_split_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_program_choice_picker_training_type"
+            RadioButtonList:title="Split Type"
+            />
 
-    <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsChoicePicker
-        android:id="@+id/fragment_edit_program_choice_picker_program_length"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_edit_program_switch_is_weekly"
-        RadioButtonList:title="Program Length"/>
 
-    <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsSwitch
-        android:id="@+id/fragment_edit_program_is_day_based_switch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:title="Numerical Day Based"
-        app:description="Program workouts will be on Day 1, Day 2, rather than Monday or Tuesday."
-        app:layout_constraintTop_toBottomOf="@id/fragment_edit_program_choice_picker_program_length"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsChoicePicker
+            android:id="@+id/fragment_edit_program_choice_picker_DaysPerWeek"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_program_choice_picker_split_type"
+            RadioButtonList:title="Days Per Week"
+            />
 
-    <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsEditText
-        android:id="@+id/fragment_edit_program_edit_text_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        app:description="Enter a description..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_edit_program_is_day_based_switch"
-        app:title="Program Description" />
+        <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsSwitch
+            android:id="@+id/fragment_edit_program_switch_is_weekly"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_program_choice_picker_DaysPerWeek"
+            app:title="Weekly Program"
+            app:description="Weekly programs are repeated workout every week. Non-weekly programs have specific workout for multiple weeks."/>
 
-</android.support.constraint.ConstraintLayout>
+        <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsChoicePicker
+            android:id="@+id/fragment_edit_program_choice_picker_program_length"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_edit_program_switch_is_weekly"
+            RadioButtonList:title="Program Length"/>
+
+        <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsSwitch
+            android:id="@+id/fragment_edit_program_is_day_based_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:description="Program workouts will be on Day 1, Day 2, rather than Monday or Tuesday."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_edit_program_choice_picker_program_length"
+            app:layout_constraintVertical_bias="0.0"
+            app:title="Numerical Day Based" />
+
+        <com.jigsawcorp.android.jigsaw.View.CompoundViews.SettingsEditText
+            android:id="@+id/fragment_edit_program_edit_text_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            app:description="Enter a description..."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_edit_program_is_day_based_switch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:title="Program Description" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

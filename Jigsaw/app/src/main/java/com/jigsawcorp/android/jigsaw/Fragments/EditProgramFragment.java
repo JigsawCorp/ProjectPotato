@@ -23,7 +23,7 @@ import java.util.Arrays;
 public class EditProgramFragment extends Fragment {
 
     private Program mProgram;
-    private SettingsChoicePicker mDaysPerWeekChoicePicker, mTrainingTypeChoicePicker, mProgramLengthChoicePicker;
+    private SettingsChoicePicker mDaysPerWeekChoicePicker, mTrainingTypeChoicePicker, mProgramLengthChoicePicker, mSplitTypeChoicePicker;
     private SettingsEditText mNameEditText, mDescriptionEditText;
     private SettingsSwitch mIsDayBasedSwitch, mIsWeeklySwitch;
 
@@ -38,6 +38,7 @@ public class EditProgramFragment extends Fragment {
 
         mNameEditText = (SettingsEditText) v.findViewById(R.id.fragment_edit_program_edit_text_name);
         mTrainingTypeChoicePicker = (SettingsChoicePicker) v.findViewById(R.id.fragment_edit_program_choice_picker_training_type);
+        mSplitTypeChoicePicker = (SettingsChoicePicker) v.findViewById(R.id.fragment_edit_program_choice_picker_split_type);
         mDaysPerWeekChoicePicker = (SettingsChoicePicker) v.findViewById(R.id.fragment_edit_program_choice_picker_DaysPerWeek);
         mIsWeeklySwitch = (SettingsSwitch) v.findViewById(R.id.fragment_edit_program_switch_is_weekly);
         mProgramLengthChoicePicker = (SettingsChoicePicker) v.findViewById(R.id.fragment_edit_program_choice_picker_program_length);
@@ -75,9 +76,33 @@ public class EditProgramFragment extends Fragment {
                     public void onChoiceConfirmed(int position) {
                        mTrainingTypeChoicePicker.setChoice(trainingTypeStringArray.get(position));
                        mProgram.setTrainingType(Program.TrainingTypes.values()[position]);
+                       if (trainingTypeStringArray.get(position).equals(getResources().getString(R.string.array_training_types_resistance_training))) {
+                           mSplitTypeChoicePicker.setVisibility(View.VISIBLE);
+                       }
+                       else {
+                           mSplitTypeChoicePicker.setVisibility(View.GONE);
+                       }
                     }
                 });
                 fragment.show(manager, "TrainingTypesDialog");
+            }
+        });
+
+        final ArrayList<String> splitTypeStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.array_split_types)));
+        mSplitTypeChoicePicker.setChoice(splitTypeStringArray.get(mProgram.getSpliType().ordinal()));
+        mSplitTypeChoicePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager manager = getFragmentManager();
+                RadioButtonListDialogFragment fragment = RadioButtonListDialogFragment.newInstance("Split Type", splitTypeStringArray, mProgram.getSpliType().ordinal());
+                fragment.setConfirmedChoiceListener(new RadioButtonListDialogFragment.RadioButtonListDialogFragmentListener() {
+                    @Override
+                    public void onChoiceConfirmed(int position) {
+                        mSplitTypeChoicePicker.setChoice(splitTypeStringArray.get(position));
+                        mProgram.setSpliType(Program.SplitTypes.values()[position]);
+                    }
+                });
+                fragment.show(manager, "SplitTypesDialog");
             }
         });
 
