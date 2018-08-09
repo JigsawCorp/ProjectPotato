@@ -1,10 +1,15 @@
 package com.jigsawcorp.android.jigsaw.View.RecyclerView;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.jigsawcorp.android.jigsaw.Model.Program;
@@ -17,6 +22,11 @@ import java.util.List;
 public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.ProgramHolder> {
     private List<Program> mPrograms = new ArrayList<>();
     private Context mContext;
+    private ProgramsAdatperEventListener mListener;
+
+    public interface ProgramsAdatperEventListener {
+        void onEditProgramClicked(Program program);
+    }
 
     public ProgramsAdapter(List<Program> programs, Context context) {
         mPrograms = programs;
@@ -46,13 +56,18 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
         notifyDataSetChanged();
     }
 
+    public void setEventListener(ProgramsAdatperEventListener listener) {
+        mListener = listener;
+    }
+
     public List<Program> getPrograms() {
         return mPrograms;
     }
 
     class ProgramHolder extends RecyclerView.ViewHolder{
         protected Program mProgram;
-        protected TextView mProgramNameTextView, mProgramDescriptionTextView, mProgramTrainingTypeTextView, mProgramLengthTextView, mProgramSplitTextView;
+        protected TextView mProgramNameTextView, mProgramDescriptionTextView, mProgramTrainingTypeTextView, mProgramDaysPerWeekTextView, mProgramSplitTextView;
+        protected Button mOverFlowMenuButton;
 
         public ProgramHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_program, parent, false));
@@ -60,17 +75,47 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
             mProgramNameTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_program_name);
             mProgramDescriptionTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_description);
             mProgramTrainingTypeTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_training_type);
-            mProgramLengthTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_days_per_week);
+            mProgramDaysPerWeekTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_days_per_week);
             mProgramSplitTextView = (TextView) itemView.findViewById(R.id.list_item_program_textView_split);
+            mOverFlowMenuButton = (Button) itemView.findViewById(R.id.list_item_program_button_overflow);
         }
 
 
-        public void bind(Program program){
+        public void bind(Program program) {
             final ArrayList<String> trainingTypeStringArray = new ArrayList<>(Arrays.asList(mContext.getResources().getStringArray(R.array.array_training_types)));
             mProgram = program;
             mProgramNameTextView.setText(mProgram.getName());
             mProgramDescriptionTextView.setText(mProgram.getDescription());
             mProgramTrainingTypeTextView.setText(trainingTypeStringArray.get(mProgram.getTrainingType().ordinal()));
+            if (mProgram.getDaysPerWeek() == -1) {
+                mProgramDaysPerWeekTextView.setText(mContext.getResources().getString(R.string.variable) + " days per week");
+            } else {
+                mProgramDaysPerWeekTextView.setText(mProgram.getDaysPerWeek() + " days per week");
+            }
+
+            mOverFlowMenuButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.i("ProgramsAdapter", "mOverFlowMenuButton onClick()");
+                    PopupMenu popup = new PopupMenu(mContext,mOverFlowMenuButton);
+                    popup.getMenuInflater().inflate(R.menu.popup_menu_list_item_program_overflow, popup.getMenu());
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.popup_menu_edit_list_item_program_edit:
+                                    mListener.onEditProgramClicked(mProgram);
+                                    return true;
+                                case R.id.popup_menu_edit_list_item_program_delete:
+                                    return true;
+                            }
+                            return false;
+                        }
+                    });
+                    popup.show();
+                }
+            });
         }
 
     }

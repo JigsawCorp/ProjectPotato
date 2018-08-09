@@ -24,7 +24,7 @@ import java.util.Arrays;
 
 public class EditProgramFragment extends Fragment {
 
-    private Program mProgram;
+    private Program mProgram = new Program();
     private SettingsChoicePicker mDaysPerWeekChoicePicker, mTrainingTypeChoicePicker, mProgramLengthChoicePicker, mSplitTypeChoicePicker;
     private SettingsEditText mNameEditText, mDescriptionEditText;
     private SettingsSwitch mIsDayBasedSwitch, mIsWeeklySwitch;
@@ -48,6 +48,9 @@ public class EditProgramFragment extends Fragment {
         mIsDayBasedSwitch = (SettingsSwitch) v.findViewById(R.id.fragment_edit_program_is_day_based_switch);
         mDescriptionEditText = (SettingsEditText) v.findViewById(R.id.fragment_edit_program_edit_text_description);
 
+        setNameText();
+        setDescriptionText();
+
         mNameEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,10 +60,8 @@ public class EditProgramFragment extends Fragment {
                 fragment.setConfirmedTextListener(new EditTextDialog.EditTextDialogListener() {
                     @Override
                     public void onTextConfirmed(String text) {
-                        mNameEditText.setDescription(text);
                         mProgram.setName(text);
-                        Log.i("EditProgramFragment", "onConfirmedTextListener, mProgram.getName() = " + mProgram.getName());
-
+                        setNameText();
                     }
                 });
                 fragment.show(manager, "ProgramNameDialog");
@@ -213,8 +214,8 @@ public class EditProgramFragment extends Fragment {
                 fragment.setConfirmedTextListener(new EditTextDialog.EditTextDialogListener() {
                     @Override
                     public void onTextConfirmed(String text) {
-                        mDescriptionEditText.setDescription(text);
                         mProgram.setDescription(text);
+                        setDescriptionText();
                     }
                 });
                 fragment.show(manager, "ProgramDescriptionDialog");
@@ -224,10 +225,26 @@ public class EditProgramFragment extends Fragment {
 
 
 
-        mProgram = new Program();
         return v;
     }
 
+    private void setNameText() {
+        if (mProgram.getName().isEmpty()) {
+            mNameEditText.setDescription(getContext().getResources().getString(R.string.empty_program_name_filler));
+        }
+        else {
+            mNameEditText.setDescription(mProgram.getName());
+        }
+    }
+
+    private void setDescriptionText() {
+        if (mProgram.getDescription().isEmpty()) {
+            mDescriptionEditText.setDescription(getContext().getResources().getString(R.string.empty_program_description_filler));
+        }
+        else {
+            mDescriptionEditText.setDescription(mProgram.getDescription());
+        }
+    }
 
     public void setProgram(Program program) {
         mProgram = program;
@@ -247,4 +264,5 @@ public class EditProgramFragment extends Fragment {
         }
         return true;
     }
+
  }

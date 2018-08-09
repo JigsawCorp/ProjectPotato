@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jigsawcorp.android.jigsaw.Activities.CreateProgramActivity;
+import com.jigsawcorp.android.jigsaw.Activities.EditProgramActivity;
 import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
@@ -40,6 +41,12 @@ public class ProgramsFragment extends Fragment {
         mProgramsRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_programs_recycler_view);
         mProgramsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mProgramsRecyclerView.setAdapter(new ProgramsAdapter(ProgramLab.get(getContext()).getPrograms(), getContext()));
+        ((ProgramsAdapter) mProgramsRecyclerView.getAdapter()).setEventListener(new ProgramsAdapter.ProgramsAdatperEventListener() {
+            @Override
+            public void onEditProgramClicked(Program program) {
+                startActivityForResult(EditProgramActivity.newIntent(getContext(), program.getId()), RequestCodes.REQUEST_CODE_EDIT_PROGRAM);
+            }
+        });
 
 
         return view;
@@ -82,6 +89,16 @@ public class ProgramsFragment extends Fragment {
                 }
             }
 
+        }
+        else if (requestCode == RequestCodes.REQUEST_CODE_EDIT_PROGRAM) {
+            if (data == null) {
+                return;
+            }
+            else {
+                if (EditProgramActivity.wasProgramModified(data)) {
+                    ((ProgramsAdapter) mProgramsRecyclerView.getAdapter()).setPrograms(ProgramLab.get(getContext()).getPrograms());
+                }
+            }
         }
     }
     @Override
