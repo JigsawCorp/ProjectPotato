@@ -26,6 +26,7 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
 
     public interface ProgramsAdatperEventListener {
         void onEditProgramClicked(Program program);
+        void onDeleteProgramClicked(Program program);
     }
 
     public ProgramsAdapter(List<Program> programs, Context context) {
@@ -108,6 +109,7 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
                                     mListener.onEditProgramClicked(mProgram);
                                     return true;
                                 case R.id.popup_menu_edit_list_item_program_delete:
+                                    mListener.onDeleteProgramClicked(mProgram);
                                     return true;
                             }
                             return false;

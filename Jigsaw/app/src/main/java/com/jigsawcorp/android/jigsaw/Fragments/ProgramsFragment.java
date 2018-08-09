@@ -46,6 +46,12 @@ public class ProgramsFragment extends Fragment {
             public void onEditProgramClicked(Program program) {
                 startActivityForResult(EditProgramActivity.newIntent(getContext(), program.getId()), RequestCodes.REQUEST_CODE_EDIT_PROGRAM);
             }
+
+            @Override
+            public void onDeleteProgramClicked(Program program) {
+                ProgramLab.get(getContext()).removeProgram(program);
+                ((ProgramsAdapter) mProgramsRecyclerView.getAdapter()).setPrograms(ProgramLab.get(getContext()).getPrograms());
+            }
         });
 
 
@@ -88,7 +94,6 @@ public class ProgramsFragment extends Fragment {
                     ((ProgramsAdapter) mProgramsRecyclerView.getAdapter()).setPrograms(ProgramLab.get(getContext()).getPrograms());
                 }
             }
-
         }
         else if (requestCode == RequestCodes.REQUEST_CODE_EDIT_PROGRAM) {
             if (data == null) {
