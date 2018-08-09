@@ -1,23 +1,14 @@
 package com.jigsawcorp.android.jigsaw.Activities;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
-import com.jigsawcorp.android.jigsaw.Fragments.EditProgramFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.EditProgramFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
 

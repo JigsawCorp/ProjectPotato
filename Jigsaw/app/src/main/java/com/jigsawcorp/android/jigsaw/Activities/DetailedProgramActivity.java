@@ -3,41 +3,71 @@ package com.jigsawcorp.android.jigsaw.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
+import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.HomeFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.PlanFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_history.HistoryFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.EditProgramFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramsFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
 
 import java.util.UUID;
 
-public class EditProgramActivity extends AppCompatActivity {
-
+public class DetailedProgramActivity extends AppCompatActivity {
     private static final String EXTRA_PROGRAM_MODIFIED = "program_modified";
     private static final String EXTRA_PROGRAM_ID = "program";
+
+    private BottomNavigationView mBottomNavigationView;
+
     public static Intent newIntent(Context packageContext, UUID uuid) {
-        Intent intent = new Intent(packageContext, EditProgramActivity.class);
+        Intent intent = new Intent(packageContext, DetailedProgramActivity.class);
         intent.putExtra(EXTRA_PROGRAM_ID, uuid.toString());
         return intent;
     }
 
 
-    private MenuItem mConfirmEditsButton;
     private EditProgramFragment mEditProgramFragment;
     private Program mProgram;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_program);
+        setContentView(R.layout.activity_detailed_program);
         mProgram = ProgramLab.get(this).getProgram(UUID.fromString(getIntent().getStringExtra(EXTRA_PROGRAM_ID)));
-        mEditProgramFragment = new EditProgramFragment();
-        mEditProgramFragment.setProgram(mProgram);
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_create_program_edit_program_container, mEditProgramFragment, "EditProgramFragment").commit();
+
+        mBottomNavigationView = findViewById(R.id.activity_detailed_program_bottom_navigation);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.bottom_navigation_current_workout:
+                        break;
+                    case R.id.bottom_navigation_workout_log:
+                        break;
+                    case R.id.bottom_navigation_routines:
+                        break;
+                    case R.id.bottom_navigation_progress:
+                        break;
+                }
+                return true;
+            }
+        });
+
+       // mEditProgramFragment = new EditProgramFragment();
+        //mEditProgramFragment.setProgram(mProgram);
+       // getSupportFragmentManager().beginTransaction().replace(R.id.activity_create_program_edit_program_container, mEditProgramFragment, "EditProgramFragment").commit();
 
     }
 
@@ -45,7 +75,7 @@ public class EditProgramActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         setTitle(mProgram.getName());
-        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.activity_create_program_toolbar);
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.activity_detailed_program_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -56,7 +86,6 @@ public class EditProgramActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_create_program_fragment, menu);
-        mConfirmEditsButton = (MenuItem) menu.findItem(R.id.menu_create_workout_save_program);
         return true;
     }
 

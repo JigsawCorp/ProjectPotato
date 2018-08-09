@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottom_navigation_menu_activity_detailed_program_schedule"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/bottom_menu_current_workout"
+        app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/bottom_navigation_menu_activity_detailed_program_workouts"
+        android:icon="@drawable/ic_current_workout"
+        android:title="@string/bottom_menu_workout_log"
+        app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/bottom_navigation_menu_activity_detailed_program_history"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="@string/bottom_menu_routine"
+        app:showAsAction="always|withText"/>
+
+</menu>

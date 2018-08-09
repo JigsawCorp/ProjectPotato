@@ -27,6 +27,7 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
     public interface ProgramsAdatperEventListener {
         void onEditProgramClicked(Program program);
         void onDeleteProgramClicked(Program program);
+        void onProgramClicked(Program program);
     }
 
     public ProgramsAdapter(List<Program> programs, Context context) {
@@ -65,7 +66,7 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
         return mPrograms;
     }
 
-    class ProgramHolder extends RecyclerView.ViewHolder{
+    class ProgramHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         protected Program mProgram;
         protected TextView mProgramNameTextView, mProgramDescriptionTextView, mProgramTrainingTypeTextView, mProgramDaysPerWeekTextView, mProgramSplitTextView;
         protected Button mOverFlowMenuButton;
@@ -83,6 +84,7 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
 
 
         public void bind(Program program) {
+            itemView.setOnClickListener(this);
             final ArrayList<String> trainingTypeStringArray = new ArrayList<>(Arrays.asList(mContext.getResources().getStringArray(R.array.array_training_types)));
             mProgram = program;
             mProgramNameTextView.setText(mProgram.getName());
@@ -118,6 +120,12 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
                     popup.show();
                 }
             });
+        }
+
+        @Override
+        public void onClick(View view ) {
+            Log.i("ProgramsAdapter", "onClick()");
+            mListener.onProgramClicked(mProgram);
         }
 
     }

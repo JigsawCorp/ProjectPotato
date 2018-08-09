@@ -23,7 +23,7 @@ import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.User;
 import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
 import com.jigsawcorp.android.jigsaw.R;
-import com.jigsawcorp.android.jigsaw.Fragments.ProgramsFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramsFragment;
 
 public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks, CurrentWorkoutFragment.Callbacks {
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
         setTitle("Home");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

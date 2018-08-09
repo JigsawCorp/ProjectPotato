@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw.Fragments;
+package com.jigsawcorp.android.jigsaw.Fragments.tab_programs;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jigsawcorp.android.jigsaw.Activities.CreateProgramActivity;
+import com.jigsawcorp.android.jigsaw.Activities.DetailedProgramActivity;
 import com.jigsawcorp.android.jigsaw.Activities.EditProgramActivity;
 import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
 import com.jigsawcorp.android.jigsaw.Model.Program;
@@ -52,6 +53,13 @@ public class ProgramsFragment extends Fragment {
                 ProgramLab.get(getContext()).removeProgram(program);
                 ((ProgramsAdapter) mProgramsRecyclerView.getAdapter()).setPrograms(ProgramLab.get(getContext()).getPrograms());
             }
+
+            @Override
+            public void onProgramClicked(Program program) {
+                startActivityForResult(DetailedProgramActivity.newIntent(getContext(), program.getId()), RequestCodes.REQUEST_CODE_VIEW_DETAILED_PROGRAM);
+            }
+
+
         });
 
 

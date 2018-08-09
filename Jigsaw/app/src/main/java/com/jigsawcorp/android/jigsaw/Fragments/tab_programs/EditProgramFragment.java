@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw.Fragments;
+package com.jigsawcorp.android.jigsaw.Fragments.tab_programs;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
