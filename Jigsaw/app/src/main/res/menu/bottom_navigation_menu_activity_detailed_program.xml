@@ -6,19 +6,19 @@
     <item
         android:id="@+id/bottom_navigation_menu_activity_detailed_program_schedule"
         android:icon="@drawable/ic_calendar"
-        android:title="@string/bottom_menu_current_workout"
+        android:title="@string/bottom_navigation_menu_detailed_program_schedulde"
         app:showAsAction="ifRoom|withText"/>
 
     <item
         android:id="@+id/bottom_navigation_menu_activity_detailed_program_workouts"
         android:icon="@drawable/ic_current_workout"
-        android:title="@string/bottom_menu_workout_log"
+        android:title="@string/bottom_navigation_menu_detailed_program_workouts"
         app:showAsAction="ifRoom|withText"/>
 
     <item
         android:id="@+id/bottom_navigation_menu_activity_detailed_program_history"
         android:icon="@android:drawable/ic_menu_recent_history"
-        android:title="@string/bottom_menu_routine"
+        android:title="@string/bottom_navigation_menu_detailed_program_history"
         app:showAsAction="always|withText"/>
 
 </menu>

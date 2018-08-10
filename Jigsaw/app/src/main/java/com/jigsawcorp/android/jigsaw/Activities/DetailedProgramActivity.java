@@ -5,31 +5,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
-import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.HomeFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.PlanFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.tab_history.HistoryFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.EditProgramFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramsFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramHistoryTabFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramScheduleTabFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramWorkoutsTabFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class DetailedProgramActivity extends AppCompatActivity {
     private static final String EXTRA_PROGRAM_MODIFIED = "program_modified";
     private static final String EXTRA_PROGRAM_ID = "program";
+    private static final String TAB_HISTORY_TITLE = "ProgramHistoryFragment";
+    private static final String TAB_SCHEDULE_TITLE = "ProgramScheduleFragment";
+    private static final String TAB_WORKOUTS_TITLE = "ProgramWorkoutsFragment";
 
     private BottomNavigationView mBottomNavigationView;
+    private ViewPager mViewPager;
+    private ViewPagerAdapter mPagerAdapter;
+    private MenuItem mPrevMenuItem;
 
     public static Intent newIntent(Context packageContext, UUID uuid) {
         Intent intent = new Intent(packageContext, DetailedProgramActivity.class);
@@ -52,18 +59,44 @@ public class DetailedProgramActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.bottom_navigation_current_workout:
+                    case R.id.bottom_navigation_menu_activity_detailed_program_history:
+                        mPagerAdapter.changeTab(TAB_HISTORY_TITLE);
                         break;
-                    case R.id.bottom_navigation_workout_log:
+                    case R.id.bottom_navigation_menu_activity_detailed_program_schedule:
+                        mPagerAdapter.changeTab(TAB_SCHEDULE_TITLE);
                         break;
-                    case R.id.bottom_navigation_routines:
-                        break;
-                    case R.id.bottom_navigation_progress:
+                    case R.id.bottom_navigation_menu_activity_detailed_program_workouts:
+                        mPagerAdapter.changeTab(TAB_WORKOUTS_TITLE);
                         break;
                 }
                 return true;
             }
         });
+
+        mViewPager = (ViewPager) findViewById(R.id.activity_detailed_program_view_pager);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                if (mPrevMenuItem != null) {
+                    mPrevMenuItem.setChecked(false);
+                }
+                else
+                {
+                    mBottomNavigationView.getMenu().getItem(0).setChecked(false);
+                }
+
+                mBottomNavigationView.getMenu().getItem(position).setChecked(true);
+                mPrevMenuItem = mBottomNavigationView.getMenu().getItem(position);
+
+            }
+
+        });
+        mPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter.addFragment(new ProgramScheduleTabFragment(), "ProgramScheduleFragment");
+        mPagerAdapter.addFragment(new ProgramWorkoutsTabFragment(), "ProgramWorkoutsFragment");
+        mPagerAdapter.addFragment(new ProgramHistoryTabFragment(), "ProgramHistoryFragment");
+        mViewPager.setAdapter(mPagerAdapter);
 
        // mEditProgramFragment = new EditProgramFragment();
         //mEditProgramFragment.setProgram(mProgram);
@@ -79,31 +112,20 @@ public class DetailedProgramActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_create_program_fragment, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Log.i("DetailedProgram", "onHomeClick()");
                 setProgramModifiedResult(false);
                 finish();
                 return true;
-            case R.id.menu_create_workout_save_program:
-                if (mEditProgramFragment.verifyFields()) {
-                    ProgramLab.get(this).updateProgram(mEditProgramFragment.getProgram());
-                    setProgramModifiedResult(true);
-                    finish();
-                }
-
             default:
+                Log.i("DetailedProgram", "onDefaultClick()");
                 return super.onOptionsItemSelected(item);
         }
     }
@@ -117,5 +139,40 @@ public class DetailedProgramActivity extends AppCompatActivity {
 
     public static boolean wasProgramModified(Intent result) {
         return result.getBooleanExtra(EXTRA_PROGRAM_MODIFIED, false);
+    }
+
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            return mFragmentList.get(position);
+        }
+
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+
+        public void changeTab(String tabTitle) {
+            mViewPager.setCurrentItem(mFragmentTitleList.indexOf(tabTitle));
+        }
     }
 }

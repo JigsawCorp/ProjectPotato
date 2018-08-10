@@ -80,4 +80,8 @@
     <string name="empty_program_name_filler">Enter a program name</string>
     <string name="empty_program_description_filler">Enter a description</string>
 
+    <string name="bottom_navigation_menu_detailed_program_schedulde">Schedule</string>
+    <string name="bottom_navigation_menu_detailed_program_workouts">Workouts</string>
+    <string name="bottom_navigation_menu_detailed_program_history">History</string>
+
 </resources>
