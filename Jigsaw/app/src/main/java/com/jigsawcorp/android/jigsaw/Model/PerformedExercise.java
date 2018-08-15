@@ -1,7 +1,5 @@
 package com.jigsawcorp.android.jigsaw.Model;
 
-import android.database.sqlite.SQLiteDatabase;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +11,7 @@ public class PerformedExercise {
     private UUID mWorkout;
     private Date mStartDate;
     private Date mEndDate;
-    private List<Set> mSets;
+    private List<PerformedSet> mPerformedSets;
     private String mNotes;
 
     // Constructor when adding from a workout
@@ -24,17 +22,17 @@ public class PerformedExercise {
         mStartDate = startDate;
         mEndDate = null;
         mNotes = "";
-        mSets = new ArrayList<>();
+        mPerformedSets = new ArrayList<>();
     }
 
     // Constructor from the database
-    public PerformedExercise(UUID id, UUID exercise, UUID workout, Date startDate, Date endDate, List<Set> sets, String notes) {
+    public PerformedExercise(UUID id, UUID exercise, UUID workout, Date startDate, Date endDate, List<PerformedSet> performedSets, String notes) {
         mId = id;
         mExercise = exercise;
         mWorkout = workout;
         mStartDate = startDate;
         mEndDate = endDate;
-        mSets = sets;
+        mPerformedSets = performedSets;
         mNotes = notes;
     }
 
@@ -86,20 +84,20 @@ public class PerformedExercise {
         mEndDate = date;
     }
 
-    public List<Set> getSets() {
-        return mSets;
+    public List<PerformedSet> getPerformedSets() {
+        return mPerformedSets;
     }
 
-    public void setSets(List<Set> sets) {
-        mSets = sets;
+    public void setPerformedSets(List<PerformedSet> performedSets) {
+        mPerformedSets = performedSets;
     }
 
-    public void addSet(Set set) {
-        mSets.add(set);
+    public void addSet(PerformedSet performedSet) {
+        mPerformedSets.add(performedSet);
     }
 
-    public void updateSet(Set set) {
-        mSets.set(mSets.indexOf(set), set);
+    public void updateSet(PerformedSet performedSet) {
+        mPerformedSets.set(mPerformedSets.indexOf(performedSet), performedSet);
     }
 
     public String getNotes() {

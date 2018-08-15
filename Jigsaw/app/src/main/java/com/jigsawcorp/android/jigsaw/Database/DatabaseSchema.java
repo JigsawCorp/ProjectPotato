@@ -57,7 +57,7 @@ public class DatabaseSchema {
             public static final String WORKOUT = "workout";
             public static final String START_DATE = "start_date";
             public static final String END_DATE = "end_date";
-            public static final String SETS = "sets";
+            public static final String PERFORMED_SETS = "performed_sets";
             public static final String NOTES = "notes";
         }
     }

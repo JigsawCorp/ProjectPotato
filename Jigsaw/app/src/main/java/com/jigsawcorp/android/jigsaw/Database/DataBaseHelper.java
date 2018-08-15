@@ -54,7 +54,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             DatabaseSchema.PerformedExerciseTable.Cols.WORKOUT + ", " +
             DatabaseSchema.PerformedExerciseTable.Cols.START_DATE + ", " +
             DatabaseSchema.PerformedExerciseTable.Cols.END_DATE + ", " +
-            DatabaseSchema.PerformedExerciseTable.Cols.SETS + ", " +
+            DatabaseSchema.PerformedExerciseTable.Cols.PERFORMED_SETS + ", " +
             DatabaseSchema.PerformedExerciseTable.Cols.NOTES +
             ")";
 

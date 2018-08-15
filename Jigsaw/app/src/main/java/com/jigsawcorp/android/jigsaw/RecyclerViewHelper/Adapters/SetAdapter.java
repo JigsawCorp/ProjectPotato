@@ -1,32 +1,29 @@
 package com.jigsawcorp.android.jigsaw.RecyclerViewHelper.Adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jigsawcorp.android.jigsaw.Model.Set;
+import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetHolder> {
-    private List<Set> mSets;
+    private List<PerformedSet> mPerformedSets;
     public int mSelectedPosition;
     private  OnItemClickListener mListener;
     private Context mContext;
 
     public interface OnItemClickListener {
-        void onItemSelected(Set set);
+        void onItemSelected(PerformedSet performedSet);
     }
 
-    public SetAdapter(Context context, List<Set> sets, OnItemClickListener listener) {
-        mSets = sets;
+    public SetAdapter(Context context, List<PerformedSet> performedSets, OnItemClickListener listener) {
+        mPerformedSets = performedSets;
         mSelectedPosition = -1;
         mListener = listener;
         mContext = context;
@@ -40,31 +37,31 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetHolder> {
 
     @Override
     public void onBindViewHolder(SetHolder holder, int position) {
-        Set set = mSets.get(position);
-        holder.bind(set, position, mListener);
+        PerformedSet performedSet = mPerformedSets.get(position);
+        holder.bind(performedSet, position, mListener);
     }
 
     @Override
     public int getItemCount() {
-        return mSets.size();
+        return mPerformedSets.size();
     }
 
-    public void setSets(List<Set> sets) {
-        mSets = sets;
+    public void setPerformedSets(List<PerformedSet> performedSets) {
+        mPerformedSets = performedSets;
     }
 
-    public void addSet(Set set) {
-        mSets.add(set);
+    public void addSet(PerformedSet performedSet) {
+        mPerformedSets.add(performedSet);
         notifyDataSetChanged();
     }
 
-    public void updateSet(Set set) {
-        mSets.set(mSets.indexOf(set), set);
-        notifyItemChanged(mSets.indexOf(set));
+    public void updateSet(PerformedSet performedSet) {
+        mPerformedSets.set(mPerformedSets.indexOf(performedSet), performedSet);
+        notifyItemChanged(mPerformedSets.indexOf(performedSet));
     }
 
     public class SetHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private Set mSet;
+        private PerformedSet mPerformedSet;
 
         private TextView mPositionTextView;
         private TextView mWeightTextView;
@@ -79,11 +76,11 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetHolder> {
             mRepsTextView = (TextView) itemView.findViewById(R.id.list_item_set_reps);
         }
 
-        public void bind(Set set, int position, OnItemClickListener listener){
-            mSet = set;
+        public void bind(PerformedSet performedSet, int position, OnItemClickListener listener){
+            mPerformedSet = performedSet;
             mPositionTextView.setText(String.valueOf(position + 1));
-            mWeightTextView.setText(String.valueOf(set.getWeight()));
-            mRepsTextView.setText(String.valueOf(set.getReps()));
+            mWeightTextView.setText(String.valueOf(performedSet.getWeight()));
+            mRepsTextView.setText(String.valueOf(performedSet.getReps()));
 
             if (position == mSelectedPosition) {
                 itemView.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
@@ -104,7 +101,7 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetHolder> {
                 itemView.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
                 mSelectedPosition = getAdapterPosition();
                 notifyDataSetChanged();
-                mListener.onItemSelected(mSet);
+                mListener.onItemSelected(mPerformedSet);
             }
         }
     }

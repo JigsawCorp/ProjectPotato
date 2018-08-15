@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +18,10 @@ import android.widget.TextView;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.SelectableExerciseListFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
-import com.jigsawcorp.android.jigsaw.Model.Set;
+import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.RecyclerViewHelper.Adapters.SetAdapter;
-
-import org.w3c.dom.Text;
 
 import java.util.UUID;
 
@@ -57,16 +51,16 @@ public class PerformedExerciseEditActivity extends AppCompatActivity implements 
         // Setup RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_performed_exercise_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new SetAdapter(this, mPerformedExercise.getSets(), new SetAdapter.OnItemClickListener() {
+        mAdapter = new SetAdapter(this, mPerformedExercise.getPerformedSets(), new SetAdapter.OnItemClickListener() {
             @Override
-            public void onItemSelected(Set set) {
-                if (set == null) {
+            public void onItemSelected(PerformedSet performedSet) {
+                if (performedSet == null) {
                     hideEditSetFragment();
                 }
                 else {
                     showEditSetFragment();
                 }
-                ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).setSet(set);
+                ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).setPerformedSet(performedSet);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -75,10 +69,10 @@ public class PerformedExerciseEditActivity extends AppCompatActivity implements 
         mAddSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set newSet = new Set(findLatestSet());
-                ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).addNewSet(newSet);
+                PerformedSet newPerformedSet = new PerformedSet(findLatestSet());
+                ((EditSetFragment) getSupportFragmentManager().findFragmentById(R.id.activity_performed_exercise_edit_edit_set_container)).addNewSet(newPerformedSet);
                 mAdapter.mSelectedPosition = mAdapter.getItemCount();
-                mAdapter.addSet(newSet);
+                mAdapter.addSet(newPerformedSet);
                 showEditSetFragment();
             }
         });
@@ -117,23 +111,23 @@ public class PerformedExerciseEditActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public void onSetChanged(Set set) {
-        mAdapter.updateSet(set);
+    public void onSetChanged(PerformedSet performedSet) {
+        mAdapter.updateSet(performedSet);
     }
 
     private void updateUI() {
-        mAdapter.setSets(mPerformedExercise.getSets());
+        mAdapter.setPerformedSets(mPerformedExercise.getPerformedSets());
         mAdapter.notifyDataSetChanged();
     }
 
-    private Set findLatestSet() {
-        if (mPerformedExercise.getSets() == null || mPerformedExercise.getSets().size() == 0) {
+    private PerformedSet findLatestSet() {
+        if (mPerformedExercise.getPerformedSets() == null || mPerformedExercise.getPerformedSets().size() == 0) {
             // Check to see if any sets were performed
             // if so, return that last set
-            return new Set(0,0) ;
+            return new PerformedSet(0,0) ;
         }
         else {
-            return mPerformedExercise.getSets().get(mPerformedExercise.getSets().size() - 1);
+            return mPerformedExercise.getPerformedSets().get(mPerformedExercise.getPerformedSets().size() - 1);
         }
     }
 

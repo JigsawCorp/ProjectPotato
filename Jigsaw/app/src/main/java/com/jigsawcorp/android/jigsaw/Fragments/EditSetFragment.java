@@ -11,13 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.jigsawcorp.android.jigsaw.Model.Set;
+import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.R;
 
 public class EditSetFragment extends Fragment {
-    private Set mSet;
+    private PerformedSet mPerformedSet;
     private EditText mWeightTextView;
     private EditText mRepsTextView;
     private Button mAddWeightButton;
@@ -28,7 +27,7 @@ public class EditSetFragment extends Fragment {
 
 
     public interface OnSetModifiedListener {
-        void onSetChanged(Set set);
+        void onSetChanged(PerformedSet performedSet);
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +61,7 @@ public class EditSetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.i("EditSetFragment", "addWeight");
-                mSet.setWeight(mSet.getWeight() + 5);
+                mPerformedSet.setWeight(mPerformedSet.getWeight() + 5);
                 displaySet();
                 saveChanges();
             }
@@ -73,7 +72,7 @@ public class EditSetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.i("EditSetFragment", "removeWeight");
-                mSet.setWeight(mSet.getWeight() - 5);
+                mPerformedSet.setWeight(mPerformedSet.getWeight() - 5);
                 displaySet();
                 saveChanges();
             }
@@ -83,7 +82,7 @@ public class EditSetFragment extends Fragment {
         mAddRepsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSet.setReps(mSet.getReps() + 1);
+                mPerformedSet.setReps(mPerformedSet.getReps() + 1);
                 displaySet();
                 saveChanges();
             }
@@ -93,7 +92,7 @@ public class EditSetFragment extends Fragment {
         mRemoveRepsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSet.setReps(mSet.getReps() - 1);
+                mPerformedSet.setReps(mPerformedSet.getReps() - 1);
                 displaySet();
                 saveChanges();
             }
@@ -124,28 +123,28 @@ public class EditSetFragment extends Fragment {
         mListener = null;
     }
 
-    public void setSet(Set set) {
-        mSet = set;
+    public void setPerformedSet(PerformedSet performedSet) {
+        mPerformedSet = performedSet;
         displaySet();
     }
 
-    public void addNewSet(Set latestSet) {
-        mSet = latestSet;
+    public void addNewSet(PerformedSet latestPerformedSet) {
+        mPerformedSet = latestPerformedSet;
         displaySet();
     }
 
     private void displaySet() {
-        if (mSet == null) {
+        if (mPerformedSet == null) {
             mWeightTextView.setText("");
             mRepsTextView.setText("");
         }
         else {
-            mWeightTextView.setText(String.valueOf(mSet.getWeight()));
-            mRepsTextView.setText(String.valueOf(mSet.getReps()));
+            mWeightTextView.setText(String.valueOf(mPerformedSet.getWeight()));
+            mRepsTextView.setText(String.valueOf(mPerformedSet.getReps()));
         }
     }
 
     private void saveChanges() {
-        mListener.onSetChanged(mSet);
+        mListener.onSetChanged(mPerformedSet);
     }
 }

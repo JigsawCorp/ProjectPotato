@@ -3,6 +3,7 @@ package com.jigsawcorp.android.jigsaw.Activities;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
 
     // View Attributes
     private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private int mCurrentMenuItem;
    // private ViewPager mViewPager;
     private int mAdapterPosition;
     private static final int NUMBER_OF_MENUS = 6;
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
         mUser = UserLab.get(this).getUser();
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        mNavigationView = findViewById(R.id.nav_view);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
         setTitle("Home");
@@ -74,10 +77,16 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
 
-        navigationView.setNavigationItemSelectedListener(
+        mNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        int currentId = menuItem.getItemId();
+                        if (mCurrentMenuItem == currentId) {
+                            mDrawerLayout.closeDrawers();
+                            return false;
+                        }
+                        mCurrentMenuItem = currentId;
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
@@ -172,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
         //setToolbarTitle(0);
 //        mViewPager.setCurrentItem(0);
         changeFragment(new HomeFragment(), "Home");
+        mNavigationView.setCheckedItem(R.id.nav_home);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -204,6 +214,49 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
         Log.i(TAG, "changeFragment(" + fragment + ", " + toolbarTitle);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_fragment_container, fragment).addToBackStack(null).commit();
         //setTitle(toolbarTitle);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+           FragmentManager manager = getSupportFragmentManager();
+           Fragment currentFragment = (Fragment) manager.findFragmentById(R.id.main_activity_fragment_container);
+           if (currentFragment instanceof HomeFragment) {
+               manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+               super.onBackPressed();
+           }
+           else {
+               super.onBackPressed();
+               currentFragment = (Fragment) manager.findFragmentById(R.id.main_activity_fragment_container);
+               if (currentFragment instanceof HomeFragment) {
+                   mNavigationView.getMenu().getItem(0).setChecked(true);
+                   mCurrentMenuItem = mNavigationView.getMenu().getItem(0).getItemId();
+               }
+               else if (currentFragment instanceof CurrentWorkoutFragment) {
+                   mNavigationView.getMenu().getItem(1).setChecked(true);
+                   mCurrentMenuItem = mNavigationView.getMenu().getItem(1).getItemId();
+               }
+               else if (currentFragment instanceof ProgramsFragment) {
+                   mNavigationView.getMenu().getItem(2).setChecked(true);
+                   mCurrentMenuItem = mNavigationView.getMenu().getItem(2).getItemId();
+               }
+               else if (currentFragment instanceof PlanFragment) {
+                   mNavigationView.getMenu().getItem(3).setChecked(true);
+                   mCurrentMenuItem = mNavigationView.getMenu().getItem(3).getItemId();
+               }
+               else if (currentFragment instanceof ProgressFragment) {
+                   mNavigationView.getMenu().getItem(4).setChecked(true);
+                   mCurrentMenuItem = mNavigationView.getMenu().getItem(4).getItemId();
+               }
+               else if (currentFragment instanceof HistoryFragment) {
+                   mNavigationView.getMenu().getItem(5).setChecked(true);
+                   mCurrentMenuItem = mNavigationView.getMenu().getItem(5).getItemId();
+               }
+           }
+        }
     }
 
 

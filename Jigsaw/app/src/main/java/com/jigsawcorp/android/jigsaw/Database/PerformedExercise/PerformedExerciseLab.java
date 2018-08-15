@@ -4,12 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 
 import com.google.gson.Gson;
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema;
-import com.jigsawcorp.android.jigsaw.Model.Exercise;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 
 import java.util.ArrayList;
@@ -119,7 +117,7 @@ public class PerformedExerciseLab {
         values.put(DatabaseSchema.PerformedExerciseTable.Cols.END_DATE, performedExercise.getEndDate() == null ? 0 : 1);
         values.put(DatabaseSchema.PerformedExerciseTable.Cols.EXERCISE, performedExercise.getExercise().toString());
         values.put(DatabaseSchema.PerformedExerciseTable.Cols.WORKOUT, performedExercise.getWorkout().toString());
-        values.put(DatabaseSchema.PerformedExerciseTable.Cols.SETS, new Gson().toJson(performedExercise.getSets()));
+        values.put(DatabaseSchema.PerformedExerciseTable.Cols.PERFORMED_SETS, new Gson().toJson(performedExercise.getPerformedSets()));
         values.put(DatabaseSchema.PerformedExerciseTable.Cols.NOTES, performedExercise.getNotes());
         return values;
     }

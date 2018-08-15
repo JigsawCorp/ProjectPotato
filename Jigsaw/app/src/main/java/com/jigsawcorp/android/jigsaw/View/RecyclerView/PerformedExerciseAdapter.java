@@ -1,9 +1,7 @@
 package com.jigsawcorp.android.jigsaw.View.RecyclerView;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,27 +10,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jigsawcorp.android.jigsaw.Activities.PerformedExerciseEditActivity;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
-import com.jigsawcorp.android.jigsaw.Model.Set;
+import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.R;
-import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
 import com.jigsawcorp.android.jigsaw.View.SetHolder;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.CheckedOutputStream;
 
 public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExerciseAdapter.PerformedExerciseHolder> implements CurrentWorkoutFragment.ActionCompletionContract {
     private List<AbstractMap.SimpleEntry<PerformedExercise, Boolean>> mPerformedExercises = new ArrayList<>();
     private Context mContext;
     private CurrentWorkoutFragment.OnPerformedExerciseListEventListener mListener;
     private View mSelectedSetView;
-    private Set mSelectedSet;
+    private PerformedSet mSelectedPerformedSet;
 
     public PerformedExerciseAdapter(List<PerformedExercise> performedExercises, Context context) {
         for (PerformedExercise exercise : performedExercises) {
@@ -85,10 +79,10 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
     }
 
 
-    public void updateSelectedSet(Set set) {
-        SetHolder.replaceSetHolder(mSelectedSetView, set);
-        mSelectedSet.setReps(set.getReps());
-        mSelectedSet.setWeight(set.getWeight());
+    public void updateSelectedSet(PerformedSet performedSet) {
+        SetHolder.replaceSetHolder(mSelectedSetView, performedSet);
+        mSelectedPerformedSet.setReps(performedSet.getReps());
+        mSelectedPerformedSet.setWeight(performedSet.getWeight());
     }
 
     class PerformedExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -119,8 +113,8 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             mSetsContainer.setVisibility(performedExercise.getValue() ? View.VISIBLE : View.GONE);
             mSetsContainer.removeAllViews();
 
-            for (int i = 0; i < mPerformedExercise.getKey().getSets().size(); ++i) {
-                addSet(mPerformedExercise.getKey().getSets().get(i), i);
+            for (int i = 0; i < mPerformedExercise.getKey().getPerformedSets().size(); ++i) {
+                addSet(mPerformedExercise.getKey().getPerformedSets().get(i), i);
             }
             mExpandButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,17 +132,17 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             mAddSetButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Set newSet;
-                    if (mPerformedExercise.getKey().getSets() == null || mPerformedExercise.getKey().getSets().size() == 0) {
+                    PerformedSet newPerformedSet;
+                    if (mPerformedExercise.getKey().getPerformedSets() == null || mPerformedExercise.getKey().getPerformedSets().size() == 0) {
                         // Check to see if any sets were performed
                         // if so, return that last set
-                        newSet = new Set(0,0) ;
+                        newPerformedSet = new PerformedSet(0,0) ;
                     }
                     else {
-                        newSet = mPerformedExercise.getKey().getSets().get(mPerformedExercise.getKey().getSets().size() - 1);
+                        newPerformedSet = mPerformedExercise.getKey().getPerformedSets().get(mPerformedExercise.getKey().getPerformedSets().size() - 1);
                     }
-                    mPerformedExercise.getKey().addSet(newSet);
-                    selectSetHolder(addSet(newSet, (mPerformedExercise.getKey().getSets().size() - 1)), newSet);
+                    mPerformedExercise.getKey().addSet(newPerformedSet);
+                    selectSetHolder(addSet(newPerformedSet, (mPerformedExercise.getKey().getPerformedSets().size() - 1)), newPerformedSet);
                    // mListener.onNewSetClicked(newSet);
                 }
             });
@@ -161,33 +155,33 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             mListener.onExerciseClicked(mPerformedExercise.getKey());
         }
 
-        private View addSet(final Set set, int index) {
-            View setHolder = SetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext,set, index);
+        private View addSet(final PerformedSet performedSet, int index) {
+            View setHolder = SetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext, performedSet, index);
             setHolder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    selectSetHolder(view, set);
+                    selectSetHolder(view, performedSet);
                 }
             });
             mSetsContainer.addView(setHolder);
             return setHolder;
         }
 
-        private void selectSetHolder(View view, Set set) {
+        private void selectSetHolder(View view, PerformedSet performedSet) {
             if (view == mSelectedSetView) {
                 view.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-                mListener.onSetClicked(set, true);
+                mListener.onSetClicked(performedSet, true);
                 mSelectedSetView = null;
-                mSelectedSet = null;
+                mSelectedPerformedSet = null;
             }
             else {
                 if (mSelectedSetView != null) {
                     mSelectedSetView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
                 }
                 view.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
-                mListener.onSetClicked(set, false);
+                mListener.onSetClicked(performedSet, false);
                 mSelectedSetView = view;
-                mSelectedSet = set;
+                mSelectedPerformedSet = performedSet;
             }
         }
 

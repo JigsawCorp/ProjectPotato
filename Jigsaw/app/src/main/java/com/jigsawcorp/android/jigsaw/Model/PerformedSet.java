@@ -1,31 +1,31 @@
 package com.jigsawcorp.android.jigsaw.Model;
 
-public class Set {
+public class PerformedSet {
     public enum SetCategory {NORMAL, DROPSET, NEGATIVES}
     private int mReps;
     private double mWeight;
     private SetCategory mCategory;
     private boolean mIsPerformed;
 
-    public Set(double weight, int reps) {
+    public PerformedSet(double weight, int reps) {
         mWeight = weight;
         mReps = reps;
         mCategory = SetCategory.NORMAL;
         mIsPerformed = false;
     }
 
-    public Set(double weight, int reps, SetCategory category) {
+    public PerformedSet(double weight, int reps, SetCategory category) {
         mWeight = weight;
         mReps = reps;
         mCategory = category;
         mIsPerformed = false;
     }
 
-    public Set(Set set) {
-        mWeight = set.getWeight();
-        mReps = set.getReps();
-        mCategory = set.getCategory();
-        mIsPerformed = set.isPerformed();
+    public PerformedSet(PerformedSet performedSet) {
+        mWeight = performedSet.getWeight();
+        mReps = performedSet.getReps();
+        mCategory = performedSet.getCategory();
+        mIsPerformed = performedSet.isPerformed();
     }
 
     public int getReps() {

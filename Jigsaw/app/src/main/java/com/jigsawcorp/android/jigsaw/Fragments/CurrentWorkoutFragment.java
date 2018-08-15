@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -23,34 +22,26 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.jigsawcorp.android.jigsaw.Activities.ExerciseListActivity;
 import com.jigsawcorp.android.jigsaw.Activities.PerformedExerciseEditActivity;
-import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
-import com.jigsawcorp.android.jigsaw.Model.Set;
+import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.Model.User;
 import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
 import com.jigsawcorp.android.jigsaw.View.RecyclerView.PerformedExerciseAdapter;
-import com.jigsawcorp.android.jigsaw.View.SetHolder;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.OnSetModifiedListener {
     private String TAG = "CurrentWorkoutFragment";
@@ -232,8 +223,8 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
     }
 
     @Override
-    public void onSetChanged(Set set) {
-        mAdapter.updateSelectedSet(set);
+    public void onSetChanged(PerformedSet performedSet) {
+        mAdapter.updateSelectedSet(performedSet);
     }
 
     private void enableNoAcriveWorkoutWarning(boolean needWarning) {
@@ -273,7 +264,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
                 }
 
                 @Override
-                public void onSetClicked(Set set, Boolean sameSet) {
+                public void onSetClicked(PerformedSet performedSet, Boolean sameSet) {
                     Log.i(TAG, "onSetClicked(), the visibility is " + mEditSetContainer.getVisibility());
                     if (sameSet) {
                         hideEditSetFragment();
@@ -282,7 +273,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
                         if (mEditSetContainer.getVisibility() == View.GONE || mEditSetContainer.getVisibility() == View.INVISIBLE) {
                             showEditSetFragment();
                         }
-                        mEditSetFragment.setSet(set);
+                        mEditSetFragment.setPerformedSet(performedSet);
                     }
                 }
             });
@@ -380,7 +371,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
 
     public interface OnPerformedExerciseListEventListener {
         void onExerciseClicked(PerformedExercise performedExercise);
-        void onSetClicked(Set set, Boolean sameSet);
+        void onSetClicked(PerformedSet performedSet, Boolean sameSet);
     }
 
 

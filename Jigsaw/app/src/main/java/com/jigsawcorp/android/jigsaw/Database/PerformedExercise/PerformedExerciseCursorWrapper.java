@@ -3,15 +3,12 @@ package com.jigsawcorp.android.jigsaw.Database.PerformedExercise;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import android.provider.ContactsContract;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema;
-import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
-import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
-import com.jigsawcorp.android.jigsaw.Model.Set;
+import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,7 +36,7 @@ public class PerformedExerciseCursorWrapper extends CursorWrapper {
                 UUID.fromString(getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.WORKOUT))),
                 new Date(getLong(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.START_DATE))),
                 endDate,
-                (List<Set>) new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.SETS)), new TypeToken<ArrayList<Set>>(){}.getType()),
+                (List<PerformedSet>) new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.PERFORMED_SETS)), new TypeToken<ArrayList<PerformedSet>>(){}.getType()),
                 getString(getColumnIndex(DatabaseSchema.PerformedExerciseTable.Cols.NOTES)));
 
         return performedExercise;
