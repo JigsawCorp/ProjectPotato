@@ -147,11 +147,13 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
     @Override
     public void onResume() {
         super.onResume();
+        Log.i(TAG, "onResume()");
 
         if (mEditSetContainer.getVisibility() == View.VISIBLE) {
             hideEditSetFragment();
         }
         getActivity().setTitle("Current Workout");
+        mPerformedExercisesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
         menuCreate.close(false);
     }
@@ -254,7 +256,8 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
                 mFinishWorkoutButton.setVisible(true);
             }
         }
-        if (mAdapter == null) {
+        if (mPerformedExercisesRecyclerView.getAdapter() == null) {
+            Log.i(TAG, "mAdapter is null");
             mAdapter = new PerformedExerciseAdapter(performedExercises, getContext());
             mPerformedExercisesRecyclerView.setAdapter(mAdapter);
             mAdapter.setPerformedExerciseListEventListener(new OnPerformedExerciseListEventListener() {
