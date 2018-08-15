@@ -56,7 +56,6 @@ public class HistoryCalendarTab extends Fragment {
 
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(R.id.fragment_history_calebdar_tab_calendar_container, caldroidFragment);
-        t.addToBackStack(null);
         t.commit();
         return v;
     }
