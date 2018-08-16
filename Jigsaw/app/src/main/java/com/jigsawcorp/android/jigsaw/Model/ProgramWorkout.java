@@ -11,36 +11,41 @@ import java.util.Arrays;
 public class ProgramWorkout {
     private String mName, mDescription;
     private ArrayList<ProgramExercise> mExercises;
-    private ArrayList<SharedEnums.MuscleGroups> workedMuscleGroups;
+    private ArrayList<SharedEnums.MuscleGroups> mWorkedMuscleGroups;
     private boolean[] selectedMuscleGroups;
 
     public ProgramWorkout() {
         mName = "";
         mExercises = new ArrayList<>();
-        workedMuscleGroups = new ArrayList<>(Arrays.asList(SharedEnums.MuscleGroups.ABS, SharedEnums.MuscleGroups.BACK, SharedEnums.MuscleGroups.CHEST));
+        mWorkedMuscleGroups = new ArrayList<>(Arrays.asList(SharedEnums.MuscleGroups.ABS, SharedEnums.MuscleGroups.BACK, SharedEnums.MuscleGroups.CHEST));
         mDescription = "";
     }
     public boolean[] getSelectedMuscleGroups() {
         boolean[] selections = new boolean[SharedEnums.MuscleGroups.values().length];
         Arrays.fill(selections, Boolean.FALSE);
-        for (int i = 0; i < workedMuscleGroups.size(); ++i) {
-            selections[workedMuscleGroups.get(i).ordinal()] = true;
+        for (int i = 0; i < mWorkedMuscleGroups.size(); ++i) {
+            selections[mWorkedMuscleGroups.get(i).ordinal()] = true;
         }
         return selections;
     }
 
     public void setSelectedMuscleGroups(boolean[] selectedMuscleGroups) {
-        this.selectedMuscleGroups = selectedMuscleGroups;
+        mWorkedMuscleGroups.clear();
+        for (int i = 0; i < selectedMuscleGroups.length; ++i) {
+            if (selectedMuscleGroups[i]) {
+                mWorkedMuscleGroups.add(SharedEnums.MuscleGroups.values()[i]);
+            }
+        }
     }
 
     public ArrayList<SharedEnums.MuscleGroups> getWorkedMuscleGroups() {
-        return workedMuscleGroups;
+        return mWorkedMuscleGroups;
     }
 
     public ArrayList<String> getWorkedMuscleGroupsAsStrings() {
         ArrayList<String> workedMuscles = new ArrayList<>();
-        for (int i = 0; i < workedMuscleGroups.size(); ++i) {
-            workedMuscles.add(workedMuscleGroups.get(i).toString());
+        for (int i = 0; i < mWorkedMuscleGroups.size(); ++i) {
+            workedMuscles.add(mWorkedMuscleGroups.get(i).toString());
         }
         return workedMuscles;
     }

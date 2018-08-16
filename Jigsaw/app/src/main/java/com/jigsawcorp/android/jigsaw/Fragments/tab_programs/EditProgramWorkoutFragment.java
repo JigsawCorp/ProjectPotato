@@ -77,6 +77,8 @@ public class EditProgramWorkoutFragment extends Fragment {
                     @Override
                     public void onChoiceConfirmed(boolean[] selections) {
                         mProgramWorkout.setSelectedMuscleGroups(selections);
+                        mBodyPartsTrainedChoicePicker.setChoices(mProgramWorkout.getWorkedMuscleGroupsAsStrings());
+
                     }
                 });
                 fragment.show(manager, "WorkoutMuscleGroupsDialog");
