@@ -6,4 +6,5 @@ public class RequestCodes {
     public static final int REQUEST_CODE_CREATE_PROGRAM = 2;
     public static final int REQUEST_CODE_EDIT_PROGRAM = 3;
     public static final int REQUEST_CODE_VIEW_DETAILED_PROGRAM = 4;
+    public static final int REQUEST_CODE_CREATE_PROGRAM_WORKOUT = 5;
 }

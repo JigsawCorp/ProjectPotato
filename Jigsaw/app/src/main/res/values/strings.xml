@@ -19,19 +19,34 @@
     <string name="drawer_progress_title">Progress</string>
     <string name="drawer_history_title">History</string>
 
-    <string-array name="body_parts_array">
-        <item>All Body Parts</item>
-        <item>Abs</item>
-        <item>Back</item>
-        <item>Biceps</item>
-        <item>Calves</item>
-        <item>Cardio</item>
-        <item>Chest</item>
-        <item>Forearms</item>
-        <item>Legs</item>
-        <item>Shoulders</item>
-        <item>Triceps</item>
+    <string-array name="muscle_groups_array">
+        <item>@string/muscle_group_all_muscles</item>
+        <item>@string/muscle_group_abs</item>
+        <item>@string/muscle_group_back</item>
+        <item>@string/muscle_group_biceps</item>
+        <item>@string/muscle_group_calves</item>
+        <item>@string/muscle_group_cardio</item>
+        <item>@string/muscle_group_chest</item>
+        <item>@string/muscle_group_forearms</item>
+        <item>@string/muscle_group_legs</item>
+        <item>@string/muscle_group_shoulders</item>
+        <item>@string/muscle_group_triceps</item>
     </string-array>
+
+    <string name="muscle_group_all_muscles">All Muscle Groups</string>
+    <string name="muscle_group_abs">Abs</string>
+    <string name="muscle_group_back">Back</string>
+    <string name="muscle_group_biceps">Biceps</string>
+    <string name="muscle_group_calves">Calves</string>
+    <string name="muscle_group_cardio">Cardio</string>
+    <string name="muscle_group_chest">Chest</string>
+    <string name="muscle_group_forearms">Forearms</string>
+    <string name="muscle_group_legs">Legs</string>
+    <string name="muscle_group_shoulders">Shoulders</string>
+    <string name="muscle_group_triceps">Triceps</string>
+
+
+
 
     <string-array name="array_training_types">
         <item>@string/array_training_types_resistance_training</item>
@@ -83,5 +98,6 @@
     <string name="bottom_navigation_menu_detailed_program_schedulde">Schedule</string>
     <string name="bottom_navigation_menu_detailed_program_workouts">Workouts</string>
     <string name="bottom_navigation_menu_detailed_program_history">History</string>
+
 
 </resources>

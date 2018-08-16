@@ -16,4 +16,8 @@
         <attr name="title"/>
         <attr name="description"/>
     </declare-styleable>
+
+    <declare-styleable name="compound_settings_multiple_choice_picker">
+        <attr name="title"/>
+    </declare-styleable>
 </resources>

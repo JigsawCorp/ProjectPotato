@@ -2,7 +2,6 @@ package com.jigsawcorp.android.jigsaw.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -13,16 +12,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toolbar;
 
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
-import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
 import com.jigsawcorp.android.jigsaw.Fragments.ExerciseListFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.SelectableExerciseListFragment;
-import com.jigsawcorp.android.jigsaw.Model.Exercise;
 import com.jigsawcorp.android.jigsaw.R;
-
-import java.util.Arrays;
 
 public class ExerciseListActivity extends AppCompatActivity {
     private static final String EXTRA_NEED_SELECTABLE = "com.jigsawcorp.android.jigsaw.need_selectables";
@@ -41,7 +35,7 @@ public class ExerciseListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise_list);
 
         mBodyPartsSpinner = (Spinner) findViewById(R.id.spinner_body_part);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.body_parts_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.muscle_groups_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mBodyPartsSpinner.setAdapter(adapter);
         mBodyPartsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

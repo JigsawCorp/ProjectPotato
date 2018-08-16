@@ -3,6 +3,7 @@
     package="com.jigsawcorp.android.jigsaw">
 
     <application
+        android:name="com.jigsawcorp.android.jigsaw.ProjectPotato"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -37,6 +38,10 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.DetailedProgramActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activities.CreateProgramWorkoutActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
     </application>

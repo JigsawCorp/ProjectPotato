@@ -1,5 +1,6 @@
 package com.jigsawcorp.android.jigsaw.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.EditProgramFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramHistoryTabFragment;
@@ -21,6 +25,7 @@ import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramScheduleTabFr
 import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramWorkoutsTabFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +37,11 @@ public class DetailedProgramActivity extends AppCompatActivity {
     private static final String TAB_HISTORY_TITLE = "ProgramHistoryFragment";
     private static final String TAB_SCHEDULE_TITLE = "ProgramScheduleFragment";
     private static final String TAB_WORKOUTS_TITLE = "ProgramWorkoutsFragment";
+
+
+    private FloatingActionMenu mMenuCreate;
+    private FloatingActionButton mCreateWorkoutFab;
+    private FloatingActionButton mAddWorkoutFab;
 
     private BottomNavigationView mBottomNavigationView;
     private ViewPager mViewPager;
@@ -98,10 +108,23 @@ public class DetailedProgramActivity extends AppCompatActivity {
         mPagerAdapter.addFragment(new ProgramHistoryTabFragment(), "ProgramHistoryFragment");
         mViewPager.setAdapter(mPagerAdapter);
 
-       // mEditProgramFragment = new EditProgramFragment();
-        //mEditProgramFragment.setProgram(mProgram);
-       // getSupportFragmentManager().beginTransaction().replace(R.id.activity_create_program_edit_program_container, mEditProgramFragment, "EditProgramFragment").commit();
+        mMenuCreate = (FloatingActionMenu) findViewById(R.id.activity_detailed_program_fam);
 
+        mCreateWorkoutFab = (FloatingActionButton) findViewById(R.id.activity_detailed_program_fab_create_workout);
+        mCreateWorkoutFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(CreateProgramWorkoutActivity.newIntent(DetailedProgramActivity.this), RequestCodes.REQUEST_CODE_CREATE_PROGRAM_WORKOUT);
+            }
+        });
+
+        mAddWorkoutFab = (FloatingActionButton) findViewById(R.id.activity_detailed_program_fab_add_to_schedule);
+        mAddWorkoutFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startActivityForResult(ExerciseListActivity.newIntent(getContext(), true), RequestCodes.REQUEST_CODE_ADD_EXERCISE);
+            }
+        });
     }
 
     @Override
@@ -127,6 +150,25 @@ public class DetailedProgramActivity extends AppCompatActivity {
             default:
                 Log.i("DetailedProgram", "onDefaultClick()");
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if(requestCode == RequestCodes.REQUEST_CODE_CREATE_PROGRAM_WORKOUT) {
+            if (data == null) {
+                return;
+            }
+            else {
+                if (CreateProgramActivity.wasProgramCreated(data)) {
+                    //((ProgramsAdapter) mProgramsRecyclerView.getAdapter()).setPrograms(ProgramLab.get(getContext()).getPrograms());
+                }
+            }
+            mPagerAdapter.changeTab(TAB_WORKOUTS_TITLE);
         }
     }
 
