@@ -18,11 +18,15 @@ public class ProgramWorkout {
         mName = "";
         mExercises = new ArrayList<>();
         workedMuscleGroups = new ArrayList<>(Arrays.asList(SharedEnums.MuscleGroups.ABS, SharedEnums.MuscleGroups.BACK, SharedEnums.MuscleGroups.CHEST));
-        selectedMuscleGroups = new boolean[0];
         mDescription = "";
     }
     public boolean[] getSelectedMuscleGroups() {
-        return selectedMuscleGroups;
+        boolean[] selections = new boolean[SharedEnums.MuscleGroups.values().length];
+        Arrays.fill(selections, Boolean.FALSE);
+        for (int i = 0; i < workedMuscleGroups.size(); ++i) {
+            selections[workedMuscleGroups.get(i).ordinal()] = true;
+        }
+        return selections;
     }
 
     public void setSelectedMuscleGroups(boolean[] selectedMuscleGroups) {
@@ -33,6 +37,13 @@ public class ProgramWorkout {
         return workedMuscleGroups;
     }
 
+    public ArrayList<String> getWorkedMuscleGroupsAsStrings() {
+        ArrayList<String> workedMuscles = new ArrayList<>();
+        for (int i = 0; i < workedMuscleGroups.size(); ++i) {
+            workedMuscles.add(workedMuscleGroups.get(i).toString());
+        }
+        return workedMuscles;
+    }
     public String getName() {
         return mName;
     }

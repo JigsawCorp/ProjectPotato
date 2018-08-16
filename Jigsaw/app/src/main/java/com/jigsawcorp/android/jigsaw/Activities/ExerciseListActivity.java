@@ -19,6 +19,9 @@ import com.jigsawcorp.android.jigsaw.Fragments.SelectableExerciseListFragment;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Util.SharedEnums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ExerciseListActivity extends AppCompatActivity {
     private static final String EXTRA_NEED_SELECTABLE = "com.jigsawcorp.android.jigsaw.need_selectables";
     private Spinner mBodyPartsSpinner;
@@ -36,7 +39,9 @@ public class ExerciseListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise_list);
 
         mBodyPartsSpinner = (Spinner) findViewById(R.id.spinner_body_part);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.muscle_groups_array, android.R.layout.simple_spinner_item);
+        ArrayList<String> bodyPartsSpinnerChoices = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.muscle_groups_array)));
+        bodyPartsSpinnerChoices.add(0, getResources().getString(R.string.all_muscle_groups));
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, bodyPartsSpinnerChoices);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mBodyPartsSpinner.setAdapter(adapter);
         mBodyPartsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

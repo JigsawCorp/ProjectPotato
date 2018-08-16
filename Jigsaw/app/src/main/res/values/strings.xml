@@ -20,7 +20,6 @@
     <string name="drawer_history_title">History</string>
 
     <string-array name="muscle_groups_array">
-        <item>@string/muscle_group_all_muscles</item>
         <item>@string/muscle_group_abs</item>
         <item>@string/muscle_group_back</item>
         <item>@string/muscle_group_biceps</item>
@@ -44,6 +43,8 @@
     <string name="muscle_group_legs">Legs</string>
     <string name="muscle_group_shoulders">Shoulders</string>
     <string name="muscle_group_triceps">Triceps</string>
+
+    <string name="all_muscle_groups">All Muscle Groups</string>
 
 
 

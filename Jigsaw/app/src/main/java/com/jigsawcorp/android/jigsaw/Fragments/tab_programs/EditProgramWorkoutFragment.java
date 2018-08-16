@@ -66,7 +66,8 @@ public class EditProgramWorkoutFragment extends Fragment {
         });
 
         final ArrayList<String> muscleGroupsStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.muscle_groups_array)));
-        mBodyPartsTrainedChoicePicker.setChoices(muscleGroupsStringArray);
+
+        mBodyPartsTrainedChoicePicker.setChoices(mProgramWorkout.getWorkedMuscleGroupsAsStrings());
         mBodyPartsTrainedChoicePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +79,7 @@ public class EditProgramWorkoutFragment extends Fragment {
                         mProgramWorkout.setSelectedMuscleGroups(selections);
                     }
                 });
+                fragment.show(manager, "WorkoutMuscleGroupsDialog");
             }
         });
 
