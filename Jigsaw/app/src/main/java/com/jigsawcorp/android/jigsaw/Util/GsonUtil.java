@@ -33,7 +33,7 @@ public class GsonUtil {
             }
             else if (jsonObject.get("performed_exercises") == null){
                 Log.i("Deserializer", "with id");
-                return new Exercise(UUID.fromString(jsonObject.get("id").getAsString()),jsonObject.get("name").getAsString(), Exercise.BodyPart.valueOf(jsonObject.get("category").getAsString().toUpperCase()));
+                return new Exercise(UUID.fromString(jsonObject.get("id").getAsString()),jsonObject.get("name").getAsString(), SharedEnums.MuscleGroups.fromNameInString(jsonObject.get("category").getAsString().toUpperCase()));
             }
             else {
                // Log.i("Deserializer", "with id and exercises");

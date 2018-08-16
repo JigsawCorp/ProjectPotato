@@ -1,21 +1,23 @@
 package com.jigsawcorp.android.jigsaw.Model;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.Util.SharedEnums;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class ProgramWorkout {
     private String mName, mDescription;
     private ArrayList<ProgramExercise> mExercises;
+    private ArrayList<SharedEnums.MuscleGroups> workedMuscleGroups;
     private boolean[] selectedMuscleGroups;
 
     public ProgramWorkout() {
         mName = "";
         mExercises = new ArrayList<>();
+        workedMuscleGroups = new ArrayList<>(Arrays.asList(SharedEnums.MuscleGroups.ABS, SharedEnums.MuscleGroups.BACK, SharedEnums.MuscleGroups.CHEST));
         selectedMuscleGroups = new boolean[0];
         mDescription = "";
     }
@@ -25,6 +27,10 @@ public class ProgramWorkout {
 
     public void setSelectedMuscleGroups(boolean[] selectedMuscleGroups) {
         this.selectedMuscleGroups = selectedMuscleGroups;
+    }
+
+    public ArrayList<SharedEnums.MuscleGroups> getWorkedMuscleGroups() {
+        return workedMuscleGroups;
     }
 
     public String getName() {

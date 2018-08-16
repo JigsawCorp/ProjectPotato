@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw.Model;
+package com.jigsawcorp.android.jigsaw.Util;
 
 import com.jigsawcorp.android.jigsaw.ProjectPotato;
 import com.jigsawcorp.android.jigsaw.R;
@@ -26,6 +26,24 @@ public class SharedEnums {
         @Override
         public String toString() {
             return ProjectPotato.getAppContext().getString(resourceId);
+        }
+
+        public static MuscleGroups fromValueInString(String text) {
+            for (MuscleGroups muscleGroup : MuscleGroups.values()) {
+                if (muscleGroup.toString().equalsIgnoreCase(text)) {
+                    return muscleGroup;
+                }
+            }
+            throw new IllegalArgumentException("No MuscleGroups found with " + text + " as text");
+        }
+
+        public static MuscleGroups fromNameInString(String text) {
+            for (MuscleGroups muscleGroup : MuscleGroups.values()) {
+                if (muscleGroup.name().equalsIgnoreCase(text)) {
+                    return muscleGroup;
+                }
+            }
+            throw new IllegalArgumentException("No MuscleGroups found with " + text + " as text");
         }
     }
 }

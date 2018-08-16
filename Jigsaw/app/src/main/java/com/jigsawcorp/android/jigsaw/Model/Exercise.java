@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Util.GsonUtil;
+import com.jigsawcorp.android.jigsaw.Util.SharedEnums;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,12 +21,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class Exercise {
-    public static enum BodyPart {ABS, BACK, BICEPS, CALVES, CARDIO, CHEST, FOREARMS, LEGS, SHOULDERS, TRICEPS}
+   // public static enum BodyPart {ABS, BACK, BICEPS, CALVES, CARDIO, CHEST, FOREARMS, LEGS, SHOULDERS, TRICEPS}
     private UUID mId;
     private String mName;
     //private String[] mMajorBodyPartsTargeted;
     //private String[] mMinorBodyPartsTargeted;
-    private BodyPart mCategory;
+    private SharedEnums.MuscleGroups mCategory;
     private List<UUID> mPerformedExercisesIds;
 
     // Constructor from Json file
@@ -33,13 +34,13 @@ public class Exercise {
         mName = name;
         //mMajorBodyPartsTargeted = majorBodyPartsTargeted;
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
-        mCategory = BodyPart.valueOf(category.toUpperCase());
+        mCategory = SharedEnums.MuscleGroups.fromNameInString(category);
         mId = UUID.randomUUID();
         mPerformedExercisesIds = new ArrayList<>();
        // mPerformedExerciseLab = PerformedExerciseLab.get
     }
 
-    public Exercise(UUID id, String name, BodyPart category) {
+    public Exercise(UUID id, String name, SharedEnums.MuscleGroups category) {
         mName = name;
         //mMajorBodyPartsTargeted = majorBodyPartsTargeted;
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
@@ -49,7 +50,7 @@ public class Exercise {
     }
 
     // Constructor from the database
-    public Exercise(UUID id, String name, BodyPart category, List<UUID> performedExercises) {
+    public Exercise(UUID id, String name, SharedEnums.MuscleGroups category, List<UUID> performedExercises) {
         mName = name;
         //mMajorBodyPartsTargeted = majorBodyPartsTargeted;
         //mMinorBodyPartsTargeted = minorBodyPartsTargeted;
@@ -70,11 +71,11 @@ public class Exercise {
         mName = name;
     }
 
-    public BodyPart getCategory() {
+    public SharedEnums.MuscleGroups getCategory() {
         return mCategory;
     }
 
-    public void setCategory(BodyPart category) {
+    public void setCategory(SharedEnums.MuscleGroups category) {
         mCategory = category;
     }
 
@@ -112,36 +113,4 @@ public class Exercise {
         return  (List<Exercise>) gson.fromJson(jsonString, new TypeToken<ArrayList<Exercise>>(){}.getType());
     }
 
-    public static BodyPart getBodyPartFromString(String string) {
-        string = string.toLowerCase();
-        try {
-            switch (string) {
-                case "abs":
-                    return BodyPart.ABS;
-                case "back":
-                    return BodyPart.BACK;
-                case "biceps":
-                    return BodyPart.BICEPS;
-                case "calves":
-                    return BodyPart.CALVES;
-                case "cardio":
-                    return BodyPart.CARDIO;
-                case "chest":
-                    return BodyPart.CHEST;
-                case "forearms":
-                    return BodyPart.FOREARMS;
-                case "legs":
-                    return BodyPart.LEGS;
-                case "shoulders":
-                    return BodyPart.SHOULDERS;
-                case "triceps":
-                    return BodyPart.TRICEPS;
-                default:
-                    throw new IOException(string + " is not a valid bodypart category");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

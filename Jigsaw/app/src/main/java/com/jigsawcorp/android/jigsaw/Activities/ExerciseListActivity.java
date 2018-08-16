@@ -17,6 +17,7 @@ import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Fragments.ExerciseListFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.SelectableExerciseListFragment;
 import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.Util.SharedEnums;
 
 public class ExerciseListActivity extends AppCompatActivity {
     private static final String EXTRA_NEED_SELECTABLE = "com.jigsawcorp.android.jigsaw.need_selectables";
@@ -41,13 +42,13 @@ public class ExerciseListActivity extends AppCompatActivity {
         mBodyPartsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                String bodyPart = adapterView.getItemAtPosition(position).toString().toUpperCase();
+                String bodyPart = adapterView.getItemAtPosition(position).toString();
                 Log.i("ExerciseActivity", "onItemSelected " + bodyPart);
-                if (bodyPart.equals("ALL BODY PARTS")) {
+                if (bodyPart.equals(getResources().getString(R.string.muscle_group_all_muscles))) {
                     mListFragment.updateAdapterExercises(ExerciseLab.get(getParent()).getExercises());
                 }
                 else {
-                    mListFragment.updateAdapterExercises(ExerciseLab.get(getParent()).getExercises(bodyPart));
+                    mListFragment.updateAdapterExercises(ExerciseLab.get(getParent()).getExercises(SharedEnums.MuscleGroups.fromValueInString(bodyPart)));
                 }
             }
 

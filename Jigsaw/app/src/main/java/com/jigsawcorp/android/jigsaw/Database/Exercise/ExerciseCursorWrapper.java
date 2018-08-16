@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema;
 import com.jigsawcorp.android.jigsaw.Model.Exercise;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
+import com.jigsawcorp.android.jigsaw.Util.SharedEnums;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class ExerciseCursorWrapper extends CursorWrapper {
         Exercise exercise = new Exercise(
                 UUID.fromString(getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.UUID))),
                 getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.NAME)),
-                Exercise.BodyPart.valueOf(getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.CATEGORY))),
+                SharedEnums.MuscleGroups.fromNameInString(getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.CATEGORY))),
                 (List<UUID>) new Gson().fromJson(getString(getColumnIndex(DatabaseSchema.ExercisesTable.Cols.PERFORMED_EXERCISES)), new TypeToken<ArrayList<UUID>>(){}.getType()));
         return exercise;
     }

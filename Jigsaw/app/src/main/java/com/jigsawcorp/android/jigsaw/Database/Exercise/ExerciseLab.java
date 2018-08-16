@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema;
 import com.jigsawcorp.android.jigsaw.Model.Exercise;
+import com.jigsawcorp.android.jigsaw.Util.SharedEnums;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,10 +77,10 @@ public class ExerciseLab {
         return exercises;
     }
 
-    public List<Exercise> getExercises(String bodyPart) {
+    public List<Exercise> getExercises(SharedEnums.MuscleGroups bodyPart) {
         List<Exercise> exercises = new ArrayList<>();
 
-        ExerciseCursorWrapper cursor = queryCrimes(DatabaseSchema.ExercisesTable.Cols.CATEGORY + " = ?", new String[] {bodyPart});
+        ExerciseCursorWrapper cursor = queryCrimes(DatabaseSchema.ExercisesTable.Cols.CATEGORY + " = ?", new String[] {bodyPart.name()});
 
         try {
             if (cursor.getCount() == 0) {
