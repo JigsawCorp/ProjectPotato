@@ -87,8 +87,9 @@ public class CreateProgramWorkoutActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_create_program_workout_save_workout:
                 if (mEditProgramWorkoutFragment.verifyFields()) {
-                    ProgramLab.get(this).getProgram(UUID.fromString(getIntent().getStringExtra(EXTRA_PROGRAM_ID)));
+                    mProgram = ProgramLab.get(this).getProgram(UUID.fromString(getIntent().getStringExtra(EXTRA_PROGRAM_ID)));
                     mProgram.getProgramWorkouts().add(mEditProgramWorkoutFragment.getProgram().getId());
+                    ProgramLab.get(this).updateProgram(mProgram);
                     ProgramWorkoutLab.get(this).addProgramWorkout(mEditProgramWorkoutFragment.getProgram());
                     setWorkoutCreatedResult(true);
                     finish();
