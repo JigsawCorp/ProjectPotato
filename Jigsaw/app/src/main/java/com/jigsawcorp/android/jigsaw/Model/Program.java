@@ -128,4 +128,8 @@ public class Program {
     public void setProgramWorkouts(List<UUID> programWorkouts) {
         mProgramWorkouts = programWorkouts;
     }
+
+    public void removeProgramWorkout(ProgramWorkout programWorkout) {
+        mProgramWorkouts.remove(programWorkout.getId());
+    }
 }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
-import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_current_workout.CurrentWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.R;

@@ -105,4 +105,8 @@ public class CreateProgramWorkoutActivity extends AppCompatActivity {
         setResult(RESULT_OK, data);
     }
 
+    public static boolean wasProgramWorkoutCreated(Intent result) {
+        return result.getBooleanExtra(EXTRA_WORKOUT_CREATED, false);
+    }
+
 }

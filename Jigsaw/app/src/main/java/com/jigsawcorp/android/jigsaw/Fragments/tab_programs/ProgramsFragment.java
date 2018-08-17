@@ -42,7 +42,7 @@ public class ProgramsFragment extends Fragment {
         mProgramsRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_programs_recycler_view);
         mProgramsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mProgramsRecyclerView.setAdapter(new ProgramsAdapter(ProgramLab.get(getContext()).getPrograms(), getContext()));
-        ((ProgramsAdapter) mProgramsRecyclerView.getAdapter()).setEventListener(new ProgramsAdapter.ProgramsAdatperEventListener() {
+        ((ProgramsAdapter) mProgramsRecyclerView.getAdapter()).setEventListener(new ProgramsAdapter.ProgramsAdapterEventListener() {
             @Override
             public void onEditProgramClicked(Program program) {
                 startActivityForResult(EditProgramActivity.newIntent(getContext(), program.getId()), RequestCodes.REQUEST_CODE_EDIT_PROGRAM);

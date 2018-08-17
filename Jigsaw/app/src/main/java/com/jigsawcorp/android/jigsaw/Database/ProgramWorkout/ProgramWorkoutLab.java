@@ -10,6 +10,7 @@ import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
 import com.jigsawcorp.android.jigsaw.Database.DatabaseSchema;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseCursorWrapper;
 import com.jigsawcorp.android.jigsaw.Model.Exercise;
+import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.Model.ProgramWorkout;
 import com.jigsawcorp.android.jigsaw.Util.SharedEnums;
@@ -59,6 +60,13 @@ public class ProgramWorkoutLab {
         }
     }
 
+    public List<ProgramWorkout> getProgramWorkouts(List<UUID> uuids) {
+        List<ProgramWorkout> programWorkouts = new ArrayList<>();
+        for (UUID uuid: uuids) {
+            programWorkouts.add(getProgramWorkout(uuid));
+        }
+        return programWorkouts;
+    }
     public void updateProgramWorkout(ProgramWorkout programWorkout) {
         String uuidString = programWorkout.getId().toString();
         ContentValues values = getContentValues(programWorkout);

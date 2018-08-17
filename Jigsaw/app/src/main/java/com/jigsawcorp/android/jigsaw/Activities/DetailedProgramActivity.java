@@ -55,7 +55,7 @@ public class DetailedProgramActivity extends AppCompatActivity {
     }
 
 
-    private EditProgramFragment mEditProgramFragment;
+    private ProgramWorkoutsTabFragment mWorkoutsTabFragment;
     private Program mProgram;
 
     @Override
@@ -63,6 +63,8 @@ public class DetailedProgramActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_program);
         mProgram = ProgramLab.get(this).getProgram(UUID.fromString(getIntent().getStringExtra(EXTRA_PROGRAM_ID)));
+
+        mWorkoutsTabFragment = ProgramWorkoutsTabFragment.newInstance(mProgram.getId());
 
         mBottomNavigationView = findViewById(R.id.activity_detailed_program_bottom_navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -104,7 +106,7 @@ public class DetailedProgramActivity extends AppCompatActivity {
         });
         mPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mPagerAdapter.addFragment(new ProgramScheduleTabFragment(), "ProgramScheduleFragment");
-        mPagerAdapter.addFragment(new ProgramWorkoutsTabFragment(), "ProgramWorkoutsFragment");
+        mPagerAdapter.addFragment(mWorkoutsTabFragment, "ProgramWorkoutsFragment");
         mPagerAdapter.addFragment(new ProgramHistoryTabFragment(), "ProgramHistoryFragment");
         mViewPager.setAdapter(mPagerAdapter);
 
@@ -164,8 +166,10 @@ public class DetailedProgramActivity extends AppCompatActivity {
                 return;
             }
             else {
-                if (CreateProgramActivity.wasProgramCreated(data)) {
-                    //((ProgramsAdapter) mProgramsRecyclerView.getAdapter()).setPrograms(ProgramLab.get(getContext()).getPrograms());
+                if (CreateProgramWorkoutActivity.wasProgramWorkoutCreated(data)) {
+                    Log.i("BLABLABLA", "wasCreated()");
+                    Log.i("BLABLABLA", "in activityResult size is " + mProgram.getProgramWorkouts().size());
+                    mWorkoutsTabFragment.updateReyclerViewData();
                 }
             }
             mPagerAdapter.changeTab(TAB_WORKOUTS_TITLE);

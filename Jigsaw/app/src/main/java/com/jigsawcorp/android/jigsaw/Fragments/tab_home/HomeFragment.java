@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw.Fragments;
+package com.jigsawcorp.android.jigsaw.Fragments.tab_home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -16,13 +16,13 @@ import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
-import com.jigsawcorp.android.jigsaw.Fragments.CurrentWorkoutFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_current_workout.CurrentWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_history.HistoryFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.HomeFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.PlanFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_home.HomeFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_plan.PlanFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.User;
-import com.jigsawcorp.android.jigsaw.Fragments.ProgressFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_progress.ProgressFragment;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramsFragment;
 

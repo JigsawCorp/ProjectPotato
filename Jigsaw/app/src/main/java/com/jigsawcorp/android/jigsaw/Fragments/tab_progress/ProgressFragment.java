@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw.Fragments;
+package com.jigsawcorp.android.jigsaw.Fragments.tab_progress;
 
 import android.content.Context;
 import android.os.Bundle;

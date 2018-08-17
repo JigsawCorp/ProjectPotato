@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw.Fragments;
+package com.jigsawcorp.android.jigsaw.Fragments.tab_current_workout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,6 +31,8 @@ import com.jigsawcorp.android.jigsaw.Activities.PerformedExerciseEditActivity;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
+import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.SelectableExerciseListFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.Model.User;

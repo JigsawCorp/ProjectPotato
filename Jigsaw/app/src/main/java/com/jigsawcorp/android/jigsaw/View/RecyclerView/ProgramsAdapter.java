@@ -1,7 +1,6 @@
 package com.jigsawcorp.android.jigsaw.View.RecyclerView;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,9 +21,9 @@ import java.util.List;
 public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.ProgramHolder> {
     private List<Program> mPrograms = new ArrayList<>();
     private Context mContext;
-    private ProgramsAdatperEventListener mListener;
+    private ProgramsAdapterEventListener mListener;
 
-    public interface ProgramsAdatperEventListener {
+    public interface ProgramsAdapterEventListener {
         void onEditProgramClicked(Program program);
         void onDeleteProgramClicked(Program program);
         void onProgramClicked(Program program);
@@ -58,7 +57,7 @@ public class ProgramsAdapter extends RecyclerView.Adapter<ProgramsAdapter.Progra
         notifyDataSetChanged();
     }
 
-    public void setEventListener(ProgramsAdatperEventListener listener) {
+    public void setEventListener(ProgramsAdapterEventListener listener) {
         mListener = listener;
     }
 
