@@ -55,7 +55,7 @@ public class EditProgramActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_create_program_fragment, menu);
+        getMenuInflater().inflate(R.menu.menu_create_program_activity, menu);
         mConfirmEditsButton = (MenuItem) menu.findItem(R.id.menu_create_workout_save_program);
         return true;
     }

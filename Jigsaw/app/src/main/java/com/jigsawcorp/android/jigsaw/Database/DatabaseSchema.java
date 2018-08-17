@@ -78,4 +78,15 @@ public class DatabaseSchema {
             public static final String DESCRIPTION = "description";
         }
     }
+
+    public static final class ProgramWorkoutTable {
+        public static final String NAME = "program_workouts";
+
+        public static final class Cols {
+            public static final String UUID = "uuid";
+            public static final String NAME = "name";
+            public static final String WORKED_MUSCLE_GROUPS = "worked_muscle_groups";
+            public static final String DESCRIPTION = "description";
+        }
+    }
 }

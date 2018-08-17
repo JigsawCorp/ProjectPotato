@@ -7,18 +7,25 @@ import com.jigsawcorp.android.jigsaw.Util.SharedEnums;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class ProgramWorkout {
+    private UUID mId;
     private String mName, mDescription;
-    private ArrayList<ProgramExercise> mExercises;
     private ArrayList<SharedEnums.MuscleGroups> mWorkedMuscleGroups;
-    private boolean[] selectedMuscleGroups;
 
     public ProgramWorkout() {
+        mId = UUID.randomUUID();
         mName = "";
-        mExercises = new ArrayList<>();
         mWorkedMuscleGroups = new ArrayList<>(Arrays.asList(SharedEnums.MuscleGroups.ABS, SharedEnums.MuscleGroups.BACK, SharedEnums.MuscleGroups.CHEST));
         mDescription = "";
+    }
+
+    public ProgramWorkout(UUID id, String name, ArrayList<SharedEnums.MuscleGroups> workedMuscleGroups, String description) {
+        mId = id;
+        mName = name;
+        mWorkedMuscleGroups = workedMuscleGroups;
+        mDescription = description;
     }
     public boolean[] getSelectedMuscleGroups() {
         boolean[] selections = new boolean[SharedEnums.MuscleGroups.values().length];
@@ -65,14 +72,7 @@ public class ProgramWorkout {
         mDescription = description;
     }
 
-    public ArrayList<String> getWorkedMuscleGroups(Context context) {
-        ArrayList<String> workedMuscleGroups = new ArrayList<>();
-        context.getResources().getStringArray(R.array.muscle_groups_array);
-        for (int i = 0; i < selectedMuscleGroups.length; ++i) {
-            if (selectedMuscleGroups[i]) {
-
-            }
-        }
-        return null;
+    public UUID getId() {
+        return mId;
     }
 }

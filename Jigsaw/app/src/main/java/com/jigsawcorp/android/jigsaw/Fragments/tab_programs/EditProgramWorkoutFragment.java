@@ -137,10 +137,12 @@ public class EditProgramWorkoutFragment extends Fragment {
     }
 
     public boolean verifyFields() {
+        /*
         if (mNameEditText.getDescription().equals(getResources().getString(R.string.empty_program_name_filler)) || mNameEditText.getDescription().isEmpty()) {
             Toast.makeText(getContext(), "Your program must have a name!", Toast.LENGTH_LONG).show();
             return false;
         }
+        */
         return true;
     }
 }

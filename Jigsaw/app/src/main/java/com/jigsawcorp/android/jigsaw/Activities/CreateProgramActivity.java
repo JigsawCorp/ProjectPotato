@@ -43,7 +43,7 @@ public class CreateProgramActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_create_program_fragment, menu);
+        getMenuInflater().inflate(R.menu.menu_create_program_activity, menu);
         mCreateProgramButton = (MenuItem) menu.findItem(R.id.menu_current_workout_fragment_finish_workout);
         return true;
     }
