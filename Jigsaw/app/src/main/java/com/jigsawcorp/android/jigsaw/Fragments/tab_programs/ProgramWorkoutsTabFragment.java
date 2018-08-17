@@ -1,5 +1,7 @@
 package com.jigsawcorp.android.jigsaw.Fragments.tab_programs;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jigsawcorp.android.jigsaw.Activities.CreateProgramWorkoutActivity;
 import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
 import com.jigsawcorp.android.jigsaw.Database.ProgramWorkout.ProgramWorkoutLab;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.Model.ProgramWorkout;
 import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
 import com.jigsawcorp.android.jigsaw.View.RecyclerView.ProgramWorkoutAdapter;
 
 import java.util.UUID;
@@ -45,7 +49,7 @@ public class ProgramWorkoutsTabFragment extends Fragment {
         ((ProgramWorkoutAdapter) mProgramWorkoutsRecyclerView.getAdapter()).setEventListener(new ProgramWorkoutAdapter.ProgramWorkoutAdapterEventListener() {
             @Override
             public void onEditProgramWorkoutClicked(ProgramWorkout programWorkout) {
-
+                startActivityForResult(CreateProgramWorkoutActivity.newIntent(getContext(),mProgram.getId(), programWorkout.getId()), RequestCodes.REQUEST_CODE_EDIT_PROGRAM_WORKOUT);
             }
 
             @Override
@@ -73,5 +77,23 @@ public class ProgramWorkoutsTabFragment extends Fragment {
         Log.i("updateReyclerViewData", "size is " + ProgramWorkoutLab.get(getContext()).getProgramWorkouts(mProgram.getProgramWorkouts()).size());
         mProgram = ProgramLab.get(getContext()).getProgram(mProgram.getId());
         ((ProgramWorkoutAdapter)mProgramWorkoutsRecyclerView.getAdapter()).setPrograms(ProgramWorkoutLab.get(getContext()).getProgramWorkouts(mProgram.getProgramWorkouts()));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if(requestCode == RequestCodes.REQUEST_CODE_EDIT_PROGRAM_WORKOUT) {
+            if (data == null) {
+                return;
+            }
+            else {
+                if (CreateProgramWorkoutActivity.wasProgramWorkoutModified(data)) {
+                    updateReyclerViewData();
+                }
+            }
+        }
     }
 }

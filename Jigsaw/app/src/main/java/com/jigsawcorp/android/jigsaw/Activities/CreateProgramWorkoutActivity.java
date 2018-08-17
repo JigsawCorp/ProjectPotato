@@ -33,13 +33,23 @@ import java.util.UUID;
 public class CreateProgramWorkoutActivity extends AppCompatActivity {
     private static final String EXTRA_WORKOUT_CREATED = "workout_created";
     private static final String EXTRA_PROGRAM_ID = "program_id";
+    private static final String EXTRA_WORKOUT_ID = "workout_id";
+    private static final String EXTRA_WORKOUT_MODIFIED = "workout_modified";
     private EditProgramWorkoutFragment mEditProgramWorkoutFragment;
     private Program mProgram;
+    private ProgramWorkout mProgramWorkout;
+    private boolean isNewWorkout;
     private MenuItem mCreateProgramWorkoutButton;
 
-    public static Intent newIntent(Context packageContext, UUID programId) {
+    public static Intent newIntent(Context packageContext, UUID programId,UUID workoutId) {
         Intent intent = new Intent(packageContext, CreateProgramWorkoutActivity.class);
         intent.putExtra(EXTRA_PROGRAM_ID, programId.toString());
+        if (workoutId == null) {
+        intent.putExtra(EXTRA_WORKOUT_ID, "");
+        }
+        else {
+            intent.putExtra(EXTRA_WORKOUT_ID, workoutId.toString());
+        }
         return intent;
     }
     @Override
@@ -48,11 +58,19 @@ public class CreateProgramWorkoutActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_create_program_workout);
 
-        mEditProgramWorkoutFragment = new EditProgramWorkoutFragment();
-        mEditProgramWorkoutFragment.setProgramWorkout(new ProgramWorkout());
-
         mProgram = ProgramLab.get(this).getProgram(UUID.fromString(getIntent().getStringExtra(EXTRA_PROGRAM_ID)));
+        String workoutId = getIntent().getStringExtra(EXTRA_WORKOUT_ID);
+        if (workoutId.isEmpty()) {
+            mProgramWorkout = new ProgramWorkout();
+            isNewWorkout = true;
+        }
+        else {
+            mProgramWorkout = ProgramWorkoutLab.get(this).getProgramWorkout(UUID.fromString(workoutId));
+            isNewWorkout = false;
+        }
 
+        mEditProgramWorkoutFragment = new EditProgramWorkoutFragment();
+        mEditProgramWorkoutFragment.setProgramWorkout(mProgramWorkout);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_create_program_workout_edit_workout_container, mEditProgramWorkoutFragment, "EditProgramWorkoutFragment").commit();
 
@@ -61,7 +79,12 @@ public class CreateProgramWorkoutActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        setTitle("Create New Workout Day");
+        if (isNewWorkout) {
+            setTitle("Create New Workout Day");
+        }
+        else {
+            setTitle(mProgramWorkout.getName());
+        }
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.activity_create_program_workout_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -82,16 +105,27 @@ public class CreateProgramWorkoutActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                setWorkoutCreatedResult(false);
+                if (isNewWorkout) {
+                    setWorkoutCreatedResult(false);
+                }
+                else {
+                    setWorkoutModifiedResult(false);
+                }
                 finish();
                 return true;
             case R.id.menu_create_program_workout_save_workout:
                 if (mEditProgramWorkoutFragment.verifyFields()) {
-                    mProgram = ProgramLab.get(this).getProgram(UUID.fromString(getIntent().getStringExtra(EXTRA_PROGRAM_ID)));
-                    mProgram.getProgramWorkouts().add(mEditProgramWorkoutFragment.getProgram().getId());
-                    ProgramLab.get(this).updateProgram(mProgram);
-                    ProgramWorkoutLab.get(this).addProgramWorkout(mEditProgramWorkoutFragment.getProgram());
-                    setWorkoutCreatedResult(true);
+                    if (isNewWorkout) {
+                        mProgram = ProgramLab.get(this).getProgram(UUID.fromString(getIntent().getStringExtra(EXTRA_PROGRAM_ID)));
+                        mProgram.getProgramWorkouts().add(mEditProgramWorkoutFragment.getProgram().getId());
+                        ProgramLab.get(this).updateProgram(mProgram);
+                        ProgramWorkoutLab.get(this).addProgramWorkout(mEditProgramWorkoutFragment.getProgram());
+                        setWorkoutCreatedResult(true);
+                    }
+                    else {
+                        ProgramWorkoutLab.get(this).updateProgramWorkout(mEditProgramWorkoutFragment.getProgram());
+                        setWorkoutModifiedResult(true);
+                    }
                     finish();
                 }
             default:
@@ -105,8 +139,18 @@ public class CreateProgramWorkoutActivity extends AppCompatActivity {
         setResult(RESULT_OK, data);
     }
 
+    private void setWorkoutModifiedResult(boolean isModified) {
+        Intent data = new Intent();
+        data.putExtra(EXTRA_WORKOUT_MODIFIED, isModified);
+        setResult(RESULT_OK, data);
+    }
+
     public static boolean wasProgramWorkoutCreated(Intent result) {
         return result.getBooleanExtra(EXTRA_WORKOUT_CREATED, false);
+    }
+
+    public static boolean wasProgramWorkoutModified(Intent result) {
+        return result.getBooleanExtra(EXTRA_WORKOUT_MODIFIED, false);
     }
 
 }

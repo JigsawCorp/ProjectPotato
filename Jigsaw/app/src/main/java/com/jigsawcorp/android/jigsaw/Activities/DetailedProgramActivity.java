@@ -116,7 +116,7 @@ public class DetailedProgramActivity extends AppCompatActivity {
         mCreateWorkoutFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(CreateProgramWorkoutActivity.newIntent(DetailedProgramActivity.this, mProgram.getId()), RequestCodes.REQUEST_CODE_CREATE_PROGRAM_WORKOUT);
+                startActivityForResult(CreateProgramWorkoutActivity.newIntent(DetailedProgramActivity.this, mProgram.getId(), null), RequestCodes.REQUEST_CODE_CREATE_PROGRAM_WORKOUT);
             }
         });
 
@@ -157,6 +157,7 @@ public class DetailedProgramActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
