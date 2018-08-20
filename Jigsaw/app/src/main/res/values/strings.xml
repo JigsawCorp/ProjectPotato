@@ -100,5 +100,19 @@
     <string name="bottom_navigation_menu_detailed_program_workouts">Workouts</string>
     <string name="bottom_navigation_menu_detailed_program_history">History</string>
 
+    <string name="program_set_holder_reps_textView_min_max">%1$d - %2$d reps</string>
+    <plurals name="program_set_holder_reps_textView_single_value">
+        <item quantity="one">%1$d rep</item>
+        <item quantity="other">%1$d reps</item>
+    </plurals>
+    <string name="program_set_holder_reps_textView_amrap">AMRAP</string>
+    <string name="program_set_holder_reps_textView_amrap_min">%1$d+ reps</string>
+
+    <plurals name="amount_of_reps">
+        <item quantity="one">Rep</item>
+        <item quantity="other">Reps</item>
+    </plurals>
+
+
 
 </resources>

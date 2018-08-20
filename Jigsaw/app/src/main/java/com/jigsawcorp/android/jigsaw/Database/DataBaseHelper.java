@@ -75,6 +75,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             DatabaseSchema.ProgramWorkoutTable.Cols.UUID + ", " +
             DatabaseSchema.ProgramWorkoutTable.Cols.NAME + ", " +
             DatabaseSchema.ProgramWorkoutTable.Cols.WORKED_MUSCLE_GROUPS + ", " +
+            DatabaseSchema.ProgramWorkoutTable.Cols.PROGRAM_EXERCISES + ", " +
             DatabaseSchema.ProgramWorkoutTable.Cols.DESCRIPTION +
             ")";
 

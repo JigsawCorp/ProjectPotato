@@ -2,18 +2,22 @@ package com.jigsawcorp.android.jigsaw.Fragments.tab_programs;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jigsawcorp.android.jigsaw.Activities.CreateProgramWorkoutActivity;
+import com.jigsawcorp.android.jigsaw.Activities.ProgramWorkoutActivity;
 import com.jigsawcorp.android.jigsaw.Database.Program.ProgramLab;
 import com.jigsawcorp.android.jigsaw.Database.ProgramWorkout.ProgramWorkoutLab;
+import com.jigsawcorp.android.jigsaw.Fragments.tab_current_workout.CurrentWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Model.Program;
 import com.jigsawcorp.android.jigsaw.Model.ProgramWorkout;
 import com.jigsawcorp.android.jigsaw.R;
@@ -62,7 +66,7 @@ public class ProgramWorkoutsTabFragment extends Fragment {
 
             @Override
             public void onProgramWorkoutClicked(ProgramWorkout programWorkout) {
-
+                startActivity(ProgramWorkoutActivity.newIntent(getContext(), programWorkout.getId()));
             }
         });
         return v;
@@ -94,6 +98,62 @@ public class ProgramWorkoutsTabFragment extends Fragment {
                     updateReyclerViewData();
                 }
             }
+        }
+    }
+
+    public interface ActionCompletionContract {
+        void onViewMoved(int oldPosition, int newPosition);
+    }
+
+    public class SwipeAndDragHelper extends ItemTouchHelper.Callback {
+
+        private CurrentWorkoutFragment.ActionCompletionContract contract;
+
+        public SwipeAndDragHelper(CurrentWorkoutFragment.ActionCompletionContract contract) {
+            this.contract = contract;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = 0;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            contract.onViewMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return true;
+        }
+
+        @Override
+        public void onChildDraw(Canvas c,
+                                RecyclerView recyclerView,
+                                RecyclerView.ViewHolder viewHolder,
+                                float dX,
+                                float dY,
+                                int actionState,
+                                boolean isCurrentlyActive) {
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                float alpha = 1 - (Math.abs(dX) / recyclerView.getWidth());
+                viewHolder.itemView.setAlpha(alpha);
+            }
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+
+        @Override
+        public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            super.clearView(recyclerView, viewHolder);
+            recyclerView.getAdapter().notifyDataSetChanged();
         }
     }
 }

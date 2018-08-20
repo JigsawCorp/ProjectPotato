@@ -9,12 +9,20 @@ import java.util.UUID;
 public class ProgramExercise {
     private UUID mExercise;
     private String mNotes;
-    private List<Sets> mSets;
+    private List<ProgramSet> mSets;
 
     public ProgramExercise(UUID exercise) {
         mExercise = exercise;
         mNotes = "";
         mSets = new ArrayList<>();
+    }
+
+    public static List<ProgramExercise> createFromExercises(List<UUID> exercises) {
+        List<ProgramExercise> programExercises = new ArrayList<>();
+        for (UUID exercise: exercises) {
+            programExercises.add(new ProgramExercise(exercise));
+        }
+        return programExercises;
     }
 
     public String getNotes() {
@@ -25,11 +33,19 @@ public class ProgramExercise {
         mNotes = notes;
     }
 
-    public List<Sets> getSets() {
+    public List<ProgramSet> getSets() {
         return mSets;
     }
 
-    public void setSets(List<Sets> sets) {
+    public void setSets(List<ProgramSet> sets) {
         mSets = sets;
+    }
+
+    public UUID getExercise() {
+        return mExercise;
+    }
+
+    public void addSet(ProgramSet set) {
+        mSets.add(set);
     }
 }

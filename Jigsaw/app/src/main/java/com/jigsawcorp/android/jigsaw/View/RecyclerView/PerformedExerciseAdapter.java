@@ -1,7 +1,9 @@
 package com.jigsawcorp.android.jigsaw.View.RecyclerView;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,12 +99,12 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             super(inflater.inflate(R.layout.list_item_performed_exercise, parent, false));
             itemView.setOnClickListener(this);
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_title);
-            mPositionNumberingTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_position_indicator);
-            mExpandButton = (Button) itemView.findViewById(R.id.list_item_performed_exercise_expand_button);
-            mSetsContainer = (LinearLayout) itemView.findViewById(R.id.list_item_performed_exercise_sets_container);
-            mAddSetButton = (Button) itemView.findViewById(R.id.list_item_performed_exercise_button_add_set);
-            mAddSetTextView = (TextView) itemView.findViewById(R.id.list_item_performed_exercise_text_view_add_set);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_exercise_title);
+            mPositionNumberingTextView = (TextView) itemView.findViewById(R.id.list_item_exercise_position_indicator);
+            mExpandButton = (Button) itemView.findViewById(R.id.list_item_exercise_expand_button);
+            mSetsContainer = (LinearLayout) itemView.findViewById(R.id.list_item_exercise_sets_container);
+            mAddSetButton = (Button) itemView.findViewById(R.id.list_item_exercise_button_add_set);
+            mAddSetTextView = (TextView) itemView.findViewById(R.id.list_item_exercise_text_view_add_set);
         }
 
 
@@ -198,4 +200,6 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
             }
         }
     }
+
+
 }

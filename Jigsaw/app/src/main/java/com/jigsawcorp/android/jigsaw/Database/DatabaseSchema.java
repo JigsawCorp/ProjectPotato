@@ -86,7 +86,9 @@ public class DatabaseSchema {
             public static final String UUID = "uuid";
             public static final String NAME = "name";
             public static final String WORKED_MUSCLE_GROUPS = "worked_muscle_groups";
+            public static final String PROGRAM_EXERCISES =  "program_exercises";
             public static final String DESCRIPTION = "description";
         }
     }
+
 }

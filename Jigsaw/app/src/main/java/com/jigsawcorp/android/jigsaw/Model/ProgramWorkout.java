@@ -7,25 +7,29 @@ import com.jigsawcorp.android.jigsaw.Util.SharedEnums;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class ProgramWorkout {
     private UUID mId;
     private String mName, mDescription;
-    private ArrayList<SharedEnums.MuscleGroups> mWorkedMuscleGroups;
+    private List<SharedEnums.MuscleGroups> mWorkedMuscleGroups;
+    private List<ProgramExercise> mProgramExercises;
 
     public ProgramWorkout() {
         mId = UUID.randomUUID();
         mName = "";
         mWorkedMuscleGroups = new ArrayList<>(Arrays.asList(SharedEnums.MuscleGroups.ABS, SharedEnums.MuscleGroups.BACK, SharedEnums.MuscleGroups.CHEST));
+        mProgramExercises = new ArrayList<>();
         mDescription = "";
     }
 
-    public ProgramWorkout(UUID id, String name, ArrayList<SharedEnums.MuscleGroups> workedMuscleGroups, String description) {
+    public ProgramWorkout(UUID id, String name, ArrayList<SharedEnums.MuscleGroups> workedMuscleGroups, List<ProgramExercise> programExercises, String description) {
         mId = id;
         mName = name;
         mWorkedMuscleGroups = workedMuscleGroups;
         mDescription = description;
+        mProgramExercises = programExercises;
     }
     public boolean[] getSelectedMuscleGroups() {
         boolean[] selections = new boolean[SharedEnums.MuscleGroups.values().length];
@@ -45,7 +49,7 @@ public class ProgramWorkout {
         }
     }
 
-    public ArrayList<SharedEnums.MuscleGroups> getWorkedMuscleGroups() {
+    public List<SharedEnums.MuscleGroups> getWorkedMuscleGroups() {
         return mWorkedMuscleGroups;
     }
 
@@ -55,6 +59,10 @@ public class ProgramWorkout {
             workedMuscles.add(mWorkedMuscleGroups.get(i).toString());
         }
         return workedMuscles;
+    }
+
+    public void addExercises(List<ProgramExercise> exercises) {
+        mProgramExercises.addAll(exercises);
     }
     public String getName() {
         return mName;
@@ -74,5 +82,9 @@ public class ProgramWorkout {
 
     public UUID getId() {
         return mId;
+    }
+
+    public List<ProgramExercise> getProgramExercises() {
+        return mProgramExercises;
     }
 }

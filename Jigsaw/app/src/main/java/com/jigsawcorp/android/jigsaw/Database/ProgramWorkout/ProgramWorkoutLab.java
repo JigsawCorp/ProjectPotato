@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 
 import com.google.gson.Gson;
 import com.jigsawcorp.android.jigsaw.Database.DataBaseHelper;
@@ -91,6 +92,7 @@ public class ProgramWorkoutLab {
         values.put(DatabaseSchema.ProgramWorkoutTable.Cols.UUID, programWorkout.getId().toString());
         values.put(DatabaseSchema.ProgramWorkoutTable.Cols.NAME, programWorkout.getName());
         values.put(DatabaseSchema.ProgramWorkoutTable.Cols.WORKED_MUSCLE_GROUPS, new Gson().toJson(programWorkout.getWorkedMuscleGroups()));
+        values.put(DatabaseSchema.ProgramWorkoutTable.Cols.PROGRAM_EXERCISES, new Gson().toJson(programWorkout.getProgramExercises()));
         values.put(DatabaseSchema.ProgramWorkoutTable.Cols.DESCRIPTION, programWorkout.getDescription());
         return values;
     }

@@ -44,6 +44,10 @@
             android:name=".Activities.CreateProgramWorkoutActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activities.ProgramWorkoutActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
