@@ -112,7 +112,7 @@ public class ProgramWorkoutActivity extends AppCompatActivity {
         mEditProgramSetFragment.setOnEventListener(new EditProgramSetFragment.OnEventListener() {
             @Override
             public void onSetChanged(ProgramSet programSet) {
-
+                mAdapter.updateSelectedSet(programSet);
             }
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_program_workout_edit_set_container, mEditProgramSetFragment, "EditProgramSetFragment").commit();
@@ -147,8 +147,7 @@ public class ProgramWorkoutActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
 
-         //hideEditSetFragment();
-         showEditSetFragment();
+         hideEditSetFragment();
 
     }
 
