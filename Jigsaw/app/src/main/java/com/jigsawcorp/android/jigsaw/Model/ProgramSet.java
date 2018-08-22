@@ -66,6 +66,10 @@ public class ProgramSet {
         return mIsAmrapWithMin;
     }
 
+    public void setIsAmrapWithMin(boolean amrapWithMin) {
+        mIsAmrapWithMin = amrapWithMin;
+    }
+
     public void updateSet(ProgramSet programSet) {
         mMinReps = programSet.getMinReps();
         mMaxReps = programSet.getMaxReps();

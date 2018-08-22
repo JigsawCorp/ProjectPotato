@@ -8,4 +8,5 @@
     <color name="light_grey">#d3d3d3</color>
     <color name="skyblue5">#0099CC</color>
     <color name="settingsLightBlue">#0198E1</color>
+    <color name="dark_black">#000000</color>
 </resources>
