@@ -191,9 +191,9 @@ public class WorkoutExerciseAdapter extends RecyclerView.Adapter<WorkoutExercise
                     mSelectedSetView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
                 }
                 view.setBackgroundColor(mContext.getResources().getColor(R.color.caldroid_sky_blue));
-                mListener.onSetClicked(programSet, false);
                 mSelectedSetView = view;
                 mSelectedProgramSet = programSet;
+                mListener.onSetClicked(programSet, false);
             }
         }
 

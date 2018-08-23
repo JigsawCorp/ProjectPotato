@@ -67,7 +67,7 @@ public class EditProgramSetFragment extends Fragment {
         mAddMinRepsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCurrentState.equals(state.NORMAL)) {
+                if (!mCurrentState.equals(state.AMRAP)) {
                     mProgramSet.setMinReps(mProgramSet.getMinReps() + 1);
                     displaySet();
                     saveChanges();
@@ -79,7 +79,7 @@ public class EditProgramSetFragment extends Fragment {
         mRemoveMinRepsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCurrentState.equals(state.NORMAL)) {
+                if (!mCurrentState.equals(state.AMRAP)) {
                     mProgramSet.setMinReps(mProgramSet.getMinReps() - 1);
                     displaySet();
                     saveChanges();
@@ -238,6 +238,8 @@ public class EditProgramSetFragment extends Fragment {
                     enableMaxReps(true);
                 }
                 mCurrentState = state.NORMAL;
+                mProgramSet.setIsAmrapWithMin(false);
+                mProgramSet.setIsAmrap(false);
                 break;
             case AMRAP:
                 if (mCurrentState.equals(state.AMRAP_WITH_MIN)) {
@@ -250,6 +252,8 @@ public class EditProgramSetFragment extends Fragment {
                     enableBothReps(false);
                 }
                 mCurrentState = state.AMRAP;
+                mProgramSet.setIsAmrap(true);
+                mProgramSet.setIsAmrapWithMin(false);
                 break;
             case AMRAP_WITH_MIN:
                 if (mCurrentState.equals(state.AMRAP)) {
@@ -262,8 +266,11 @@ public class EditProgramSetFragment extends Fragment {
                     enableMaxReps(false);
                 }
                 mCurrentState = state.AMRAP_WITH_MIN;
+                mProgramSet.setIsAmrapWithMin(true);
+                mProgramSet.setIsAmrap(false);
                 break;
         }
+        saveChanges();
     }
 
 }
