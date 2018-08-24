@@ -176,6 +176,7 @@ public class ProgramWorkoutActivity extends AppCompatActivity {
     }
 
     private void saveUI() {
+        mProgramWorkout.setProgramExercises(mAdapter.getProgramExercises());
         ProgramWorkoutLab.get(this).updateProgramWorkout(mProgramWorkout);
     }
 

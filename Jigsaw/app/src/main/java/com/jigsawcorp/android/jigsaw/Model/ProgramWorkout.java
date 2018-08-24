@@ -87,4 +87,8 @@ public class ProgramWorkout {
     public List<ProgramExercise> getProgramExercises() {
         return mProgramExercises;
     }
+
+    public void setProgramExercises(List<ProgramExercise> programExercises) {
+        mProgramExercises = programExercises;
+    }
 }
