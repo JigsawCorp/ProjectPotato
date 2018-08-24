@@ -151,7 +151,7 @@ public class WorkoutExerciseAdapter extends RecyclerView.Adapter<WorkoutExercise
                         newProgramSet = new ProgramSet(8,12, false, false);
                     }
                     else {
-                        newProgramSet = mProgramExercise.getKey().getSets().get(mProgramExercise.getKey().getSets().size() - 1);
+                        newProgramSet = new ProgramSet(mProgramExercise.getKey().getSets().get(mProgramExercise.getKey().getSets().size() - 1));
                     }
                     mProgramExercise.getKey().addSet(newProgramSet);
                     selectSetHolder(addSet(newProgramSet, (mProgramExercise.getKey().getSets().size() - 1)), newProgramSet);

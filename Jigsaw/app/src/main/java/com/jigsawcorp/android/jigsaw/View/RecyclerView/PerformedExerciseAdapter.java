@@ -141,7 +141,7 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
                         newPerformedSet = new PerformedSet(0,0) ;
                     }
                     else {
-                        newPerformedSet = mPerformedExercise.getKey().getPerformedSets().get(mPerformedExercise.getKey().getPerformedSets().size() - 1);
+                        newPerformedSet = new PerformedSet(mPerformedExercise.getKey().getPerformedSets().get(mPerformedExercise.getKey().getPerformedSets().size() - 1));
                     }
                     mPerformedExercise.getKey().addSet(newPerformedSet);
                     selectSetHolder(addSet(newPerformedSet, (mPerformedExercise.getKey().getPerformedSets().size() - 1)), newPerformedSet);
