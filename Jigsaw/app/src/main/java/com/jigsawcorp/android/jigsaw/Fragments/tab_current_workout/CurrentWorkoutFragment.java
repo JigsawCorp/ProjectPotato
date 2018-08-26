@@ -92,6 +92,12 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         menuCreate = (FloatingActionMenu) v.findViewById(R.id.action_menu_current_workout_add);
 
         fabAddRoutine = (FloatingActionButton) v.findViewById(R.id.fab_add_routine);
+        fabAddRoutine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         fabAddExercise = (FloatingActionButton) v.findViewById(R.id.fab_add_exercise);
         fabAddExercise.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +106,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
                 startActivityForResult(ExerciseListActivity.newIntent(getContext(), true), RequestCodes.REQUEST_CODE_ADD_EXERCISE);
             }
         });
+
         fab3 = (FloatingActionButton) v.findViewById(R.id.fab12);
 
         mBottomNavigationView = (BottomNavigationView) v.findViewById(R.id.bottom_navigation);

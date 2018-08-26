@@ -43,7 +43,12 @@ public class ProgramSetHolder {
 
         }
         else {
-            textView.setText(context.getResources().getString(R.string.program_set_holder_reps_textView_min_max, programSet.getMinReps(), programSet.getMaxReps()));
+            if (programSet.getMinReps() == programSet.getMaxReps()) {
+                textView.setText(context.getResources().getQuantityString(R.plurals.program_set_holder_reps_textView_single_value, programSet.getMinReps(), programSet.getMinReps()));
+            }
+            else {
+                textView.setText(context.getResources().getString(R.string.program_set_holder_reps_textView_min_max, programSet.getMinReps(), programSet.getMaxReps()));
+            }
         }
     }
 

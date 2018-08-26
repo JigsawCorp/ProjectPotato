@@ -10,6 +10,7 @@ public class DatabaseSchema {
         public static final class Cols {
             public static final String DATE_OF_BIRTH = "date_of_birth";
             public static final String ACTIVE_WORKOUT = "active_workout";
+            public static final String ACTIVE_PROGRAM = "active_program";
         }
     }
 

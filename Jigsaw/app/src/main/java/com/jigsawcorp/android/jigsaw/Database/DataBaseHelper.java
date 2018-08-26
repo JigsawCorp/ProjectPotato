@@ -45,7 +45,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_TABLE_USER = "create table if not exists " + DatabaseSchema.UserTable.NAME + "(" +
             DatabaseSchema.UserTable.Cols.DATE_OF_BIRTH + ", " +
-            DatabaseSchema.UserTable.Cols.ACTIVE_WORKOUT +
+            DatabaseSchema.UserTable.Cols.ACTIVE_WORKOUT + ", " +
+            DatabaseSchema.UserTable.Cols.ACTIVE_PROGRAM +
             ")";
 
     private static final String SQL_CREATE_TABLE_PERFORMED_EXERCISES = "create table if not exists " + DatabaseSchema.PerformedExerciseTable.NAME + "(" +

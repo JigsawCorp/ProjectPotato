@@ -77,6 +77,7 @@ public class UserLab {
         ContentValues values = new ContentValues();
         values.put(DatabaseSchema.UserTable.Cols.DATE_OF_BIRTH, user.getDateOfBirth().getTime());
         values.put(DatabaseSchema.UserTable.Cols.ACTIVE_WORKOUT, user.getActiveWorkout() == null ? null : user.getActiveWorkout().toString());
+        values.put(DatabaseSchema.UserTable.Cols.ACTIVE_PROGRAM, user.getActiveProgram() == null ? null : user.getActiveProgram().toString());
         return values;
     }
 

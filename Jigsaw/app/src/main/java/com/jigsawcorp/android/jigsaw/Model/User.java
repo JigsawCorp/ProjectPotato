@@ -13,11 +13,12 @@ import java.util.UUID;
 public class User {
 
     private Date mDateOfBirth;
-    private UUID mActiveWorkout;
+    private UUID mActiveWorkout, mActiveProgram;
 
-    public User(Date dateOfBirth, UUID activeWorkout) {
+    public User(Date dateOfBirth, UUID activeWorkout, UUID activeProgram) {
         mDateOfBirth = dateOfBirth;
         mActiveWorkout = activeWorkout;
+        mActiveProgram = activeProgram;
     }
 
     public void addWorkout(Workout workout, boolean isCurrentWorkout) {
@@ -37,12 +38,19 @@ public class User {
         this.mDateOfBirth = mDateOfBirth;
     }
 
-
     public UUID getActiveWorkout() {
         return mActiveWorkout;
-     }
+    }
 
-     public void setActiveWorkout(UUID workout) {
-        mActiveWorkout = workout;
-     }
+    public void setActiveWorkout(UUID activeWorkout) {
+        mActiveWorkout = activeWorkout;
+    }
+
+    public UUID getActiveProgram() {
+        return mActiveProgram;
+    }
+
+    public void setActiveProgram(UUID activeProgram) {
+        mActiveProgram = activeProgram;
+    }
 }

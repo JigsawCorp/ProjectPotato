@@ -68,6 +68,9 @@ public class EditProgramSetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!mCurrentState.equals(state.AMRAP)) {
+                    if (mProgramSet.getMinReps() == mProgramSet.getMaxReps()) {
+                        mProgramSet.setMaxReps(mProgramSet.getMaxReps() + 1);
+                    }
                     mProgramSet.setMinReps(mProgramSet.getMinReps() + 1);
                     displaySet();
                     saveChanges();
@@ -79,7 +82,7 @@ public class EditProgramSetFragment extends Fragment {
         mRemoveMinRepsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!mCurrentState.equals(state.AMRAP)) {
+                if (!mCurrentState.equals(state.AMRAP) && mProgramSet.getMinReps() > 1) {
                     mProgramSet.setMinReps(mProgramSet.getMinReps() - 1);
                     displaySet();
                     saveChanges();
@@ -103,7 +106,10 @@ public class EditProgramSetFragment extends Fragment {
         mRemoveMaxRepsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCurrentState.equals(state.NORMAL)) {
+                if (mCurrentState.equals(state.NORMAL) && mProgramSet.getMaxReps() > 1) {
+                    if (mProgramSet.getMinReps() == mProgramSet.getMaxReps()) {
+                        mProgramSet.setMinReps(mProgramSet.getMinReps() - 1);
+                    }
                     mProgramSet.setMaxReps(mProgramSet.getMaxReps() - 1);
                     displaySet();
                     saveChanges();
