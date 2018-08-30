@@ -2,26 +2,27 @@ package com.jigsawcorp.android.jigsaw.Fragments.tab_history;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
+import com.jigsawcorp.android.jigsaw.Fragments.Dialogs.HistoryCalendarCaseDialog;
 import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
-import hirondelle.date4j.DateTime;
+import java.util.UUID;
 
 public class HistoryCalendarTab extends Fragment {
     private static final String TAG = "HistoryCalendarTab";
@@ -46,11 +47,19 @@ public class HistoryCalendarTab extends Fragment {
         caldroidFragment.setCaldroidListener(new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                List<Workout> workouts = new ArrayList<>();
+                List<UUID> workouts = new ArrayList<>();
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
                 calendar.setTime(date);
-                workouts = WorkoutLab.get(getContext()).getWorkout(calendar);
-                Toast.makeText(getContext(),"Workouts found " + workouts.size(), Toast.LENGTH_SHORT).show();
+                workouts = WorkoutLab.get(getContext()).getWorkoutIds(calendar);
+                FragmentManager manager = getFragmentManager();
+                HistoryCalendarCaseDialog dialog = HistoryCalendarCaseDialog.newInstance(DateFormat.getDateInstance(DateFormat.LONG).format(date), workouts);
+                dialog.setHistoryCalendarCaseDialogListener(new HistoryCalendarCaseDialog.HistoryCalendarCaseDialogListener() {
+                    @Override
+                    public void onElementSelected(int pos) {
+
+                    }
+                });
+                dialog.show(manager, "HistoryCalendarCaseDiag");
             }
         });
 

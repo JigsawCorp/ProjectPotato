@@ -11,18 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
 import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
-import com.roomorama.caldroid.CalendarHelper;
 
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -137,7 +134,7 @@ public class CaldroidCustomAdapter extends CaldroidGridAdapter {
     }
 
     private List<Workout> getWorkoutFromDate(DateTime date) {
-         return WorkoutLab.get(context).getWorkout(date);
+         return WorkoutLab.get(context).getWorkouts(date);
     }
 
     @Override

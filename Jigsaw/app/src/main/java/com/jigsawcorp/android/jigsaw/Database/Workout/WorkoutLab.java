@@ -49,7 +49,7 @@ public class WorkoutLab {
         mDatabase.delete(DatabaseSchema.WorkoutsTable.NAME, DatabaseSchema.WorkoutsTable.Cols.UUID + " = ?", new String[] {workout.getId().toString()});
     }
 
-    public Workout getWorkout(UUID id) {
+    public Workout getWorkouts(UUID id) {
         WorkoutCursorWrapper cursor = queryCrimes(DatabaseSchema.WorkoutsTable.Cols.UUID + " = ?", new String[] { id.toString()});
 
         try {
@@ -64,7 +64,7 @@ public class WorkoutLab {
         }
     }
 
-    public List<Workout> getWorkout(DateTime date) {
+    public List<Workout> getWorkouts(DateTime date) {
         //Log.i("Blyat", "Start day: " + date.getStartOfDay().getMilliseconds(TimeZone.getDefault()) + ", end day: " + date.getEndOfDay().getMilliseconds(TimeZone.getDefault()));
         List<Workout> workouts = new ArrayList<>();
         Cursor cursor = mDatabase.rawQuery(
@@ -88,7 +88,7 @@ public class WorkoutLab {
         return workouts;
     }
 
-    public List<Workout> getWorkout(Calendar calendar) {
+    public List<Workout> getWorkouts(Calendar calendar) {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DATE);
@@ -111,6 +111,36 @@ public class WorkoutLab {
             while (!cursorWrapper.isAfterLast()) {
                 workouts.add(cursorWrapper.getWorkout());
                 Log.i("Blyat", "Found " + cursorWrapper.getWorkout().getId());
+                cursorWrapper.moveToNext();
+            }
+        } finally {
+            cursorWrapper.close();
+        }
+        return workouts;
+    }
+
+    public List<UUID> getWorkoutIds(Calendar calendar) {
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+        calendar.set(year, month, day, 0, 0, 0);
+        long startOfDay = calendar.getTimeInMillis();
+        calendar.add(Calendar.DATE, 1);
+        long startNextDay = calendar.getTimeInMillis();
+
+        List<UUID> workouts = new ArrayList<>();
+        Cursor cursor = mDatabase.rawQuery(
+                "SELECT * FROM " + DatabaseSchema.WorkoutsTable.NAME+ " WHERE " + DatabaseSchema.WorkoutsTable.Cols.START_DATE + " > " + startOfDay
+                        + " AND " + DatabaseSchema.WorkoutsTable.Cols.START_DATE + " < " + startNextDay, null);
+        WorkoutCursorWrapper cursorWrapper = new WorkoutCursorWrapper(cursor, mContext);
+
+        try {
+            if (cursorWrapper.getCount() == 0) {
+                return workouts;
+            }
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()) {
+                workouts.add(cursorWrapper.getWorkout().getId());
                 cursorWrapper.moveToNext();
             }
         } finally {

@@ -259,7 +259,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
             }
         }
         else {
-            mWorkout = WorkoutLab.get(getContext()).getWorkout(mUser.getActiveWorkout());
+            mWorkout = WorkoutLab.get(getContext()).getWorkouts(mUser.getActiveWorkout());
             performedExercises = PerformedExerciseLab.get(getContext()).getPerformedExercises(mWorkout.getPerformedExercises());
             if (mFinishWorkoutButton != null) {
                 mFinishWorkoutButton.setVisible(true);
