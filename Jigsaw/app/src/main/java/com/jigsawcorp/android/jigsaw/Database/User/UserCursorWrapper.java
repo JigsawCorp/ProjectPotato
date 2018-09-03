@@ -21,16 +21,27 @@ public class UserCursorWrapper extends CursorWrapper {
     public User getUser() {
         UUID activeWorkout, activeProgram;
         try {
-            activeWorkout = UUID.fromString(getString(getColumnIndex(DatabaseSchema.UserTable.Cols.ACTIVE_WORKOUT)));
+            String workoutId = getString(getColumnIndex(DatabaseSchema.UserTable.Cols.ACTIVE_WORKOUT));
+            if (workoutId == null) {
+                activeWorkout = null;
+            }
+            else {
+                activeWorkout = UUID.fromString(workoutId);
+            }
 
-        }catch (IllegalArgumentException |NullPointerException exception) {
+        }catch (IllegalArgumentException e) {
             activeWorkout = null;
         }
 
         try {
-            activeProgram = UUID.fromString(getString(getColumnIndex(DatabaseSchema.UserTable.Cols.ACTIVE_PROGRAM)));
-
-        }catch (IllegalArgumentException |NullPointerException exception) {
+            String programId = getString(getColumnIndex(DatabaseSchema.UserTable.Cols.ACTIVE_PROGRAM));
+            if (programId == null) {
+                activeProgram = null;
+            }
+            else {
+                activeProgram = UUID.fromString(programId);
+            }
+        }catch (IllegalArgumentException e) {
             activeProgram = null;
         }
 

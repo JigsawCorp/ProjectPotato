@@ -2,77 +2,35 @@ package com.jigsawcorp.android.jigsaw.Fragments.tab_current_workout;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
-import com.jigsawcorp.android.jigsaw.Activities.ExerciseListActivity;
-import com.jigsawcorp.android.jigsaw.Activities.PerformedExerciseEditActivity;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
-import com.jigsawcorp.android.jigsaw.Fragments.EditSetFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.SelectableExerciseListFragment;
+import com.jigsawcorp.android.jigsaw.Fragments.shared_tabs.EditWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
-import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.Model.User;
-import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
-import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
 import com.jigsawcorp.android.jigsaw.View.RecyclerView.PerformedExerciseAdapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
-public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.OnSetModifiedListener {
-    private String TAG = "CurrentWorkoutFragment";
-    // View
-    private FloatingActionMenu menuCreate;
-    private FloatingActionButton fabAddRoutine;
-    private FloatingActionButton fabAddExercise;
-    private FloatingActionButton fab3;
-    private RecyclerView mPerformedExercisesRecyclerView;
-    private Workout mWorkout;
-    private ConstraintLayout mEditSetContainer;
-    private MenuItem mFinishWorkoutButton;
+public class CurrentWorkoutFragment extends Fragment {
 
-    private TextView mWarningTextView;
-
-
-    private BottomNavigationView mBottomNavigationView;
-    private MenuItem mPrevMenuItem;
-    // Controller
-    private Callbacks mCallbacks;
-    private PerformedExerciseAdapter mAdapter;
-    private EditSetFragment mEditSetFragment;
-
-    public interface Callbacks {
-        public void onPerformedExerciseDeleted(PerformedExercise performedExercise);
-    }
-
-    // Model
+    private EditWorkoutFragment mEditWorkoutFragment;
     private User mUser;
+    private TextView mWarningTextView;
+    private MenuItem mFinishWorkoutButton;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,67 +39,27 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle onSavedInstanceState) {
-        Log.i(TAG, "onCreateView()");
         View v = inflater.inflate(R.layout.fragment_current_workout, container, false);
 
         mUser = UserLab.get(getContext()).getUser();
 
         mWarningTextView = v.findViewById(R.id.fragment_current_workout_warning_text_view);
-        enableNoAcriveWorkoutWarning(true);
 
-        menuCreate = (FloatingActionMenu) v.findViewById(R.id.action_menu_current_workout_add);
-
-        fabAddRoutine = (FloatingActionButton) v.findViewById(R.id.fab_add_routine);
-        fabAddRoutine.setOnClickListener(new View.OnClickListener() {
+        mEditWorkoutFragment = EditWorkoutFragment.newInstance(mUser.getActiveWorkout());
+        mEditWorkoutFragment.setListener(new EditWorkoutFragment.EditWorkoutFragmentEventListener() {
             @Override
-            public void onClick(View view) {
+            public void onPerformedExerciseDeleted(PerformedExercise performedExercise) {
 
             }
-        });
 
-        fabAddExercise = (FloatingActionButton) v.findViewById(R.id.fab_add_exercise);
-        fabAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                startActivityForResult(ExerciseListActivity.newIntent(getContext(), true), RequestCodes.REQUEST_CODE_ADD_EXERCISE);
+            public void onWorkoutCreated(UUID workout) {
+                mUser.setActiveWorkout(workout);
+                saveUI();
+                updateUI();
             }
         });
-
-        fab3 = (FloatingActionButton) v.findViewById(R.id.fab12);
-
-        mBottomNavigationView = (BottomNavigationView) v.findViewById(R.id.bottom_navigation);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Log.i(TAG, "clicked");
-                switch (menuItem.getItemId()) {
-                    case R.id.bottom_navigation_current_workout:
-                        break;
-                    case R.id.bottom_navigation_workout_log:
-                        break;
-                    case R.id.bottom_navigation_routines:
-                        break;
-                    case R.id.bottom_navigation_progress:
-                        break;
-                }
-                return true;
-            }
-        });
-
-        mPerformedExercisesRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_current_workout_recycler_view);
-        mPerformedExercisesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mEditSetContainer = (ConstraintLayout) v.findViewById(R.id.fragment_current_workout_edit_set_container);
-        mEditSetFragment = new EditSetFragment();
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment_current_workout_edit_set_container, mEditSetFragment, "EditSetFragment").commit();
-        mEditSetContainer.setVisibility(View.INVISIBLE);
-        final ViewTreeObserver vto = mEditSetContainer.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mEditSetContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                mEditSetContainer.setVisibility(View.GONE);
-            }
-        });
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment_current_workout_container_edit_workout, mEditWorkoutFragment, "EditWorkoutFragment").commit();
 
         return v;
     }
@@ -156,15 +74,8 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "onResume()");
-
-        if (mEditSetContainer.getVisibility() == View.VISIBLE) {
-            hideEditSetFragment();
-        }
         getActivity().setTitle("Current Workout");
-        mPerformedExercisesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
-        menuCreate.close(false);
     }
 
     @Override
@@ -172,7 +83,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_current_workout_fragment, menu);
         mFinishWorkoutButton = (MenuItem) menu.findItem(R.id.menu_current_workout_fragment_finish_workout);
-        if (mWorkout == null) {
+        if (mUser.getActiveWorkout() == null) {
             mFinishWorkoutButton.setVisible(false);
         }
 
@@ -184,7 +95,7 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
 
         switch (item.getItemId()) {
             case R.id.menu_current_workout_fragment_finish_workout:
-                if (mWorkout == null) {
+                if (mUser.getActiveWorkout() == null) {
                 }
                 else {
                     finishWorkout();
@@ -206,44 +117,16 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
-
-        if (requestCode == RequestCodes.REQUEST_CODE_ADD_EXERCISE) {
-            if (data == null) {
-                return;
-            }
-            if (mWorkout == null) {
-                mWorkout = new Workout();
-            }
-                WorkoutLab.get(getContext()).addWorkout(mWorkout);
-                mUser.setActiveWorkout(mWorkout.getId());
-                UserLab.get(getContext()).updateUser(mUser);
-                List<PerformedExercise> newPerformedExercises = PerformedExercise.createFromExercises(SelectableExerciseListFragment.getSelectedExercises(data), mWorkout.getId(), new Date());
-                PerformedExerciseLab.get(getContext()).addPerformedExercises(newPerformedExercises);
-                mWorkout.addPerformedExercises(newPerformedExercises);
-                WorkoutLab.get(getContext()).updateWorkout(mWorkout);
-
-
-            updateUI();
-        }
-        else if (requestCode == RequestCodes.REQUEST_CODE_EDIT_PERFORMED_EXERCISE) {
-            if (data == null) {
-                return;
-            }
-        }
-
     }
 
-    @Override
-    public void onSetChanged(PerformedSet performedSet) {
-        mAdapter.updateSelectedSet(performedSet);
-    }
-
-    private void enableNoAcriveWorkoutWarning(boolean needWarning) {
+    private void enableNoActiveWorkoutWarning(boolean needWarning) {
         if (!needWarning) {
             mWarningTextView.setVisibility(View.GONE);
+            mEditWorkoutFragment.displayRecyclerView(true);
         }
         else {
             mWarningTextView.setVisibility(View.VISIBLE);
+            mEditWorkoutFragment.displayRecyclerView(false);
         }
     }
 
@@ -253,200 +136,33 @@ public class CurrentWorkoutFragment extends Fragment implements EditSetFragment.
         List<PerformedExercise> performedExercises = new ArrayList<>();
 
         if (mUser.getActiveWorkout() == null) {
-            mWorkout = null;
+            mEditWorkoutFragment.setWorkout(null);
             if (mFinishWorkoutButton != null) {
                 mFinishWorkoutButton.setVisible(false);
             }
+            enableNoActiveWorkoutWarning(true);
         }
         else {
-            mWorkout = WorkoutLab.get(getContext()).getWorkouts(mUser.getActiveWorkout());
-            performedExercises = PerformedExerciseLab.get(getContext()).getPerformedExercises(mWorkout.getPerformedExercises());
+            mEditWorkoutFragment.setWorkout(mUser.getActiveWorkout());
             if (mFinishWorkoutButton != null) {
                 mFinishWorkoutButton.setVisible(true);
             }
+            enableNoActiveWorkoutWarning(false);
         }
-        if (mPerformedExercisesRecyclerView.getAdapter() == null) {
-            Log.i(TAG, "mAdapter is null");
-            mAdapter = new PerformedExerciseAdapter(performedExercises, getContext());
-            mPerformedExercisesRecyclerView.setAdapter(mAdapter);
-            mAdapter.setPerformedExerciseListEventListener(new OnPerformedExerciseListEventListener() {
-                @Override
-                public void onExerciseClicked(PerformedExercise performedExercise) {
-                    startActivityForResult(PerformedExerciseEditActivity.newIntent(getContext(), performedExercise.getmId()), RequestCodes.REQUEST_CODE_EDIT_PERFORMED_EXERCISE);
-                }
-
-                @Override
-                public void onSetClicked(PerformedSet performedSet, Boolean sameSet) {
-                    Log.i(TAG, "onSetClicked(), the visibility is " + mEditSetContainer.getVisibility());
-                    if (sameSet) {
-                        hideEditSetFragment();
-                    }
-                    else {
-                        if (mEditSetContainer.getVisibility() == View.GONE || mEditSetContainer.getVisibility() == View.INVISIBLE) {
-                            showEditSetFragment();
-                        }
-                        mEditSetFragment.setPerformedSet(performedSet);
-                    }
-                }
-            });
-            SwipeAndDragHelper swipeAndDragHelper = new SwipeAndDragHelper(mAdapter);
-            ItemTouchHelper touchHelper = new ItemTouchHelper(swipeAndDragHelper);
-            touchHelper.attachToRecyclerView(mPerformedExercisesRecyclerView);
-        }
-        else {
-            mAdapter.setPerformedExercises(performedExercises);
-            mAdapter.notifyDataSetChanged();
-        }
-        enableNoAcriveWorkoutWarning(mWorkout == null);
-
     }
 
     // Updates the database to match any changed data.
     private void saveUI() {
         UserLab.get(getContext()).updateUser(mUser);
-        if (mWorkout != null) {
-            PerformedExerciseLab.get(getContext()).updatePerformedExercises(mAdapter.getPerformedExercises());
-            mWorkout.setPerformedExercises(PerformedExercise.toUUIDs(((PerformedExerciseAdapter) mPerformedExercisesRecyclerView.getAdapter()).getPerformedExercises()));
-
-            WorkoutLab.get(getContext()).updateWorkout(mWorkout);
-        }
     }
 
     private void finishWorkout() {
-        Log.i(TAG, "finishWorkout");
-        mWorkout.setPerformedExercises(PerformedExercise.toUUIDs(((PerformedExerciseAdapter) mPerformedExercisesRecyclerView.getAdapter()).getPerformedExercises()));
-        WorkoutLab.get(getContext()).updateWorkout(mWorkout);
-        mWorkout = null;
+        mEditWorkoutFragment.saveUI();
         mUser.setActiveWorkout(null);
+        mEditWorkoutFragment.setWorkout(null);
         UserLab.get(getContext()).updateUser(mUser);
         updateUI();
-        if (mEditSetContainer.getVisibility() == View.VISIBLE) {
-            hideEditSetFragment();
-        }
-    }
 
-    public class SwipeAndDragHelper extends ItemTouchHelper.Callback {
-
-        private ActionCompletionContract contract;
-
-        public SwipeAndDragHelper(ActionCompletionContract contract) {
-            this.contract = contract;
-        }
-
-        @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            int swipeFlags = 0;
-            return makeMovementFlags(dragFlags, swipeFlags);
-        }
-
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            contract.onViewMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-            return true;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        }
-
-        @Override
-        public boolean isLongPressDragEnabled() {
-            return true;
-        }
-
-        @Override
-        public void onChildDraw(Canvas c,
-                                RecyclerView recyclerView,
-                                RecyclerView.ViewHolder viewHolder,
-                                float dX,
-                                float dY,
-                                int actionState,
-                                boolean isCurrentlyActive) {
-            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                float alpha = 1 - (Math.abs(dX) / recyclerView.getWidth());
-                viewHolder.itemView.setAlpha(alpha);
-            }
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        }
-
-        @Override
-        public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            super.clearView(recyclerView, viewHolder);
-            recyclerView.getAdapter().notifyDataSetChanged();
-        }
-    }
-
-    public interface ActionCompletionContract {
-        void onViewMoved(int oldPosition, int newPosition);
-        }
-
-    public interface OnPerformedExerciseListEventListener {
-        void onExerciseClicked(PerformedExercise performedExercise);
-        void onSetClicked(PerformedSet performedSet, Boolean sameSet);
-    }
-
-
-    private void hideEditSetFragment() {
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                0,  // fromYDelta
-                mEditSetContainer.getHeight());                // toYDelta
-        animate.setDuration(500);
-       // animate.setFillAfter(true);
-
-        TranslateAnimation animate1 = new TranslateAnimation(0,0,mBottomNavigationView.getHeight(),0);
-        animate1.setDuration(500);
-       // animate1.setFillAfter(true);
-        mBottomNavigationView.startAnimation(animate1);
-        mEditSetContainer.startAnimation(animate);
-        mBottomNavigationView.setVisibility(View.VISIBLE);
-        mEditSetContainer.setVisibility(View.GONE);
-    }
-
-    private void showEditSetFragment() {
-        mEditSetContainer.setVisibility(View.INVISIBLE);
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                mEditSetContainer.getHeight(),  // fromYDelta
-                0);                // toYDelta
-        animate.setDuration(500);
-        animate.setFillAfter(true);
-
-        TranslateAnimation animate1 = new TranslateAnimation(0,0,0,mBottomNavigationView.getHeight());
-        animate1.setDuration(500);
-        animate1.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mBottomNavigationView.clearAnimation();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        Animation anim = new ScaleAnimation(
-                1f, 1f, // Start and end values for the X axis scaling
-                1f, 0.8f, // Start and end values for the Y axis scaling
-                Animation.RELATIVE_TO_SELF, 0f, // Pivot point of X scaling
-                Animation.RELATIVE_TO_SELF, 1f); // Pivot point of Y scaling
-        anim.setFillAfter(true); // Needed to keep the result of the animation
-        anim.setDuration(500);
-        animate1.setFillAfter(true);
-        mBottomNavigationView.setVisibility(View.GONE);
-        mEditSetContainer.setVisibility(View.VISIBLE);
-        mBottomNavigationView.startAnimation(animate1);
-        mEditSetContainer.startAnimation(animate);
-        //mPerformedExercisesRecyclerView.startAnimation(anim);
     }
 
 }

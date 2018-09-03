@@ -116,6 +116,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(DatabaseSchema.UserTable.Cols.DATE_OF_BIRTH, "");
         values.put(DatabaseSchema.UserTable.Cols.ACTIVE_WORKOUT, "");
+        values.put(DatabaseSchema.UserTable.Cols.ACTIVE_PROGRAM, "");
         database.insert(DatabaseSchema.UserTable.NAME, null, values);
     }
 }

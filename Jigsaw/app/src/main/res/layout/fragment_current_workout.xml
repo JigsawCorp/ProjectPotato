@@ -7,21 +7,6 @@
     android:layout_height="match_parent"
     tools:layout_editor_absoluteY="25dp">
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:maxHeight="48dp"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu"
-        tools:layout_height="24dp" />
-
     <TextView
         android:id="@+id/fragment_current_workout_warning_text_view"
         android:layout_width="match_parent"
@@ -37,70 +22,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_current_workout_recycler_view"
+    <LinearLayout
+        android:id="@+id/fragment_current_workout_container_edit_workout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@id/fragment_current_workout_barrier_recycler_view"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/action_menu_current_workout_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_current_workout_barrier_recycler_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        fab:menu_animationDelayPerItem="0"
-        fab:menu_colorNormal="#FFB805"
-        fab:menu_colorPressed="#F2AB00"
-        fab:menu_colorRipple="#D99200"
-        fab:menu_labels_hideAnimation="@anim/jump_to_down"
-        fab:menu_labels_showAnimation="@anim/jump_from_down"
-        fab:menu_labels_style="@style/MenuLabelsStyle"
-        fab:menu_shadowColor="#444">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab12"
-            style="@style/MenuButtonsStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            fab:fab_label="Menu item 1" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_add_exercise"
-            style="@style/MenuButtonsStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            fab:fab_label="@string/fab_add_exercise" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_add_routine"
-            style="@style/MenuButtonsStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            fab:fab_label="@string/fab_add_routine" />
-    </com.github.clans.fab.FloatingActionMenu>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/fragment_current_workout_edit_set_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <android.support.constraint.Barrier
-        android:id="@+id/fragment_current_workout_barrier_recycler_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="top"
-        app:constraint_referenced_ids="bottom_navigation,fragment_current_workout_edit_set_container"/>
 
 </android.support.constraint.ConstraintLayout>

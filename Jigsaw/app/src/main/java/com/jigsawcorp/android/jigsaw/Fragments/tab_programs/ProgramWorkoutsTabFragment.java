@@ -107,9 +107,9 @@ public class ProgramWorkoutsTabFragment extends Fragment {
 
     public class SwipeAndDragHelper extends ItemTouchHelper.Callback {
 
-        private CurrentWorkoutFragment.ActionCompletionContract contract;
+        private ActionCompletionContract contract;
 
-        public SwipeAndDragHelper(CurrentWorkoutFragment.ActionCompletionContract contract) {
+        public SwipeAndDragHelper(ActionCompletionContract contract) {
             this.contract = contract;
         }
 

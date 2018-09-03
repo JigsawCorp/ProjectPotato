@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
+import com.jigsawcorp.android.jigsaw.Fragments.shared_tabs.EditWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_current_workout.CurrentWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
@@ -21,12 +22,17 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExerciseAdapter.PerformedExerciseHolder> implements CurrentWorkoutFragment.ActionCompletionContract {
+public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExerciseAdapter.PerformedExerciseHolder> implements EditWorkoutFragment.ActionCompletionContract {
     private List<AbstractMap.SimpleEntry<PerformedExercise, Boolean>> mPerformedExercises = new ArrayList<>();
     private Context mContext;
-    private CurrentWorkoutFragment.OnPerformedExerciseListEventListener mListener;
+    private OnPerformedExerciseListEventListener mListener;
     private View mSelectedSetView;
     private PerformedSet mSelectedPerformedSet;
+
+    public interface OnPerformedExerciseListEventListener {
+        void onExerciseClicked(PerformedExercise performedExercise);
+        void onSetClicked(PerformedSet performedSet, Boolean sameSet);
+    }
 
     public PerformedExerciseAdapter(List<PerformedExercise> performedExercises, Context context) {
         for (PerformedExercise exercise : performedExercises) {
@@ -74,7 +80,7 @@ public class PerformedExerciseAdapter extends RecyclerView.Adapter<PerformedExer
         return performedExercises;
     }
 
-    public void setPerformedExerciseListEventListener(CurrentWorkoutFragment.OnPerformedExerciseListEventListener listener) {
+    public void setPerformedExerciseListEventListener(OnPerformedExerciseListEventListener listener) {
         mListener = listener;
     }
 

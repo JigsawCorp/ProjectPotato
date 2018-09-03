@@ -16,6 +16,7 @@ import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.PerformedExercise.PerformedExerciseLab;
 import com.jigsawcorp.android.jigsaw.Database.User.UserLab;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
+import com.jigsawcorp.android.jigsaw.Fragments.shared_tabs.EditWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_current_workout.CurrentWorkoutFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_history.HistoryFragment;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_home.HomeFragment;
@@ -26,7 +27,7 @@ import com.jigsawcorp.android.jigsaw.Fragments.tab_progress.ProgressFragment;
 import com.jigsawcorp.android.jigsaw.R;
 import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramsFragment;
 
-public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks, CurrentWorkoutFragment.Callbacks {
+public class MainActivity extends AppCompatActivity implements DataBaseHelper.Callbacks {
 
     // Util Attributes
     private static final String TAG = "MainActivity";
@@ -195,14 +196,6 @@ public class MainActivity extends AppCompatActivity implements DataBaseHelper.Ca
 
     // Model Callbacks
 
-    @Override
-    public void onPerformedExerciseDeleted(PerformedExercise performedExercise) {
-        mPerformedExerciseLab.removePerformedExercise(performedExercise);
-        Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_container);
-        if (fragment instanceof CurrentWorkoutFragment) {
-            ((CurrentWorkoutFragment) fragment).updateUI();
-        }
-    }
 
     @Override
     public void onCreateDatabase() {
