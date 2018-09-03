@@ -1,9 +1,7 @@
 package com.jigsawcorp.android.jigsaw.View.RecyclerView;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,7 @@ import com.jigsawcorp.android.jigsaw.Fragments.tab_current_workout.CurrentWorkou
 import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
 import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.R;
-import com.jigsawcorp.android.jigsaw.View.SetHolder;
+import com.jigsawcorp.android.jigsaw.View.CustomHolders.SetHolder;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

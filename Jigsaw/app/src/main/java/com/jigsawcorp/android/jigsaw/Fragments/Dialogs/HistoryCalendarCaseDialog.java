@@ -11,13 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jigsawcorp.android.jigsaw.Activities.EditWorkoutActivity;
 import com.jigsawcorp.android.jigsaw.Database.Workout.WorkoutLab;
 import com.jigsawcorp.android.jigsaw.Model.Workout;
 import com.jigsawcorp.android.jigsaw.R;
+import com.jigsawcorp.android.jigsaw.Util.RequestCodes;
+import com.jigsawcorp.android.jigsaw.View.CustomHolders.HistoryCalendarCaseWorkoutHolder;
 import com.jigsawcorp.android.jigsaw.View.ListView.HistoryCalendarCaseDialogWorkoutAdapter;
 
 import java.text.DateFormat;
@@ -63,8 +68,18 @@ public class HistoryCalendarCaseDialog extends DialogFragment {
         TextView workoutsAmount = v.findViewById(R.id.dialog_history_calendar_case_textView_workouts_amount);
         workoutsAmount.setText(workouts.size() + " workout found");
 
-        ListView workoutsListView = v.findViewById(R.id.dialog_history_calendar_case_listView_workouts);
-        workoutsListView.setAdapter(new HistoryCalendarCaseDialogWorkoutAdapter(getContext(), workouts));
+        LinearLayout workoutsLinearLayout = v.findViewById(R.id.dialog_history_calendar_case_linearLayout_workouts);
+        for (int i = 0; i < workouts.size(); ++i) {
+            workoutsLinearLayout.addView(HistoryCalendarCaseWorkoutHolder.getViewFromSet(inflater, getContext(), workouts.get(i)));
+        }
+
+        Button addNewWorkoutButton = v.findViewById(R.id.dialog_history_calendar_case_button_add_new_workout);
+        addNewWorkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(EditWorkoutActivity.newIntent(getContext(), null), RequestCodes.REQUEST_CODE_CREATE_WORKOUT);
+            }
+        });
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(bundle.getString(ARGUMENT_DIALOG_TITLE))
                 .setView(v)

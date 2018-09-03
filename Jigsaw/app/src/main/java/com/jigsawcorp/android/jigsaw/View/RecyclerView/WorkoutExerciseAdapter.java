@@ -1,9 +1,7 @@
 package com.jigsawcorp.android.jigsaw.View.RecyclerView;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +12,10 @@ import android.widget.Toast;
 
 import com.jigsawcorp.android.jigsaw.Activities.ProgramWorkoutActivity;
 import com.jigsawcorp.android.jigsaw.Database.Exercise.ExerciseLab;
-import com.jigsawcorp.android.jigsaw.Fragments.tab_current_workout.CurrentWorkoutFragment;
-import com.jigsawcorp.android.jigsaw.Fragments.tab_programs.ProgramWorkoutsTabFragment;
-import com.jigsawcorp.android.jigsaw.Model.PerformedExercise;
-import com.jigsawcorp.android.jigsaw.Model.PerformedSet;
 import com.jigsawcorp.android.jigsaw.Model.ProgramExercise;
 import com.jigsawcorp.android.jigsaw.Model.ProgramSet;
 import com.jigsawcorp.android.jigsaw.R;
-import com.jigsawcorp.android.jigsaw.View.ProgramSetHolder;
-import com.jigsawcorp.android.jigsaw.View.SetHolder;
+import com.jigsawcorp.android.jigsaw.View.CustomHolders.ProgramSetHolder;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -168,7 +161,7 @@ public class WorkoutExerciseAdapter extends RecyclerView.Adapter<WorkoutExercise
         }
 
         private View addSet(final ProgramSet programSet, int index) {
-            View programSetHolder = com.jigsawcorp.android.jigsaw.View.ProgramSetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext, programSet, index);
+            View programSetHolder = ProgramSetHolder.getViewFromSet(LayoutInflater.from(mContext), mContext, programSet, index);
             programSetHolder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

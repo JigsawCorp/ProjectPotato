@@ -1,4 +1,4 @@
-package com.jigsawcorp.android.jigsaw.View;
+package com.jigsawcorp.android.jigsaw.View.CustomHolders;
 
 import android.content.Context;
 import android.view.LayoutInflater;
