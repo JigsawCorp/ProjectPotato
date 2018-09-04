@@ -58,7 +58,7 @@ public class HistoryCalendarCaseDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         ArrayList<String> workoutsString = bundle.getStringArrayList(ARGUMENT_DIALOG_WORKOUTS);
-        ArrayList<Workout> workouts = new ArrayList<>();
+        final ArrayList<Workout> workouts = new ArrayList<>();
         for (int i = 0; i < workoutsString.size(); ++i) {
             workouts.add(WorkoutLab.get(getContext()).getWorkouts(UUID.fromString(workoutsString.get(i))));
         }
@@ -70,7 +70,14 @@ public class HistoryCalendarCaseDialog extends DialogFragment {
 
         LinearLayout workoutsLinearLayout = v.findViewById(R.id.dialog_history_calendar_case_linearLayout_workouts);
         for (int i = 0; i < workouts.size(); ++i) {
-            workoutsLinearLayout.addView(HistoryCalendarCaseWorkoutHolder.getViewFromSet(inflater, getContext(), workouts.get(i)));
+            final UUID workoutId = workouts.get(i).getId();
+            View newView = HistoryCalendarCaseWorkoutHolder.getViewFromSet(inflater, getContext(), workouts.get(i), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(EditWorkoutActivity.newIntent(getContext(), workoutId));
+                }
+            });
+            workoutsLinearLayout.addView(newView);
         }
 
         Button addNewWorkoutButton = v.findViewById(R.id.dialog_history_calendar_case_button_add_new_workout);
