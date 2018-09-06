@@ -46,7 +46,7 @@ public class EditWorkoutActivity extends AppCompatActivity {
         else {
             mWorkout = WorkoutLab.get(this).getWorkouts(UUID.fromString(workoutId));
         }
-        mEditWorkoutFragment = EditWorkoutFragment.newInstance(UUID.fromString(workoutId));
+        mEditWorkoutFragment = EditWorkoutFragment.newInstance(mWorkout.getId());
         mEditWorkoutFragment.setListener(new EditWorkoutFragment.EditWorkoutFragmentEventListener() {
             @Override
             public void onPerformedExerciseDeleted(PerformedExercise performedExercise) {

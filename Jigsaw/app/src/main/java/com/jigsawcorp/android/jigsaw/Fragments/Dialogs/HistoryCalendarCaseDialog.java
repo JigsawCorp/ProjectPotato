@@ -41,13 +41,13 @@ public class HistoryCalendarCaseDialog extends DialogFragment {
         void onElementSelected(int pos);
     }
 
-    public static HistoryCalendarCaseDialog newInstance(String dialogTitle, List<UUID> workouts) {
+    public static HistoryCalendarCaseDialog newInstance(String date, List<UUID> workouts) {
         ArrayList<String>  workoutsStringArray = new ArrayList<>();
         for (int i = 0; i < workouts.size(); ++i) {
             workoutsStringArray.add(workouts.get(i).toString());
         }
         Bundle bundle = new Bundle();
-        bundle.putString(ARGUMENT_DIALOG_TITLE, dialogTitle);
+        bundle.putString(ARGUMENT_DIALOG_TITLE, date);
         bundle.putStringArrayList(ARGUMENT_DIALOG_WORKOUTS, workoutsStringArray);
         HistoryCalendarCaseDialog fragment = new HistoryCalendarCaseDialog();
         fragment.setArguments(bundle);
@@ -56,7 +56,7 @@ public class HistoryCalendarCaseDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
+        final Bundle bundle = getArguments();
         ArrayList<String> workoutsString = bundle.getStringArrayList(ARGUMENT_DIALOG_WORKOUTS);
         final ArrayList<Workout> workouts = new ArrayList<>();
         for (int i = 0; i < workoutsString.size(); ++i) {
@@ -84,7 +84,8 @@ public class HistoryCalendarCaseDialog extends DialogFragment {
         addNewWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(EditWorkoutActivity.newIntent(getContext(), null), RequestCodes.REQUEST_CODE_CREATE_WORKOUT);
+                //startActivityForResult(EditWorkoutActivity.newIntent(getContext(), null), RequestCodes.REQUEST_CODE_CREATE_WORKOUT);
+                NewWorkoutHistoryDialog.newInstance("Create Workout", bundle.getString(ARGUMENT_DIALOG_TITLE)).show(getFragmentManager(), "WorkoutHistoryDialog");
             }
         });
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
